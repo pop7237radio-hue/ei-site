@@ -126,12 +126,15 @@
             source: 'web',
           }),
         });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        if (!response.ok) {
+          const detail = await response.text().catch(() => '');
+          throw new Error(`HTTP ${response.status} ${detail.slice(0, 120)}`);
+        }
         form.reset();
         if (window.turnstile) window.turnstile.reset();
         status.textContent = '確認メールを送りました。受信箱のリンクを開いて登録を完了してください。';
-      } catch {
-        status.textContent = '送信できませんでした。通信状態を確認し、bot確認をやり直してください。';
+      } catch (err) {
+        status.textContent = '送信できませんでした。通信状態を確認し、bot確認をやり直してください。（' + (err && err.message ? err.message : 'network') + '）';
         if (window.turnstile) window.turnstile.reset();
       } finally {
         button.disabled = false;
