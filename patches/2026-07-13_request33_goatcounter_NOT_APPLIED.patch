@@ -1,0 +1,13 @@
+diff --git a/index.html b/index.html
+--- a/index.html
++++ b/index.html
+@@ -13,6 +13,9 @@
+ <meta name="twitter:card" content="summary" />
+ <meta name="twitter:title" content="AIミニアプリ工房 えい" />
+ <meta name="twitter:description" content="小さな困りごとを、小さなアプリで。元教員22年のAIミニアプリ工房。" />
++<!-- GoatCounter: えいちゃんのcode確定＋本番適用GO後にだけ有効化 -->
++<script data-goatcounter="https://YOURCODE.goatcounter.com/count"
++        async src="https://gc.zgo.at/count.js"></script>
+ <script>document.documentElement.classList.add('js');</script>
+ <!--
+   ============ 制作メモ（Fable5 v3 + Codex v3.1 / 2026-07-10） ============

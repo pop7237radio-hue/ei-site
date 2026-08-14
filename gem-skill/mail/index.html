@@ -10,6 +10,8 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pop7237radio-hue.github.io/ei-site/gem-skill/mail/">
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script src="https://rondo.pop7237radio.workers.dev/heat.js" data-page="gem-mail" defer></script>
+
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -71,10 +73,13 @@
 </head>
 <body>
 <main>
+<div data-sec="hero">
   <h1>あなたのGemを<br>Skills化しませんか？</h1>
   <p>たくさんあるGemを、AIに投げるだけでスキル化してくれるスキルを作っています。</p>
   <p><span class="price">値段は980円。</span>事前登録で500円クーポンをお渡しします（980円 → 480円）。</p>
   <p>発売日が決まったら、このメールで最初にお知らせします。発売までのあいだ、制作の裏側の話が2通だけ届きます。売り込みのメールは送りません。</p>
+  </div>
+<div data-sec="form">
   <form id="rondo-subscribe">
     <label for="rondo-email">メールアドレス</label>
     <input
@@ -92,12 +97,13 @@
       <label for="rondo-website">Website</label>
       <input id="rondo-website" name="website" type="text" tabindex="-1" autocomplete="off">
     </div>
-    <button type="submit">登録確認メールを受け取る</button>
+    <button type="submit" data-rondo-cta data-rondo-label="mail-submit">登録確認メールを受け取る</button>
     <p id="rondo-status" role="status" aria-live="polite"></p>
   </form>
   <p class="note" style="text-align:center;">届いた確認メールのリンクを押すと登録完了です。<br>解除はメール内のリンクからいつでもできます。</p>
-  <p class="alt">LINE派の方はこちら → <a href="https://lin.ee/P5qMYBk">LINEで事前登録する</a></p>
-  <footer><a href="https://x.com/siroradio51">えい｜倒れないための自動化</a></footer>
+  <p class="alt">LINE派の方はこちら → <a href="https://lin.ee/P5qMYBk" data-rondo-cta data-rondo-label="line-alt">LINEで事前登録する</a></p>
+  </div>
+<footer><a href="https://x.com/siroradio51">えい｜倒れないための自動化</a></footer>
 </main>
 <script>
   (() => {
