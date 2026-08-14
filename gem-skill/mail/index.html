@@ -100,7 +100,7 @@
     <button type="submit" data-rondo-cta data-rondo-label="mail-submit">登録確認メールを受け取る</button>
     <p id="rondo-status" role="status" aria-live="polite"></p>
   </form>
-  <p class="note" style="text-align:center;">届いた確認メールのリンクを押すと登録完了です。<br>解除はメール内のリンクからいつでもできます。</p>
+  <p class="note" style="text-align:center;">届いた確認メールのリンクを押すと登録完了です。<br>確認メールが<strong>迷惑メールフォルダ</strong>に入ることがあります。届かないときはそちらもご確認ください。<br>解除はメール内のリンクからいつでもできます。</p>
   <p class="alt">LINE派の方はこちら → <a href="https://lin.ee/P5qMYBk" data-rondo-cta data-rondo-label="line-alt">LINEで事前登録する</a></p>
   </div>
 <footer><a href="https://x.com/siroradio51">えい｜倒れないための自動化</a></footer>
@@ -138,7 +138,7 @@
         }
         form.reset();
         if (window.turnstile) window.turnstile.reset();
-        status.textContent = '確認メールを送りました。受信箱のリンクを開いて登録を完了してください。';
+        status.textContent = '確認メールを送りました。受信箱のリンクを開いて登録を完了してください。見当たらないときは迷惑メールフォルダもご確認ください。';
       } catch (err) {
         status.textContent = '送信できませんでした。通信状態を確認し、bot確認をやり直してください。（' + (err && err.message ? err.message : 'network') + '）';
         if (window.turnstile) window.turnstile.reset();
