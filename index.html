@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>あなたのGemをSkills化しませんか？｜AIミニアプリ工房 えい</title>
 <meta name="description" content="たくさんあるGemを、AIに投げるだけでスキル化してくれるスキルを作っています。小さな困りごとを、小さなアプリで。" />
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20100%20100'%3E%3Ctext%20y%3D'.9em'%20font-size%3D'90'%3E%F0%9F%9B%A0%EF%B8%8F%3C%2Ftext%3E%3C%2Fsvg%3E" />
+<link rel="icon" type="image/png" href="assets/request73-v4/web/brand-atelier-mark-128.png" />
 <!-- OGP（シェア時の見え方・2026-07-09 v3で追加） -->
 <meta property="og:title" content="あなたのGemをSkills化しませんか？｜AIミニアプリ工房 えい" />
 <meta property="og:description" content="Gemを、AIに投げるだけでスキル化。小さな困りごとは、小さなアプリへ。" />
@@ -18,7 +18,7 @@
 <script src="https://rondo.pop7237radio.workers.dev/heat.js" data-page="ei-top" defer></script>
 <!--
   ============ 制作メモ（依頼書73 / 2026-08-15） ============
-  第1柱: Gem / Skillsの発信と事前登録（gem-skill/mail/へ接続）
+  第1柱: Gem / Skillsの発信と事前登録（gem-skill/mail/index.htmlへ接続）
   第2柱: AIミニアプリ工房（既存の料金・実績・LINE相談を維持）
   Rondo: heat.js data-page=ei-top。data-secはtop-*で既設3LPと分離。
   公開境界: ローカル実装・検品・コミットまで。pushはえい承認後。
@@ -903,17 +903,132 @@
   @media (min-width: 900px) {
     .hero { padding: 102px 24px 94px; }
   }
+
+  /* ===== 依頼書73 v4: えいの正本キャラで「小さなAI工房」を視覚化 ===== */
+  .nav-brand { gap: 8px; }
+  .nav-mark {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+    flex: 0 0 auto;
+  }
+
+  .gem-map {
+    display: block;
+    min-height: 0;
+    width: min(100%, 440px);
+    margin-inline: auto;
+    padding: 14px 14px 54px;
+  }
+  .hero-art {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: contain;
+    filter: drop-shadow(0 18px 22px rgba(31, 56, 101, .16));
+    animation: atelier-float 6s ease-in-out infinite;
+  }
+  .cta-proof {
+    max-width: 610px;
+    margin: 14px 0 0;
+    color: #5f6c7e;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .miniapp-intro .inner::after { content: none; display: none; }
+  .miniapp-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
+    align-items: center;
+    gap: clamp(26px, 5vw, 64px);
+  }
+  .miniapp-copy { max-width: 650px; padding-right: 0; }
+  .miniapp-art {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: contain;
+    filter: drop-shadow(0 16px 20px rgba(75, 89, 107, .13));
+  }
+
+  .service-name {
+    display: grid;
+    grid-template-columns: 112px minmax(0, 1fr);
+    align-items: center;
+    gap: 16px;
+  }
+  .service-icon {
+    display: block;
+    width: 112px;
+    height: 88px;
+    padding: 0;
+    object-fit: contain;
+    background: linear-gradient(145deg, rgba(234, 241, 255, .86), rgba(227, 240, 234, .72));
+    border-radius: 18px;
+  }
+
+  .work-icon {
+    display: block;
+    width: 100%;
+    height: 190px;
+    margin: -4px 0 12px;
+    padding: 0;
+    object-fit: contain;
+    background: linear-gradient(145deg, rgba(234, 241, 255, .72), rgba(255, 248, 239, .78));
+    border-radius: 24px;
+    filter: drop-shadow(0 9px 12px rgba(75, 89, 107, .12));
+    transition: transform .25s ease;
+  }
+  a.work:hover .work-icon,
+  a.work:focus-visible .work-icon { transform: translateY(-3px) rotate(-1deg); }
+  .work-visual { height: auto; }
+
+  .contact-art {
+    display: block;
+    width: min(210px, 64%);
+    height: auto;
+    margin: -12px auto 12px;
+    aspect-ratio: 4 / 3;
+    object-fit: contain;
+    filter: drop-shadow(0 13px 17px rgba(75, 89, 107, .12));
+  }
+
+  @keyframes atelier-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-7px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-art { animation: none; }
+    .work-icon { transition: none; }
+  }
+
+  @media (max-width: 760px) {
+    .nav-brand-text { display: none; }
+    .nav-mark { width: 36px; height: 36px; }
+    .gem-map { width: min(100%, 350px); padding: 10px 10px 52px; }
+    .cta-proof { text-align: center; margin-inline: auto; }
+    .miniapp-layout { grid-template-columns: 1fr; gap: 22px; }
+    .miniapp-art { width: min(230px, 72%); margin-inline: auto; }
+    .service-name { grid-template-columns: 84px minmax(0, 1fr); gap: 12px; }
+    .service-icon { width: 84px; height: 72px; }
+    .work-icon { width: 100%; height: 168px; }
+    .contact-art { width: min(190px, 66%); }
+  }
 </style>
 </head>
 <body>
 
   <a class="skip-link" href="#main-content">本文へ移動</a>
   <nav class="topnav" aria-label="ページ内メニュー" data-rondo-click-sec="top-nav">
-    <a href="#gem" data-rondo-label="top-nav-gem">GEM / SKILLS</a>
+    <a class="nav-brand" href="#gem" data-rondo-label="top-nav-gem"><img class="nav-mark" src="assets/request73-v4/web/brand-atelier-mark-128.png" width="128" height="128" alt="" aria-hidden="true" /><span class="nav-brand-text">GEM / SKILLS</span></a>
     <a href="#mini-app" data-rondo-label="top-nav-app">ミニアプリ</a>
     <a class="nav-optional" href="#works" data-rondo-label="top-nav-works">WORKS</a>
     <a class="nav-optional" href="#profile" data-rondo-label="top-nav-profile">PROFILE</a>
-    <a class="nav-cta" href="gem-skill/mail/" data-rondo-cta data-rondo-label="top-nav-register">事前登録</a>
+    <a class="nav-cta" href="gem-skill/mail/index.html" data-rondo-cta data-rondo-label="top-nav-register">500円クーポン</a>
   </nav>
 
   <main id="main-content" tabindex="-1">
@@ -926,18 +1041,13 @@
         <p class="sub">たくさんあるGemを、AIに投げるだけでスキル化してくれるスキルを作っています。</p>
         <p class="hero-price">値段は980円。事前登録で500円クーポンをお渡しします（980円 → 480円）。</p>
         <div class="hero-actions">
-          <a class="btn gem-btn" href="gem-skill/mail/" data-rondo-cta data-rondo-label="top-hero-gem">メールで事前登録<span class="note">発売時に500円クーポン</span></a>
+          <a class="btn gem-btn" href="gem-skill/mail/index.html" data-rondo-cta data-rondo-label="top-hero-gem">500円クーポンを受け取る<span class="note">事前登録／980円 → 480円</span></a>
           <a class="hero-secondary" href="#mini-app" data-rondo-label="top-hero-app">ミニアプリ工房を見る ↓</a>
         </div>
+        <p class="cta-proof">発売までのメールは2通だけ。売り込みのメールは送りません。</p>
       </div>
       <div class="gem-map" aria-label="GemからSkillsへつなぐイメージ">
-        <div class="gem-doc">
-          <strong>Gem</strong><i></i><i></i><i></i>
-        </div>
-        <div class="gem-arrow" aria-hidden="true">→</div>
-        <div class="gem-doc skills">
-          <strong>Skills</strong><i></i><i></i><i></i>
-        </div>
+        <img class="hero-art" src="assets/request73-v4/web/gem-to-skills-768x576.webp" width="768" height="576" alt="散らばったGemを、AI Skillsとして再利用できる道具へ整理する工房の場面" loading="eager" fetchpriority="high" decoding="async" />
         <div class="gem-map-note">事前登録受付中</div>
       </div>
     </div>
@@ -954,21 +1064,24 @@
         <div class="gem-fact"><strong>メールで最初に</strong><span>発売日をお知らせ</span></div>
       </div>
       <div class="cta-center">
-        <a class="btn gem-btn" href="gem-skill/mail/" data-rondo-cta data-rondo-label="top-gem-mail">事前登録ページへ<span class="note">メール／LINE、どちらも選べます</span></a>
+        <a class="btn gem-btn" href="gem-skill/mail/index.html" data-rondo-cta data-rondo-label="top-gem-mail">500円クーポン付きで事前登録<span class="note">メール／LINE、どちらも選べます</span></a>
       </div>
     </div>
   </section>
 
   <section class="alt miniapp-intro" id="mini-app" data-sec="top-app">
     <div class="inner">
-      <div class="miniapp-copy">
-        <div class="label">MINI APP</div>
-        <h2>小さな困りごとを、<br />小さなアプリで。</h2>
-        <p class="lead">高校と特別支援学校で教員22年。現場の「あと5分あれば」を、その日のうちに動く道具に変えます。</p>
-        <div class="section-actions">
-          <a class="btn line-btn" href="https://lin.ee/P5qMYBk" target="_blank" rel="noopener" data-rondo-cta data-rondo-label="top-app-line">公式LINEで相談する<span class="note">無料・一言でOK</span></a>
-          <a class="section-link" href="#service" data-rondo-label="top-app-service">できること・料金を見る ↓</a>
+      <div class="miniapp-layout">
+        <div class="miniapp-copy">
+          <div class="label">MINI APP</div>
+          <h2>あなたの「ちょっと足りない」を、<br />小さなアプリで。</h2>
+          <p class="lead">高校と特別支援学校で教員22年。現場の「あと5分あれば」を、その日のうちに動く道具に変えます。</p>
+          <div class="section-actions">
+            <a class="btn line-btn" href="https://lin.ee/P5qMYBk" target="_blank" rel="noopener" data-rondo-cta data-rondo-label="top-app-line">LINEで「できる？」を無料相談<span class="note">一言でOK</span></a>
+            <a class="section-link" href="#service" data-rondo-label="top-app-service">できること・料金を見る ↓</a>
+          </div>
         </div>
+        <img class="miniapp-art" src="assets/request73-v4/web/miniapp-order-640x480.webp" width="640" height="480" alt="困りごとのメモを受け取り、使えるミニアプリに変えて手渡す工房の場面" loading="lazy" decoding="async" />
       </div>
     </div>
   </section>
@@ -977,19 +1090,19 @@
     <div class="inner">
       <div class="label">SERVICE</div>
       <h2>できること・料金のめやす</h2>
-      <p class="lead">「こんなことできる？」の相談は無料です。話してから決めてください。</p>
+      <p class="lead">まずは無料で、「できる？」「いくら？」だけ聞けます。頼むかどうかは、話してから決めてください。</p>
       <table class="price">
         <caption class="sr-only">制作内容ごとの料金のめやす</caption>
-        <tr><th scope="row">いまあるアプリ・ツールの小修正</th><td>3,000〜5,000円</td></tr>
-        <tr><th scope="row">1枚もののミニアプリ制作<br /><span style="font-weight:400; font-size:12.5px;">予約メモ・チェックリスト・計算ツールなど</span></th><td>5,000〜15,000円</td></tr>
-        <tr><th scope="row">音声入力・カレンダー付きアプリ</th><td>10,000〜30,000円</td></tr>
-        <tr><th scope="row">見守り（不具合対応・小さな改善）</th><td>月3,000〜5,000円</td></tr>
+        <tr><th scope="row"><span class="service-name"><img class="service-icon" src="assets/request73-v4/web/record-care-640x480.webp" width="640" height="480" alt="" aria-hidden="true" loading="lazy" decoding="async" /><span>いまあるアプリ・ツールの小修正</span></span></th><td>3,000〜5,000円</td></tr>
+        <tr><th scope="row"><span class="service-name"><img class="service-icon" src="assets/request73-v4/web/diagnostic-tool-640x480.webp" width="640" height="480" alt="" aria-hidden="true" loading="lazy" decoding="async" /><span>1枚もののミニアプリ制作<br /><span style="font-weight:400; font-size:12.5px;">予約メモ・チェックリスト・計算ツールなど</span></span></span></th><td>5,000〜15,000円</td></tr>
+        <tr><th scope="row"><span class="service-name"><img class="service-icon" src="assets/request73-v4/web/family-voice-check-640x427.webp" width="640" height="427" alt="" aria-hidden="true" loading="lazy" decoding="async" /><span>音声入力・カレンダー付きアプリ</span></span></th><td>10,000〜30,000円</td></tr>
+        <tr><th scope="row"><span class="service-name"><img class="service-icon" src="assets/request73-v4/web/record-care-640x480.webp" width="640" height="480" alt="" aria-hidden="true" loading="lazy" decoding="async" /><span>見守り（不具合対応・小さな改善）</span></span></th><td>月3,000〜5,000円</td></tr>
       </table>
       <p class="price-note">内容を伺ってから、着手前に金額を確定します。追加費用が出る場合は必ず先にご相談します。</p>
       <p class="price-note">制作会社に頼むと数万〜数十万かかる内容を、AIの活用でこの価格にしています。</p>
       <p class="price-note">無料アプリで足りている方は、そのままで大丈夫です。「無料だとちょっと足りない」と感じたら、相談だけどうぞ（無料です）。</p>
       <div class="inline-consult">
-        <a class="btn line-btn" href="https://lin.ee/P5qMYBk" target="_blank" rel="noopener" data-rondo-cta data-rondo-label="top-service-line">公式LINEで相談する<span class="note">無料・一言でOK</span></a>
+        <a class="btn line-btn" href="https://lin.ee/P5qMYBk" target="_blank" rel="noopener" data-rondo-cta data-rondo-label="top-service-line">LINEで「できる？」を無料相談<span class="note">一言でOK</span></a>
       </div>
     </div>
   </section>
@@ -997,57 +1110,69 @@
   <section id="works" data-sec="top-works">
     <div class="inner wide">
       <div class="label">WORKS</div>
-      <h2>作ったもの</h2>
-      <p class="lead">ぜんぶ、実際の困りごとから生まれています。</p>
+      <h2>工房の道具棚</h2>
+      <p class="lead">運用中・公開中・準備中。ぜんぶ、実際の困りごとから生まれています。</p>
       <div class="works">
         <!-- 納品系2件は直リンクを外して事例表記に（えい指摘 7/7: サイト経由の依頼者は有料。無料と誤解させない） -->
         <div class="work">
-          <span class="emoji" aria-hidden="true">💇</span>
+          <img class="work-icon" src="assets/request73-v4/web/salon-booking-640x427.webp" width="640" height="427" alt="" aria-hidden="true" loading="lazy" decoding="async" />
           <h3>美容室の予約アプリ</h3>
           <p>紙の予約ノートをそのままアプリに。施術中でも声でパッと記録できます。</p>
           <span class="tag">導入店で運用中</span>
         </div>
         <div class="work">
-          <span class="emoji" aria-hidden="true">🎒</span>
+          <img class="work-icon" src="assets/request73-v4/web/family-voice-check-640x427.webp" width="640" height="427" alt="" aria-hidden="true" loading="lazy" decoding="async" />
           <h3>忙しいママに！声だけ入力行事・持ち物アプリ</h3>
           <p>子どもの行事と持ち物を声で登録。当日はタップでチェック。同様のアプリを制作できます。</p>
           <span class="tag">制作事例</span>
         </div>
         <!-- そらりんは販売予定の商品（えい確定 7/7）: 無料公開リンクは張らない・紹介のみ -->
         <div class="work">
-          <span class="emoji" aria-hidden="true">🌟</span>
+          <img class="work-icon" src="assets/request73-v4/web/learning-hint-640x427.webp" width="640" height="427" alt="" aria-hidden="true" loading="lazy" decoding="async" />
           <h3>そらりん学習アプリ</h3>
           <p>生活で使う算数・国語を、こたえを教えずヒントで学ぶ。3教科14単元・視覚支援・音声つき。体験のご相談はLINEへ。<br />
           <a href="https://www.youtube.com/channel/UCRsGm4v32tclVX3uyBgyAcg" target="_blank" rel="noopener" data-rondo-label="top-work-youtube">▶ YouTube「そらりんのみじかな算数」</a></p>
           <span class="tag soon">製品化準備中</span>
         </div>
+        <a class="work" href="https://brain-market.com/u/siroradio51/a/b1QDNwYjMgoTZsNWa0JXY" target="_blank" rel="noopener" data-rondo-label="top-work-brain-kesazu">
+          <img class="work-visual" style="aspect-ratio: auto;" src="assets/request73-v4/web/kesazu-brain-720.webp" width="720" height="377" alt="Brain商品『消さずに空ける』の実サムネイル" loading="lazy" decoding="async" />
+          <h3>消さずに空ける</h3>
+          <p>Codexの会話は残したまま、ログ内の埋め込み画像データだけを外す。診断・バックアップ・検証・復元まで順番に進められるmacOS向けスキルです。</p>
+          <span class="tag">Brainで販売中</span>
+        </a>
+        <a class="work" href="https://brain-market.com/u/siroradio51/a/bxATN3UjMgoTZsNWa0JXY" target="_blank" rel="noopener" data-rondo-label="top-work-brain-factbox">
+          <img class="work-visual" style="aspect-ratio: auto;" src="assets/request73-v4/web/fact-box-brain-720.webp" width="720" height="377" alt="Brain商品『事実の箱（fact-box-writer）』の実サムネイル" loading="lazy" decoding="async" />
+          <h3>事実の箱（fact-box-writer）</h3>
+          <p>使ってよい「事実・実セリフ・境界線」を先に整理し、箱の中だけでX投稿や記事を組み立てるClaude Codeスキルです。</p>
+          <span class="tag">Brainで販売中</span>
+        </a>
+        <a class="work" href="https://brain-market.com/u/siroradio51/a/b1kTM1UjMgoTZsNWa0JXY" target="_blank" rel="noopener" data-rondo-label="top-work-brain">
+          <!-- SWAP-4: 2026-07-10 20:00 差し込み済み（Fable5・ローカルのみ） -->
+          <img class="work-visual" style="aspect-ratio: auto;" src="assets/brain-thumb-720.webp" width="720" height="377" alt="AIで一発と思った元教員の、Robloxつまずき実録＆抜け方（教材表紙）" loading="lazy" decoding="async" />
+          <h3>Robloxゲーム制作 つまずきの実録（Brain教材）</h3>
+          <p>未経験からゲームを作る途中でつまずいた場所と、抜け方の記録をそのまま教材に。</p>
+          <span class="tag">Brainで販売中</span>
+        </a>
         <a class="work" href="https://www.roblox.com/share?code=24396b6cc729c34498fbf2342b3bcd25&amp;type=ExperienceDetails&amp;stamp=1783506948766" target="_blank" rel="noopener" data-rondo-label="top-work-roblox">
-          <img class="work-visual" style="object-position: center bottom;" src="assets/roblox-game-icon.png" alt="そらりんと学校脱出しよう（ゲーム画面イラスト）" loading="lazy" />
+          <img class="work-visual" style="object-position: center bottom;" src="assets/roblox-game-icon-720.webp" width="720" height="720" alt="そらりんと学校脱出しよう（ゲーム画面イラスト）" loading="lazy" decoding="async" />
           <h3>Robloxゲーム「そらりんと学校脱出しよう」</h3>
           <p>学校あるあるクイズを解きながら脱出する子ども向けゲーム。未経験からAIと一緒に作りました。無料で遊べます。</p>
           <span class="tag">公開中</span>
         </a>
-        <a class="work" href="https://brain-market.com/u/siroradio51/a/b1kTM1UjMgoTZsNWa0JXY" target="_blank" rel="noopener" data-rondo-label="top-work-brain">
-          <!-- SWAP-4: 2026-07-10 20:00 差し込み済み（Fable5・ローカルのみ） -->
-          <img class="work-visual" style="aspect-ratio: auto;" src="assets/brain-thumb.png" alt="AIで一発と思った元教員の、Robloxつまずき実録＆抜け方（教材表紙）" loading="lazy" />
-          <h3>Robloxゲーム制作 つまずきの実録（Brain教材）</h3>
-          <p>未経験からゲームを作る途中でつまずいた場所と、抜け方の記録をそのまま教材に。</p>
-          <span class="tag">公開中</span>
-        </a>
         <a class="work" href="https://pop7237radio-hue.github.io/hogosha-soudan/" target="_blank" rel="noopener" data-rondo-label="top-work-soudan">
-          <span class="emoji" aria-hidden="true">💬</span>
+          <img class="work-icon" src="assets/request73-v4/web/school-consult-640x480.webp" width="640" height="480" alt="" aria-hidden="true" loading="lazy" decoding="async" />
           <h3>元教員の相談部屋</h3>
           <p>学校への連絡の仕方・文例を「解決カード」で。元教員だから書ける道案内。無料で使えます。</p>
           <span class="tag">公開中</span>
         </a>
         <a class="work" href="https://youtu.be/3fhoZVUd_FU" target="_blank" rel="noopener" data-rondo-label="top-work-pd-helper">
-          <span class="emoji" aria-hidden="true">📋</span>
+          <img class="work-icon" src="assets/request73-v4/web/record-care-640x480.webp" width="640" height="480" alt="" aria-hidden="true" loading="lazy" decoding="async" />
           <h3>腹膜透析の記録ツール pd-helper</h3>
           <p>自分が毎日使うために作った、透析の記録と在庫管理の補助ツール。医療判断はしない設計です。実際に使っている様子を動画でご覧いただけます。</p>
           <span class="tag">▶ 実演動画</span>
         </a>
         <div class="work">
-          <span class="emoji" aria-hidden="true">🧮</span>
+          <img class="work-icon" src="assets/request73-v4/web/diagnostic-tool-640x480.webp" width="640" height="480" alt="" aria-hidden="true" loading="lazy" decoding="async" />
           <h3>診断・シミュレーターツール</h3>
           <p>質問に答えるだけで結果が出る診断型ツール。キャンペーンや集客の入口に。</p>
           <span class="tag soon">公開準備中</span>
@@ -1093,11 +1218,12 @@
 
   <section class="alt" id="contact" data-sec="top-contact">
     <div class="inner cta-center">
+      <img class="contact-art" src="assets/request73-v4/web/school-consult-480x360.webp" width="480" height="360" alt="学校への言葉を一緒に整理し、相手へ伝わる形にする工房の案内役" loading="lazy" decoding="async" />
       <div class="label">CONTACT</div>
       <h2>まずは、困りごとを一言だけ</h2>
-      <p class="lead">「これ、なんとかなる？」で大丈夫です。<br />なんとかなるか・いくらかかるかを、先にお答えします。</p>
+      <p class="lead">「これ、なんとかなる？」で大丈夫です。<br />できるか・いくらかかるかを、着手前にお答えします。</p>
       <!-- SWAP-3: えい確定 2026-07-07 -->
-      <a class="btn line-btn" href="https://lin.ee/P5qMYBk" target="_blank" rel="noopener" data-rondo-cta data-rondo-label="top-contact-line">公式LINEで相談する<span class="note">無料・一言でOK</span></a>
+      <a class="btn line-btn" href="https://lin.ee/P5qMYBk" target="_blank" rel="noopener" data-rondo-cta data-rondo-label="top-contact-line">LINEで「できる？」を無料相談<span class="note">一言でOK</span></a>
     </div>
   </section>
   </main>
