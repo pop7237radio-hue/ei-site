@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>あなたのGemを"完全体"で引っ越す — Claude Code × Gemini Notebook 接続の1枚</title>
+<style>
+  :root{--bg:#f9f9f7;--card:#fff;--tx:#0b0b0b;--sub:#52514e;--line:#e1e0d9;
+    --blue:#2a78d6;--dblue:#1c5cab;--lblue:#e8f0fb;--green:#0ca30c;--lgreen:#e9f6e9;
+    --warn:#b45309;--lwarn:#fdf3e7}
+  *{box-sizing:border-box}
+  body{margin:0;padding:24px 16px;background:var(--bg);color:var(--tx);
+    font-family:system-ui,-apple-system,"Hiragino Sans","Segoe UI",sans-serif;line-height:1.75}
+  .wrap{max-width:720px;margin:0 auto}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-bottom:16px}
+  h1{font-size:21px;margin:0 0 8px;line-height:1.4}
+  h2{font-size:16px;margin:0 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  .meta{color:var(--sub);font-size:12.5px}
+  .lead{font-size:15px}
+  .step{border-left:4px solid var(--blue);background:var(--lblue);padding:10px 14px;border-radius:0 9px 9px 0;margin:14px 0 6px;font-weight:700}
+  pre{background:#0f172a;color:#e2e8f0;padding:12px 14px;border-radius:9px;overflow-x:auto;font-size:13px;line-height:1.6;margin:8px 0}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .ok{border-left:4px solid var(--green);background:var(--lgreen);padding:10px 14px;border-radius:0 9px 9px 0;margin:10px 0;font-size:14px}
+  .warn{border-left:4px solid var(--warn);background:var(--lwarn);padding:10px 14px;border-radius:0 9px 9px 0;margin:10px 0;font-size:14px}
+  .note{font-size:13px;color:var(--sub)}
+  ul{margin:8px 0;padding-left:20px}li{margin:6px 0;font-size:14px}
+  .cta{display:block;text-align:center;background:var(--blue);color:#fff;text-decoration:none;
+    font-weight:700;padding:13px 16px;border-radius:11px;font-size:15px}
+  .cta:hover{background:var(--dblue)}
+  @media print{body{background:#fff;padding:0}.card{border:none;margin-bottom:8px;padding:10px 0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="card">
+  <h1>あなたのGemを"完全体"で引っ越す<br>— Claude Code × Gemini Notebook 接続の1枚</h1>
+  <div class="meta">GemのSkills化（GPS）事前登録特典／2026-08-17版（全コマンド実測済み）</div>
+</div>
+
+<div class="card">
+  <p class="lead" style="margin:0">Gemの知識に入れたGemini Notebook（旧NotebookLM）、<strong>名前しか見えずに諦めていませんか</strong>。<br>
+  この1枚の手順で、Claude CodeがNotebookの中身（PDF・スプシ・全ソース）まで読めるようになります。</p>
+</div>
+
+<!-- 図解差し替え位置①: Before/After（えい制作予定） -->
+
+<div class="card">
+  <h2>手順（4ステップ・所要5分）</h2>
+
+  <div class="step">STEP 1: インストール（コピペ2行）</div>
+  <pre><code>python3 -m venv ~/.notebooklm-mcp/venv
+~/.notebooklm-mcp/venv/bin/pip install notebooklm-mcp-cli</code></pre>
+
+  <div class="step">STEP 2: ログイン（ブラウザが開く→自分でGoogleログイン）</div>
+  <pre><code>~/.notebooklm-mcp/venv/bin/nlm login</code></pre>
+  <p class="note">※パスワードはAIに渡しません。自分のブラウザで普通にログインするだけです。</p>
+
+  <div class="step">STEP 3: 確認</div>
+  <pre><code>~/.notebooklm-mcp/venv/bin/nlm login --check</code></pre>
+  <div class="ok">「Authentication valid! / Notebooks found: ◯◯」が出たら成功</div>
+
+  <div class="step">STEP 4: Claude Codeに登録（フルパスがコツ・つまずきポイント）</div>
+  <pre><code>claude mcp add --scope user gemini-notebook-mcp ~/.notebooklm-mcp/venv/bin/notebooklm-mcp
+claude mcp list</code></pre>
+  <div class="ok">「✓ Connected」が出たら完成。次に開いたClaude CodeからNotebookが読めます</div>
+</div>
+
+<div class="card">
+  <h2>つまずきは1点だけ</h2>
+  <p style="font-size:14.5px;margin:0">公式の <code>nlm setup add claude-code</code> は「✗ Failed to connect」になることがあります（コマンドの場所が伝わらないため）。<strong>上のSTEP 4のフルパス登録なら一発</strong>です。——これ、私も最初に踏みました。</p>
+</div>
+
+<div class="card">
+  <h2>注意書き（必ず読んでください）</h2>
+  <ul>
+    <li>非公式ツール（notebooklm-mcp-cli・MITライセンス）です。Google公式サポート外で、仕様変更により予告なく動かなくなる可能性があります</li>
+    <li>Cookie認証方式のため、ログイン情報がPC内に保存されます。共有PCでは使わないでください</li>
+    <li>顧客情報・医療情報・機密を含むNotebookには接続しないでください。読み取り専用で使うのが安全です</li>
+  </ul>
+</div>
+
+<div class="card">
+  <p style="font-size:14px">このガイドは「GemのSkills化（GPS）」の同梱手順書から抜粋しました。<br>
+  Gemまるごと引っ越しの本体は、8月23日発売（980円・事前登録で500円分クーポン）。</p>
+  <a class="cta" href="https://pop7237radio-hue.github.io/ei-site/gem-skill/mail/index.html">事前登録はこちら（発売日に500円クーポンが届きます）</a>
+</div>
+
+<div class="card" style="text-align:center">
+  <p class="meta" style="margin:0">えい｜倒れないための自動化（@siroradio51）</p>
+</div>
+
+</div>
+</body>
+</html>
