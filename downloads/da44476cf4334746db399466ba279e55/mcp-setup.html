@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>NotebookLM接続手順書（GPSレビュー特典）</title>
+<style>
+  body { font-family: -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif; line-height: 1.9; color: #222; background: #fafafa; margin: 0; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 32px 20px 64px; }
+  h1 { font-size: 1.5rem; line-height: 1.5; }
+  h2 { font-size: 1.1rem; border-left: 4px solid #e8590c; padding-left: 10px; margin-top: 2.2em; }
+  .lead { background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 16px 18px; }
+  pre { background: #1e1e1e; color: #eee; padding: 18px; border-radius: 10px; overflow-x: auto; font-size: 0.86rem; line-height: 1.75; white-space: pre-wrap; word-break: break-all; }
+  .note { font-size: 0.88rem; color: #666; }
+  button.copy { background: #e8590c; color: #fff; border: 0; border-radius: 8px; padding: 10px 18px; font-size: 1rem; cursor: pointer; }
+  .foot { margin-top: 3em; font-size: 0.85rem; color: #777; border-top: 1px solid #ddd; padding-top: 1em; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>あなたのGemを“完全体”へ<br>— NotebookLM接続手順書（レビュー特典）</h1>
+
+<div class="lead">
+<p>レビューありがとうございます。この1枚は、GemにつないでいたNotebookLMの<strong>中身まで</strong>Claude Codeが読めるようになる接続手順書です。</p>
+<p><strong>使い方: 下の枠を丸ごとコピーして、お使いのAI（Claude Code）に貼るだけ。</strong>あなたの手番はブラウザでのGoogleログイン1回。所要5分ほどです。</p>
+</div>
+
+<h2>AIに貼る手順書（これを丸ごとコピー）</h2>
+
+<p><button class="copy" onclick="navigator.clipboard.writeText(document.getElementById('p').innerText).then(()=>{this.textContent='コピーしました ✓';})">手順書をコピーする</button></p>
+
+<pre id="p">あなたに、NotebookLM MCP接続の設置をお願いします。以下の手順書に従って進めてください。
+
+【安全の線（最初に依頼主へそのまま伝えて、進めてよいか確認を取る）】
+・使うのは非公式ツール notebooklm-mcp-cli（MITライセンス・Google公式サポート外）。仕様変更で突然動かなくなる可能性があります
+・Cookie認証方式。ログイン情報はこのPC内に保存されます。共有PCでは進めないでください
+・顧客情報・医療情報・機密を含むNotebookには接続しないでください。読み取り専用で使うのが安全です
+・Googleのパスワードは依頼主本人がブラウザで入力します。あなた（AI）はパスワードを尋ねない・扱わない
+
+【STEP 1: インストール（あなたが実行）】
+python3 -m venv ~/.notebooklm-mcp/venv
+~/.notebooklm-mcp/venv/bin/pip install notebooklm-mcp-cli
+
+【STEP 2: ログイン（ここで必ず止まる）】
+次のコマンドを実行するとブラウザが開きます。
+~/.notebooklm-mcp/venv/bin/nlm login
+ブラウザでのGoogleログインは依頼主本人の手番です。「ブラウザでログインが終わったら教えてください」と伝えて、返事があるまで待ってください。
+
+【STEP 3: 確認（あなたが実行）】
+~/.notebooklm-mcp/venv/bin/nlm login --check
+「Authentication valid!」と Notebooks found の件数が出たら成功です。出なければSTEP 2からやり直してください。
+
+【STEP 4: Claude Codeに登録（あなたが実行）】
+claude mcp add --scope user gemini-notebook-mcp ~/.notebooklm-mcp/venv/bin/notebooklm-mcp
+claude mcp list
+「✓ Connected」が出たら完成です。次に開いたセッションからNotebookの中身が読めます。
+
+【つまずいたら】
+公式の nlm setup add claude-code は「✗ Failed to connect」になることがあります（コマンドの場所が伝わらないため）。上のフルパス登録なら通ります。
+それでも詰まったら、症状と画面の表示を依頼主に伝えて止まってください。無理に別の方法を試さないでください。
+
+【最後に（あなたが報告する）】
+設置できたら「これでgem-port-skillsの移植のとき、Notebookの知識まで読めます」と依頼主に報告してください。
+Codexなど別のAIをお使いの場合は、STEP 1〜3は同じで、STEP 4だけお使いのAIのMCP登録手順に読み替えてください。</pre>
+
+<h2>これで何が変わるか</h2>
+<p>Google Takeoutの控えでは、Notebookの知識は「名前だけ・リンクも空」でした。この接続があると、GPSの移植のときにAIがNotebookの中身（ソース）まで読みにいけます。つまり、知識ファイルごと動く“完全体”の移植になります。</p>
+<p class="note">この手順書は、同梱のAI用説明書（SETUP）§6と同じ内容の1枚抜き出しです。コマンドは開発時に実測済み（2026年8月16日・macOS）。環境により結果は変わります。</p>
+
+<div class="foot">
+<p>困ったときは公式LINE（購入後30日間・症状と画面の表示だけお送りください）: https://lin.ee/P5qMYBk</p>
+<p>Gem Port Skills レビュー特典 v1.0（2026-08-21）</p>
+</div>
+
+</div>
+</body>
+</html>
