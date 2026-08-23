@@ -16,9 +16,9 @@ const outputDir = process.env.REQUEST73_QC_DIR
     "00_司令室_Codex",
     "reports",
     "assets",
-    "2026-08-15_request73"
+    "2026-08-15_request73-v4"
   );
-const reportPath = path.join(outputDir, "request73-browser-qc.json");
+const reportPath = path.join(outputDir, "request73-v4-browser-qc.json");
 const browserPath = "/Users/user/Library/Caches/ms-playwright/chromium_headless_shell-1228/chrome-headless-shell-mac-arm64/chrome-headless-shell";
 const existingLpPaths = [
   path.join(siteRoot, "gem-skill", "mail", "index.html"),
@@ -73,11 +73,47 @@ const expectedTimeline = [
   ["2026.4", "退職、AI実務へ", "複数のAIと役割分担するチーム体制を自宅に構築"],
   ["2026", "AIミニアプリ工房として活動開始", "美容室の予約アプリ導入・学習アプリ「そらりん」開発・Robloxゲーム開発・AI活用教材リリース"]
 ];
+const expectedVisualAssets = [
+  "assets/request73-v4/web/brand-atelier-mark-128.png",
+  "assets/request73-v4/web/gem-to-skills-768x576.webp",
+  "assets/request73-v4/web/miniapp-order-640x480.webp",
+  "assets/request73-v4/web/salon-booking-640x427.webp",
+  "assets/request73-v4/web/family-voice-check-640x427.webp",
+  "assets/request73-v4/web/learning-hint-640x427.webp",
+  "assets/request73-v4/web/school-consult-640x480.webp",
+  "assets/request73-v4/web/school-consult-480x360.webp",
+  "assets/request73-v4/web/record-care-640x480.webp",
+  "assets/request73-v4/web/diagnostic-tool-640x480.webp",
+  "assets/request73-v4/web/kesazu-brain-720.webp",
+  "assets/request73-v4/web/fact-box-brain-720.webp",
+  "assets/roblox-game-icon-720.webp",
+  "assets/brain-thumb-720.webp"
+];
+const expectedBrainProducts = [
+  {
+    label: "top-work-brain-kesazu",
+    href: "https://brain-market.com/u/siroradio51/a/b1QDNwYjMgoTZsNWa0JXY",
+    title: "消さずに空ける",
+    imageSrc: "assets/request73-v4/web/kesazu-brain-720.webp",
+    imageAlt: "Brain商品『消さずに空ける』の実サムネイル",
+    description: "Codexの会話は残したまま、ログ内の埋め込み画像データだけを外す。診断・バックアップ・検証・復元まで順番に進められるmacOS向けスキルです。",
+    tag: "Brainで販売中"
+  },
+  {
+    label: "top-work-brain-factbox",
+    href: "https://brain-market.com/u/siroradio51/a/bxATN3UjMgoTZsNWa0JXY",
+    title: "事実の箱（fact-box-writer）",
+    imageSrc: "assets/request73-v4/web/fact-box-brain-720.webp",
+    imageAlt: "Brain商品『事実の箱（fact-box-writer）』の実サムネイル",
+    description: "使ってよい「事実・実セリフ・境界線」を先に整理し、箱の中だけでX投稿や記事を組み立てるClaude Codeスキルです。",
+    tag: "Brainで販売中"
+  }
+];
 
 fs.mkdirSync(outputDir, { recursive: true });
 
 const report = {
-  request: 73,
+  request: "73-v4",
   startedAt: new Date().toISOString(),
   baseUrl,
   source: {
@@ -149,6 +185,19 @@ async function inspectViewport(browser, name, width, height) {
   await page.goto(baseUrl, { waitUntil: "domcontentloaded", timeout: 30_000 });
   await page.waitForTimeout(2_300);
 
+  // Lazy画像も実物で検品するため、全区画を一度通過してからDOM状態を採取する。
+  for (const section of expectedSections) {
+    await page.locator(`[data-sec="${section}"]`).scrollIntoViewIfNeeded();
+    await page.waitForTimeout(80);
+  }
+  await page.waitForFunction(
+    () => [...document.images].every((image) => image.complete && image.naturalWidth > 0),
+    undefined,
+    { timeout: 10_000 }
+  );
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.waitForTimeout(180);
+
   const state = await page.evaluate(({ expectedSections, existingLpSections }) => {
     const visible = (element) => {
       const style = getComputedStyle(element);
@@ -218,7 +267,49 @@ async function inspectViewport(browser, name, width, height) {
         item.querySelector(".what")?.textContent?.trim() || "",
         item.querySelector(".memo")?.textContent?.replace(/\s+/g, " ").trim() || ""
       ]),
-      expectedSections
+      expectedSections,
+      visualImages: [...document.images].map((image) => ({
+        src: image.getAttribute("src") || "",
+        alt: image.getAttribute("alt"),
+        complete: image.complete,
+        naturalWidth: image.naturalWidth,
+        naturalHeight: image.naturalHeight,
+        widthAttribute: image.getAttribute("width"),
+        heightAttribute: image.getAttribute("height")
+      })),
+      request73GeneratedImageCount: document.querySelectorAll('img[src*="assets/request73-v4/web/"]').length,
+      oldCharacterImageCount: document.querySelectorAll('img[src*="assets/request73-v2/web/"], img[src*="assets/request73-v3/web/"]').length,
+      workIconRects: [...document.querySelectorAll("#works .work-icon")].map((image) => {
+        const rect = image.getBoundingClientRect();
+        return { src: image.getAttribute("src"), width: rect.width, height: rect.height };
+      }),
+      serviceIconRects: [...document.querySelectorAll("#service .service-icon")].map((image) => {
+        const rect = image.getBoundingClientRect();
+        return { src: image.getAttribute("src"), width: rect.width, height: rect.height };
+      }),
+      brainProducts: [...document.querySelectorAll('#works a.work[href^="https://brain-market.com/"]')].map((card) => {
+        const image = card.querySelector("img.work-visual");
+        const imageRect = image?.getBoundingClientRect();
+        return {
+          label: card.getAttribute("data-rondo-label"),
+          href: card.getAttribute("href"),
+          title: card.querySelector("h3")?.textContent?.trim() || "",
+          description: card.querySelector("p")?.textContent?.replace(/\s+/g, " ").trim() || "",
+          tag: card.querySelector(".tag")?.textContent?.replace(/\s+/g, " ").trim() || "",
+          imageSrc: image?.getAttribute("src") || "",
+          imageAlt: image?.getAttribute("alt") || "",
+          naturalWidth: image?.naturalWidth || 0,
+          naturalHeight: image?.naturalHeight || 0,
+          widthAttribute: image?.getAttribute("width") || "",
+          heightAttribute: image?.getAttribute("height") || "",
+          naturalRatio: image ? image.naturalWidth / image.naturalHeight : 0,
+          renderedRatio: imageRect ? imageRect.width / imageRect.height : 0
+        };
+      }),
+      workEmojiCount: document.querySelectorAll("#works .emoji").length,
+      worksHeading: document.querySelector("#works h2")?.textContent || "",
+      miniappHeading: document.querySelector("#mini-app h2")?.textContent || "",
+      primaryCtaText: document.querySelector('[data-rondo-label="top-hero-gem"]')?.textContent || ""
     };
   }, { expectedSections, existingLpSections: [...existingLpSections] });
 
@@ -244,13 +335,25 @@ async function inspectViewport(browser, name, width, height) {
   check(sameMembers(state.ctas.map((cta) => cta.label), expectedCtaLabels), `${name}: CTAラベル6件が確定値`, state.ctas);
   check(state.ctas.every((cta) => cta.owner), `${name}: 全CTAが計測区画内`, state.ctas);
   check(state.ctas.every((cta) => !cta.href.startsWith("#")), `${name}: 内部スクロールをCV扱いしない`, state.ctas);
-  check(state.ctas.every((cta) => cta.resolvedHref.includes("/gem-skill/mail/") || cta.resolvedHref.startsWith("https://lin.ee/")), `${name}: CTA行き先は事前登録かLINEのみ`, state.ctas);
+  check(state.ctas.every((cta) => cta.href === "gem-skill/mail/index.html" || cta.href === "https://lin.ee/P5qMYBk"), `${name}: CTA行き先はindex.html直指定の事前登録LPかLINEのみ`, state.ctas);
   check(state.ctas.filter((cta) => cta.visible).every((cta) => cta.height >= 44), `${name}: 可視CTAは高さ44px以上`, state.ctas);
   check(state.hashes.every((hash) => hash.targetExists), `${name}: ページ内リンクの行き先が全て存在`, state.hashes);
   check(state.hashes.every((hash) => !hash.isCta), `${name}: ページ内リンクにCTA属性0`, state.hashes);
   check(state.duplicateIds.length === 0, `${name}: ID重複0`, state.duplicateIds);
   check(state.revealNotVisible === 0, `${name}: 表示保険後の非表示コンテンツ0`, state.revealNotVisible);
-  check(state.worksCount === 8, `${name}: 既存WORKS 8件を維持`, state.worksCount);
+  check(state.worksCount === 10, `${name}: WORKS 10件（Brain商品2件追加）`, state.worksCount);
+  check(state.request73GeneratedImageCount === 16, `${name}: 依頼73-v4配信用画像16配置`, state.request73GeneratedImageCount);
+  check(state.oldCharacterImageCount === 0, `${name}: 旧v2/v3キャラ画像のDOM参照0`, state.oldCharacterImageCount);
+  check(expectedBrainProducts.every((expected) => state.brainProducts.some((actual) => actual.label === expected.label && actual.href === expected.href && actual.title === expected.title && actual.description === expected.description && actual.tag === expected.tag && actual.imageSrc === expected.imageSrc && actual.imageAlt === expected.imageAlt && actual.naturalWidth === 720 && actual.naturalHeight === 377 && actual.widthAttribute === "720" && actual.heightAttribute === "377")), `${name}: Brain商品2件の直リンク・文言・実サムネ対応が正本一致`, state.brainProducts);
+  check(state.brainProducts.length === 3 && state.brainProducts.every((product) => Math.abs(product.renderedRatio - product.naturalRatio) <= 0.02), `${name}: Brain商品画像3件を左右cropなしで全体表示`, state.brainProducts);
+  check(state.workIconRects.length === 6 && state.workIconRects.every((image) => image.width >= 250 && image.height >= 160), `${name}: WORKSイラストをカード幅いっぱいに拡大`, state.workIconRects);
+  check(state.serviceIconRects.length === 4 && state.serviceIconRects.every((image) => image.width >= (name === "mobile" ? 83 : 111) && image.height >= (name === "mobile" ? 71 : 87)), `${name}: 料金表イラストを拡大`, state.serviceIconRects);
+  check(state.workEmojiCount === 0, `${name}: WORKSのOS絵文字0`, state.workEmojiCount);
+  check(state.visualImages.every((image) => image.complete && image.naturalWidth > 0 && image.naturalHeight > 0), `${name}: 全画像ロード成功`, state.visualImages);
+  check(state.visualImages.filter((image) => image.src.includes("request73-v4/web/")).every((image) => image.widthAttribute && image.heightAttribute), `${name}: v4画像にwidth/height明示`, state.visualImages);
+  check(normalize(state.worksHeading) === "工房の道具棚", `${name}: WORKSを工房の棚として記憶化`, normalize(state.worksHeading));
+  check(normalize(state.miniappHeading) === "あなたの「ちょっと足りない」を、小さなアプリで。", `${name}: ミニアプリ見出しが困りごと起点`, normalize(state.miniappHeading));
+  check(normalize(state.primaryCtaText).startsWith("500円クーポンを受け取る"), `${name}: 主CTAが便益訴求`, normalize(state.primaryCtaText));
   check(["週3透析", "週3回透析", "血液透析", "病院で透析", "ベッド", "針"].every((word) => !state.bodyText.includes(word)), `${name}: 公開本文のD-01誤認語0`);
   check(JSON.stringify(state.priceRows) === JSON.stringify(expectedPriceRows), `${name}: 料金4項目を一字維持`, state.priceRows);
   check(state.profileParagraphs.length === 3 && state.profileParagraphs[1].includes("いまは自宅で毎日、腹膜透析をしながら仕事をしています。"), `${name}: プロフィール正本を維持`, state.profileParagraphs);
@@ -277,7 +380,7 @@ async function inspectViewport(browser, name, width, height) {
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.waitForTimeout(150);
   await page.screenshot({
-    path: path.join(outputDir, `ei-site-local-${width}x${height}-request73.png`),
+    path: path.join(outputDir, `ei-site-local-${width}x${height}-request73-v4.png`),
     fullPage: true
   });
   await context.close();
@@ -287,6 +390,17 @@ async function main() {
   const forbiddenD01 = ["週3透析", "週3回透析", "血液透析", "病院で透析"];
   check(forbiddenD01.every((word) => !indexSource.includes(word)), "D-01誤認語0", forbiddenD01.filter((word) => indexSource.includes(word)));
   check(indexSource.includes("いまは自宅で毎日、腹膜透析をしながら仕事をしています。"), "D-01正本文を維持");
+  const visualAssetStats = expectedVisualAssets.map((relativePath) => {
+    const absolutePath = path.join(siteRoot, relativePath);
+    return {
+      relativePath,
+      exists: fs.existsSync(absolutePath),
+      bytes: fs.existsSync(absolutePath) ? fs.statSync(absolutePath).size : null
+    };
+  });
+  check(visualAssetStats.every((asset) => asset.exists), "配信用14資産が存在", visualAssetStats);
+  check(visualAssetStats.every((asset) => asset.bytes > 0 && asset.bytes <= 200_000), "配信用各画像200KB以下", visualAssetStats);
+  check(visualAssetStats.reduce((sum, asset) => sum + (asset.bytes || 0), 0) <= 700_000, "配信用画像合計700KB以下", visualAssetStats);
   const browser = await chromium.launch({
     executablePath: browserPath,
     headless: true,
@@ -327,8 +441,8 @@ async function main() {
     mockedHeatIngests: report.mockedHeatIngests.length,
     reportPath,
     screenshots: [
-      path.join(outputDir, "ei-site-local-375x812-request73.png"),
-      path.join(outputDir, "ei-site-local-1440x1000-request73.png")
+      path.join(outputDir, "ei-site-local-375x812-request73-v4.png"),
+      path.join(outputDir, "ei-site-local-1440x1000-request73-v4.png")
     ]
   }, null, 2)}\n`);
 }
