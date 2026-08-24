@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex">
+<title>Gemの健康診断</title>
+<style>
+  :root {
+    --bg:#f6f5f2; --card:#fff; --ink:#24211f; --sub:#615b55; --line:#dedad4;
+    --accent:#0f766e; --accent-dark:#0b5f59; --accent-soft:#e8f5f2;
+    --line-green:#06c755; --line-green-dark:#05a948;
+    --shadow:0 18px 50px rgba(48,42,35,.08);
+  }
+  * { box-sizing:border-box; }
+  html { min-width:320px; }
+  body {
+    margin:0; min-height:100vh; color:var(--ink);
+    background:radial-gradient(circle at 10% 0%, rgba(15,118,110,.08), transparent 30rem), var(--bg);
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic UI",'Segoe UI',sans-serif;
+    -webkit-text-size-adjust:100%;
+  }
+  button { font:inherit; }
+  a { color:var(--accent); }
+  .app { width:100%; max-width:560px; margin:0 auto; padding:18px 16px 40px; }
+  .card {
+    width:100%; padding:24px 20px 22px; border:1px solid var(--line); border-radius:18px;
+    background:var(--card); box-shadow:var(--shadow); animation:cardIn .22s ease-out;
+  }
+  .card[hidden] { display:none; }
+  @keyframes cardIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+  @media (prefers-reduced-motion:reduce) { .card { animation:none; } * { transition:none !important; } }
+  h1,h2,h3,p { margin-top:0; }
+  h1 { margin-bottom:6px; font-size:clamp(23px,6vw,28px); line-height:1.4; letter-spacing:.01em; }
+  h2 { margin-bottom:8px; font-size:clamp(17px,4.6vw,20px); line-height:1.6; }
+  [tabindex="-1"]:focus { outline:none; }
+  .eyebrow { margin:0 0 10px; color:var(--accent); font-size:11.5px; font-weight:700; letter-spacing:.06em; }
+  .subtitle { margin:0 0 16px; color:var(--sub); font-size:14.5px; line-height:1.75; }
+  .lead { margin:0 0 14px; font-size:14.5px; line-height:1.95; }
+  .lead.quiet { color:var(--sub); }
+  .note {
+    margin:0 0 16px; padding:10px 12px; border:1px solid #c8ded9; border-radius:10px;
+    background:#f0faf8; color:#145f59; font-size:12.5px; line-height:1.7;
+  }
+  .fineprint { margin:14px 0 0; color:#8a837c; font-size:11.5px; line-height:1.7; }
+
+  /* intro hero（見本LP準拠: フック大見出し＋最小要素） */
+  .card.hero {
+    background:linear-gradient(165deg,#0d2740 0%,#10405a 55%,#0b4f5c 100%);
+    border-color:#0d2740; color:#fff; text-align:center; padding:36px 22px 30px;
+  }
+  .hero .eyebrow { color:#8fd8cf; letter-spacing:.16em; margin-bottom:16px; }
+  .hero-hook { margin:0 0 10px; font-size:clamp(22px,6.3vw,30px); font-weight:800; line-height:1.55; letter-spacing:.01em; }
+  .hero-title { margin:0 0 16px; font-size:clamp(19px,5.2vw,23px); font-weight:800; color:#ffd66b; }
+  .hero-lead { margin:0 auto 20px; max-width:24em; color:#d9e6ea; font-size:14px; line-height:1.9; }
+  .hero-steps { display:flex; justify-content:center; gap:8px; margin:0 0 12px; }
+  .hstep {
+    width:33px; height:33px; border-radius:99px; border:1.5px solid rgba(255,255,255,.4);
+    display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; color:#eaf4f6;
+  }
+  .hero-chips { display:flex; flex-wrap:wrap; justify-content:center; gap:6px 16px; margin:0 0 20px; color:#bcd3da; font-size:12px; }
+  .hero-chips span { white-space:nowrap; }
+  .btn.cta {
+    min-height:56px; border-color:#f6a935; border-radius:999px;
+    background:linear-gradient(90deg,#f6b73c,#f79d2c); color:#3a2a05; font-size:17px;
+    box-shadow:0 10px 26px rgba(246,169,53,.32);
+  }
+  .btn.cta:hover { background:linear-gradient(90deg,#f9c14e,#f8a63e); box-shadow:0 12px 30px rgba(246,169,53,.42); }
+  .hero .fineprint { color:#9fb6bd; }
+
+  /* progress */
+  .qhead { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:14px; }
+  .dots { display:flex; gap:6px; }
+  .dot { width:9px; height:9px; border-radius:99px; background:var(--line); transition:background .2s ease,transform .2s ease; }
+  .dot.done { background:#9fd3cc; }
+  .dot.now { background:var(--accent); transform:scale(1.25); }
+  .pnum { color:var(--sub); font-size:12.5px; font-variant-numeric:tabular-nums; }
+  .qtag {
+    display:inline-block; margin:0 0 8px; padding:3px 9px; border-radius:99px;
+    background:var(--accent-soft); color:var(--accent-dark); font-size:11.5px; font-weight:700;
+  }
+  .options { display:grid; gap:9px; margin-top:16px; }
+  .opt {
+    display:flex; align-items:center; gap:10px; width:100%; min-height:52px; padding:12px 14px;
+    border:1.5px solid var(--line); border-radius:13px; background:var(--card); color:var(--ink);
+    text-align:left; font-size:14.5px; line-height:1.6; cursor:pointer;
+    transition:border-color .15s ease,background .15s ease,transform .12s ease;
+  }
+  .opt:hover { border-color:var(--accent); background:var(--accent-soft); }
+  .opt:active { transform:scale(.99); }
+  .opt:focus-visible { outline:3px solid #9fd3cc; outline-offset:2px; }
+  .opt .mark {
+    flex:0 0 auto; width:22px; height:22px; border-radius:99px; border:1.5px solid var(--line);
+    color:var(--sub); font-size:11.5px; font-weight:700; display:flex; align-items:center; justify-content:center;
+  }
+  .opt.picked { border-color:var(--accent); background:var(--accent-soft); }
+  .opt.picked .mark { border-color:var(--accent); background:var(--accent); color:#fff; }
+
+  .btn {
+    display:flex; align-items:center; justify-content:center; gap:8px; width:100%; min-height:50px;
+    padding:12px 16px; border:1.5px solid var(--accent); border-radius:13px; background:var(--accent);
+    color:#fff; font-size:15.5px; font-weight:700; line-height:1.5; text-align:center; text-decoration:none;
+    cursor:pointer; transition:background .15s ease,transform .12s ease,box-shadow .15s ease;
+  }
+  .btn:hover { background:var(--accent-dark); box-shadow:0 7px 18px rgba(15,118,110,.18); }
+  .btn:active { transform:scale(.99); }
+  .btn:focus-visible { outline:3px solid #9fd3cc; outline-offset:2px; }
+  .btn.line { border-color:var(--line-green); background:var(--line-green); }
+  .btn.line:hover { background:var(--line-green-dark); box-shadow:0 7px 18px rgba(6,199,85,.22); }
+  .btn.ghost {
+    min-height:44px; border-color:var(--line); background:#fff; color:var(--sub);
+    font-size:13.5px; font-weight:600; box-shadow:none;
+  }
+  .btn.ghost:hover { border-color:var(--accent); background:var(--accent-soft); color:var(--ink); }
+  .backrow { margin-top:14px; }
+  .backbtn {
+    min-height:40px; padding:8px 12px; border:none; border-radius:10px; background:transparent;
+    color:var(--sub); font-size:13px; cursor:pointer;
+  }
+  .backbtn:hover { background:#f2efeb; color:var(--ink); }
+  .backbtn:focus-visible { outline:3px solid #9fd3cc; outline-offset:2px; }
+
+  /* result */
+  #screen-result { padding:20px 18px 20px; }
+  .rtop { display:flex; align-items:flex-end; justify-content:space-between; gap:12px; margin-bottom:4px; }
+  .rlevel { color:var(--accent); font-size:12px; font-weight:700; letter-spacing:.08em; margin:0 0 2px; }
+  .rname { margin:0; font-size:clamp(24px,7vw,30px); line-height:1.3; letter-spacing:.01em; }
+  .rscore { flex:0 0 auto; text-align:right; color:var(--sub); font-size:12px; line-height:1.3; }
+  .rscore b { display:block; color:var(--ink); font-size:26px; font-weight:800; font-variant-numeric:tabular-nums; }
+  .bars {
+    display:grid; grid-template-columns:repeat(7,1fr); gap:5px; margin:14px 0 14px;
+    padding:12px 10px 9px; border:1px solid var(--line); border-radius:12px; background:#fbfaf8;
+  }
+  .bcol { display:flex; flex-direction:column; align-items:center; gap:5px; }
+  .bstack { display:flex; flex-direction:column-reverse; gap:3px; width:100%; }
+  .bseg { height:10px; border-radius:3px; background:#eae7e1; }
+  .bseg.on { background:var(--accent); }
+  .bseg.on.s1 { background:#5aa9a0; }
+  .bseg.on.s2 { background:#2f8d83; }
+  .blabel { color:var(--sub); font-size:10.5px; line-height:1.2; letter-spacing:-.02em; white-space:nowrap; }
+  .rx { margin:0 0 14px; font-size:14px; line-height:1.85; }
+  .ctas { display:grid; gap:8px; }
+  .subcta { margin:10px 0 0; text-align:center; font-size:12.5px; line-height:1.7; }
+  .subcta a { color:var(--sub); }
+  .restart { margin-top:14px; text-align:center; }
+</style>
+</head>
+<body>
+<main class="app">
+
+  <!-- ============ 導入 ============ -->
+  <section id="screen-intro" class="card hero" tabindex="-1" aria-labelledby="intro-h">
+    <p class="eyebrow">GEM HEALTH CHECK</p>
+    <p class="hero-hook">Gemを使えなくなったら、<br>どうしますか？</p>
+    <h1 id="intro-h" class="hero-title">Gemの健康診断</h1>
+    <p class="hero-lead">7つの質問に答えるだけで、<br>あなたのGemの「守られ度」がわかります。</p>
+    <div class="hero-steps" aria-hidden="true">
+      <span class="hstep">1</span><span class="hstep">2</span><span class="hstep">3</span><span class="hstep">4</span><span class="hstep">5</span><span class="hstep">6</span><span class="hstep">7</span>
+    </div>
+    <p class="hero-chips"><span>⏱ 約30秒</span><span>📊 全7問・5段階判定</span><span>💡 次の1アクション提示</span></p>
+    <button class="btn cta" id="btn-start" type="button">診断スタート →</button>
+    <p class="fineprint">回答は送信も保存もされません（計算はこの画面の中だけ）。<br>自分のGemを見直すための道具で、医学的な診断ではありません。</p>
+  </section>
+
+  <!-- ============ 設問 ============ -->
+  <section id="screen-quiz" class="card" tabindex="-1" aria-labelledby="q-h" hidden>
+    <div class="qhead">
+      <div class="dots" id="dots" aria-hidden="true"></div>
+      <span class="pnum" id="pnum"></span>
+    </div>
+    <span class="qtag" id="q-tag"></span>
+    <h2 id="q-h"></h2>
+    <div class="options" id="q-options" role="group" aria-labelledby="q-h"></div>
+    <div class="backrow"><button class="backbtn" id="btn-back" type="button">← ひとつ戻る</button></div>
+  </section>
+
+  <!-- ============ 結果 ============ -->
+  <section id="screen-result" class="card" tabindex="-1" aria-labelledby="r-name" hidden>
+    <div class="rtop">
+      <div>
+        <p class="rlevel" id="r-level"></p>
+        <h2 class="rname" id="r-name"></h2>
+      </div>
+      <div class="rscore"><b id="r-score"></b>28点満点</div>
+    </div>
+    <div class="bars" id="r-bars" role="img" aria-label="" ></div>
+    <p class="rx" id="r-rx"></p>
+    <div class="ctas">
+      <a class="btn line" id="cta-line" href="#LINE-URL-PLACEHOLDER">LINEで合言葉「GPS」を送る</a>
+      <button class="btn ghost" id="btn-share" type="button">Xで結果をシェア</button>
+    </div>
+    <p class="subcta"><a id="cta-brain" href="#BRAIN-URL-PLACEHOLDER">今すぐ手順が欲しい方はこちら（980円）</a></p>
+    <div class="restart"><button class="backbtn" id="btn-restart" type="button">もう一度診断する</button></div>
+    <p class="fineprint" id="r-fine">LINEに合言葉「GPS」を送ると、Gemを守る手順の案内が届きます。／この結果は自分のGemを見直すための目安で、医学的な診断や専門的な鑑定ではありません。</p>
+  </section>
+
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ======================================================================
+     プレースホルダ（3箇所）— えいちゃん承認後に実URLへ差し替える
+     ① LINE_URL     : LINE公式アカウントの友だち追加URL
+     ② BRAIN_URL    : Brain商品ページURL（980円）
+     ③ SHINDAN_URL  : この診断ページの公開URL（Xシェア文に載せる）
+     ※ SHINDAN_URL が '#' で始まる間は、シェア文にURLを載せません。
+     ====================================================================== */
+  var LINE_URL    = 'https://lin.ee/P5qMYBk';
+  var BRAIN_URL   = 'https://brain-market.com/u/siroradio51/a/bycTMyYjMgoTZsNWa0JXY';
+  var SHINDAN_URL = 'https://pop7237radio-hue.github.io/ei-site/shindan/';
+
+  /* ---------------- 設問（A=1点 / B=2点 / C=3点 / D=4点） ---------------- */
+  var QUESTIONS = [
+    {
+      tag: '把握', axis: '把握',
+      text: '自分のGem、いくつあるか すぐ言えますか？（もらった特典Gemも含めて）',
+      options: ['数えたことがない', 'だいたいの数なら', 'ほぼ把握している', '一覧にして管理している']
+    },
+    {
+      tag: '中身確認', axis: '中身',
+      text: 'Gemのカスタム指示（設定した文章）を、保存したあとに開いて確かめたことは？',
+      options: ['ない', '作った直後に1回だけ', '様子がおかしい時に見る', '定期的に開いて確かめる']
+    },
+    {
+      tag: '控え', axis: '控え',
+      text: 'Gemの中身を、Geminiの外に控えていますか？',
+      options: ['控えていない', '一部だけメモがある', '主要なGemは書き出してある', '全部書き出して保管している']
+    },
+    {
+      tag: '異変対応', axis: '異変',
+      text: 'Gemの返事が「前と違うな」と感じたとき、どうしていますか？',
+      options: ['感じたことがない・気にしない', 'そのまま使い続ける', '指示を開いて見る', '控えと突き合わせて原因を確かめる']
+    },
+    {
+      tag: '持ち運び', axis: '他AI',
+      text: 'そのGemの役割、Gemini以外のAIでも再現できますか？',
+      options: ['考えたことがない', 'できたらいいなと思う', '一部は他のAIでも使える', '他のAIでも同じ役割を再現できる形にしてある']
+    },
+    {
+      tag: '更新', axis: '更新',
+      text: 'Gemの指示を最後に手入れしたのはいつですか？',
+      options: ['作ってから触っていない', '思い出した時だけ', '仕事が変わった時に直す', '使いながら育てている']
+    },
+    {
+      tag: '備え', axis: '備え',
+      text: 'そのGemが明日ぜんぶ消えたら？',
+      options: ['考えたことがない', '困るけど何も備えていない', '一部は作り直せる', '全部作り直せる備えがある']
+    }
+  ];
+
+  /* ---------------- レベル判定（7-11 / 12-16 / 17-21 / 22-25 / 26-28） ---------------- */
+  var LEVELS = [
+    {
+      level: 1, min: 7, max: 11, name: 'まだ白紙',
+      rx: 'Gemを自分で使っている——それだけで、もう先頭集団です。まわりを見渡せば、Gemという言葉すら知らない人のほうが多いはずですから。'
+        + 'いまは失っているものは何もありません。最初の一歩に何をすればいいかは、下記のリンクからLINEに登録して、合言葉「GPS」を送ってください。3分でできる一歩から案内が届きます。'
+    },
+    {
+      level: 2, min: 12, max: 16, name: '使えている',
+      rx: '「使う」はもう合格です。ここから先は「守る」の話。'
+        + 'そのGem、ClaudeやCodexで使えるスキルに変えませんか？'
+        + '詳しい方法が知りたい方は、下記のリンクからLINEに登録して、合言葉「GPS」を送ってください。'
+    },
+    {
+      level: 3, min: 17, max: 21, name: '気づける',
+      rx: '「前と違うな」に気づける人です。ここに立てている時点で、Gemを道具ではなく相棒として見ています。'
+        + '足りないのは注意力ではなく、控えの型のほう。その控えの作り方を知りたい方は、下記のリンクからLINEに登録して、合言葉「GPS」を送ってください。'
+    },
+    {
+      level: 4, min: 22, max: 25, name: '守れている',
+      rx: '自分のGemの欠けに気づいた僕と、ほぼ同じ現在地です。'
+        + 'ここまで来たら次の一段は「Geminiの中でしか動かない形」から「他のAIでも同じ役割を果たせる形」へ。'
+        + 'その進め方を知りたい方は、下記のリンクからLINEに登録して、合言葉「GPS」を送ってください。'
+    },
+    {
+      level: 5, min: 26, max: 28, name: '資産化済み',
+      rx: '正直に言います。GPSに書いてある中身は、あなたはもう自力でやれています。買わなくて大丈夫です。'
+        + 'ここまで自分で組み上げた人が、いちばん強いです。'
+        + '——同じことを、僕は980円の手順にまとめました。誰かに渡すときの型として、必要なときにだけ思い出してください。'
+    }
+  ];
+
+  /* ---------------- 状態 ---------------- */
+  var answers = new Array(QUESTIONS.length).fill(null);
+  var idx = 0;
+
+  var el = {
+    intro:   document.getElementById('screen-intro'),
+    quiz:    document.getElementById('screen-quiz'),
+    result:  document.getElementById('screen-result'),
+    dots:    document.getElementById('dots'),
+    pnum:    document.getElementById('pnum'),
+    qtag:    document.getElementById('q-tag'),
+    qh:      document.getElementById('q-h'),
+    qopts:   document.getElementById('q-options'),
+    back:    document.getElementById('btn-back'),
+    rlevel:  document.getElementById('r-level'),
+    rname:   document.getElementById('r-name'),
+    rscore:  document.getElementById('r-score'),
+    rbars:   document.getElementById('r-bars'),
+    rrx:     document.getElementById('r-rx'),
+    share:   document.getElementById('btn-share'),
+    ctaLine: document.getElementById('cta-line'),
+    ctaBrain:document.getElementById('cta-brain'),
+    restart: document.getElementById('btn-restart'),
+    start:   document.getElementById('btn-start')
+  };
+
+  el.ctaLine.setAttribute('href', LINE_URL);
+  el.ctaBrain.setAttribute('href', BRAIN_URL);
+
+  function show(which) {
+    el.intro.hidden  = (which !== 'intro');
+    el.quiz.hidden   = (which !== 'quiz');
+    el.result.hidden = (which !== 'result');
+    var target = which === 'intro' ? el.intro : (which === 'quiz' ? el.quiz : el.result);
+    window.scrollTo(0, 0);
+    target.focus();
+  }
+
+  /* ---------------- 設問描画 ---------------- */
+  function renderDots() {
+    el.dots.textContent = '';
+    for (var i = 0; i < QUESTIONS.length; i++) {
+      var d = document.createElement('span');
+      d.className = 'dot' + (i === idx ? ' now' : (answers[i] !== null ? ' done' : ''));
+      el.dots.appendChild(d);
+    }
+  }
+
+  function renderQuestion() {
+    var q = QUESTIONS[idx];
+    renderDots();
+    el.pnum.textContent = 'Q' + (idx + 1) + ' / ' + QUESTIONS.length;
+    el.qtag.textContent = q.tag;
+    el.qh.textContent = q.text;
+    el.qopts.textContent = '';
+
+    q.options.forEach(function (label, i) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'opt' + (answers[idx] === i + 1 ? ' picked' : '');
+      var mark = document.createElement('span');
+      mark.className = 'mark';
+      mark.textContent = ['A', 'B', 'C', 'D'][i];
+      var span = document.createElement('span');
+      span.textContent = label;
+      b.appendChild(mark);
+      b.appendChild(span);
+      b.addEventListener('click', function () { pick(i + 1); });
+      el.qopts.appendChild(b);
+    });
+
+    el.back.textContent = idx === 0 ? '← 最初の画面へ' : '← ひとつ戻る';
+  }
+
+  function pick(score) {
+    answers[idx] = score;
+    if (idx < QUESTIONS.length - 1) {
+      idx += 1;
+      renderQuestion();
+      el.quiz.focus();
+    } else {
+      renderResult();
+      show('result');
+    }
+  }
+
+  function goBack() {
+    if (idx === 0) { show('intro'); return; }
+    idx -= 1;
+    renderQuestion();
+    el.quiz.focus();
+  }
+
+  /* ---------------- 結果 ---------------- */
+  function totalScore() {
+    return answers.reduce(function (a, b) { return a + (b || 0); }, 0);
+  }
+
+  function levelOf(score) {
+    for (var i = 0; i < LEVELS.length; i++) {
+      if (score >= LEVELS[i].min && score <= LEVELS[i].max) return LEVELS[i];
+    }
+    return score < LEVELS[0].min ? LEVELS[0] : LEVELS[LEVELS.length - 1];
+  }
+
+  var current = null;
+
+  function renderBars() {
+    el.rbars.textContent = '';
+    var alt = [];
+    QUESTIONS.forEach(function (q, i) {
+      var v = answers[i] || 0;
+      alt.push(q.tag + v + '点');
+      var col = document.createElement('div');
+      col.className = 'bcol';
+      var stack = document.createElement('div');
+      stack.className = 'bstack';
+      for (var s = 1; s <= 4; s++) {
+        var seg = document.createElement('span');
+        seg.className = 'bseg' + (s <= v ? ' on' + (s === 1 ? ' s1' : (s === 2 ? ' s2' : '')) : '');
+        stack.appendChild(seg);
+      }
+      var lab = document.createElement('span');
+      lab.className = 'blabel';
+      lab.textContent = q.axis;
+      col.appendChild(stack);
+      col.appendChild(lab);
+      el.rbars.appendChild(col);
+    });
+    el.rbars.setAttribute('aria-label', '7つの軸の得点（各4点満点）: ' + alt.join('、'));
+  }
+
+  function renderResult() {
+    var score = totalScore();
+    current = levelOf(score);
+    el.rlevel.textContent = 'LEVEL ' + current.level + ' / 5';
+    el.rname.textContent = current.name;
+    el.rscore.textContent = score;
+    el.rscore.setAttribute('aria-label', score + ' / 28点');
+    renderBars();
+    el.rrx.textContent = current.rx;
+  }
+
+  /* ---------------- Xシェア（Web Intent） ---------------- */
+  function shareText() {
+    var score = totalScore();
+    return '「Gemの健康診断」やってみた\n→ LEVEL ' + current.level + '「' + current.name + '」（' + score + '/28点）\n'
+         + '自分のGem、思ってたより欠けてるかもしれません。';
+  }
+
+  el.share.addEventListener('click', function () {
+    if (!current) return;
+    var url = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText());
+    if (SHINDAN_URL.charAt(0) !== '#') {
+      url += '&url=' + encodeURIComponent(SHINDAN_URL);
+    }
+    window.open(url, '_blank', 'noopener,noreferrer');
+  });
+
+  /* ---------------- 操作 ---------------- */
+  el.start.addEventListener('click', function () {
+    idx = 0;
+    renderQuestion();
+    show('quiz');
+  });
+  el.back.addEventListener('click', goBack);
+  el.restart.addEventListener('click', function () {
+    answers = new Array(QUESTIONS.length).fill(null);
+    idx = 0;
+    current = null;
+    show('intro');
+  });
+
+  show('intro');
+})();
+</script>
+</body>
+</html>
