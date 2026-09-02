@@ -14,3 +14,6 @@ assets/fal-2026-09/raw
 package.json
 package-lock.json
 wrangler.jsonc
+
+# 2026-09-03 Fable5.1: 特典・配布物の .md は配信する（*.md 除外の例外）
+!downloads/**/*.md
