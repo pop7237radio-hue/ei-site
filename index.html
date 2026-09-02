@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>AIミニアプリ工房 えい｜「ちょっと足りない」を、その日のうちに動く道具に</title>
+<title>AIミニアプリ工房 えい｜無料のアプリで、足りていますか？</title>
 <meta name="description" content="Claude Code・Codex・Gemini Notebookで作る小さな工房。美容室の予約メモから、Gemの引っ越しスキル「Gem Port Skills」まで。コードは書かず、日本語で頼んで、確かめて、渡します。相談は無料。" />
 <link rel="icon" type="image/png" href="assets/request73-v4/web/brand-atelier-mark-128.png" />
 <meta property="og:title" content="AIミニアプリ工房 えい｜「ちょっと足りない」を、その日のうちに動く道具に" />
@@ -136,6 +136,9 @@
   table.price th{font-weight:700;width:66%}
   table.price th span{display:block;font-size:14px;color:var(--sub);font-weight:500}
   table.price td{font-weight:900;color:var(--accent);white-space:nowrap}
+  table.cmp th,table.cmp td{width:50%;white-space:normal;font-weight:500;color:var(--ink)}
+  table.cmp th{font-weight:900;color:var(--teal)}
+  table.cmp td:first-child{color:var(--sub)}
   /* build */
   .build .inner{display:grid;grid-template-columns:1fr;gap:24px;align-items:start}
   @media(min-width:860px){.build .inner{grid-template-columns:1fr 1fr;gap:48px}}
@@ -193,10 +196,10 @@
   <div class="inner">
     <div>
       <div class="tools" aria-label="使っている道具"><span>Claude Code</span><span>Codex</span><span>Gemini Notebook</span><span>fal</span><span>Cloudflare</span></div>
-      <h1>「ちょっと足りない」を、<br /><em>その日のうちに</em>動く道具に。</h1>
-      <p class="sub">AIに日本語で頼んで、確かめて、渡す。美容室の予約メモから、Gemの引っ越しスキルまで。小さな困りごとを、小さな道具でほどく工房です。</p>
+      <h1>無料のアプリで、<br /><em>足りて</em>いますか？</h1>
+      <p class="sub">足りているなら、それでいい。「ちょっと足りない」の分だけ、あなたの言葉で、その日のうちに動く道具にします。美容室の予約メモから、Gemの引っ越しまで。</p>
       <div class="btnrow">
-        <a class="btn accent" href="https://lin.ee/P5qMYBk" target="_blank" rel="noopener" data-rondo-cta data-rondo-label="top-hero-line">LINEで「できる？」を聞く（無料）</a>
+        <a class="btn accent" href="https://lin.ee/P5qMYBk" target="_blank" rel="noopener" data-rondo-cta data-rondo-label="top-hero-line">足りないところを、LINEで一つ教える（無料）</a>
         <a class="btn light" href="#works" data-rondo-label="top-hero-works">道具棚を見る</a>
       </div>
     </div>
@@ -228,6 +231,24 @@
   </div>
 </section>
 
+<section id="free" data-sec="top-free" style="padding-top:24px">
+  <div class="inner">
+    <span class="kicker">無料のアプリと、この工房</span>
+    <h2>「みんな、無料のアプリで済ませちゃうよ」</h2>
+    <p class="lead">先月、美容室で聞いた言葉です。そのとおりだと思います。無料で足りるなら、お金を払う理由はありません。工房の出番は、無料アプリに自分を合わせるのが、しんどくなったときだけです。</p>
+    <table class="price cmp">
+      <caption class="sr-only">無料アプリと工房の違い</caption>
+      <tr><th scope="col">無料のアプリ</th><th scope="col">この工房の道具</th></tr>
+      <tr><td>みんな向け。機能が多くて、探す</td><td>あなた向け。ボタンは3つくらい</td></tr>
+      <tr><td>字が小さい。老眼だとつらい</td><td>字は大きく。指で押せる大きさ</td></tr>
+      <tr><td>アプリを入れて、登録して、ログイン</td><td>LINEから開く。登録なし</td></tr>
+      <tr><td>店の言葉が使えない</td><td>「カット」「カラー」など、店の言葉で作る</td></tr>
+      <tr><td>足りないところは、我慢する</td><td>使いながら、言えば直る。育つ</td></tr>
+    </table>
+    <p class="small" style="color:var(--sub);margin-top:16px">無料アプリのほうが合う人も多いです。相談のときに、そう言うこともあります。</p>
+  </div>
+</section>
+
 <section id="can" data-sec="top-can" style="padding-top:24px">
   <div class="inner">
     <span class="kicker">できること</span>
@@ -255,7 +276,7 @@
       <span class="kicker">事例</span>
       <h2>ある美容室の「予約メモ」</h2>
       <p class="q">「紙の予約ノート、スマホで見られたらいいのに」</p>
-      <p>店内の小さな困りごとを聞いた、その日のうちにデモを作ってLINEでお渡ししました。使うのは60歳前後の店主さん。だから設計はこうです。</p>
+      <p>無料の予約アプリはいくつもあります。それでもこの店では、紙のノートで回していました。合うものがなかったからです。困りごとを聞いた、その日のうちにデモを作ってLINEでお渡ししました。使うのは60歳前後の店主さん。だから設計はこうです。</p>
       <ul>
         <li>文字は大きめ。複雑な操作は置かない</li>
         <li>LINEから開いて、そのまま触れる</li>
@@ -354,7 +375,7 @@
     </table>
     <p class="small" style="color:var(--sub);margin-top:16px">内容を伺ってから、着手前に金額を確定します。追加費用が出る場合は必ず先にご相談します。</p>
     <p class="small" style="color:var(--sub)">制作会社に頼むと数万〜数十万かかる内容を、AIの活用でこの価格にしています。無料アプリで足りている方は、そのままで大丈夫です。</p>
-    <div class="btnrow" style="margin-top:8px"><a class="btn" href="https://lin.ee/P5qMYBk" target="_blank" rel="noopener" data-rondo-cta data-rondo-label="top-price-line">LINEで「できる？」を無料相談</a></div>
+    <div class="btnrow" style="margin-top:8px"><a class="btn" href="https://lin.ee/P5qMYBk" target="_blank" rel="noopener" data-rondo-cta data-rondo-label="top-price-line">足りないところを、LINEで一つ送る（無料）</a></div>
   </div>
 </section>
 
@@ -415,9 +436,9 @@
 <section class="contact" id="contact" data-sec="top-contact">
   <div class="inner">
     <span class="kicker">相談は無料</span>
-    <h2>まずは、困りごとを一言だけ</h2>
-    <p>「これ、なんとかなる？」で大丈夫です。できるか・いくらかかるかを、着手前にお答えします。</p>
-    <a class="btn light" href="https://lin.ee/P5qMYBk" target="_blank" rel="noopener" data-rondo-cta data-rondo-label="top-contact-line">LINEで「できる？」を無料相談</a>
+    <h2>いま使っている道具で、足りないところを一つ</h2>
+    <p>「予約帳の字が小さい」「行事の予定を毎回打ち直している」。その一言をLINEで送ってください。翌日までに「できる・できない・いくら」を返します。無料アプリで足りるなら、そう言います。</p>
+    <a class="btn light" href="https://lin.ee/P5qMYBk" target="_blank" rel="noopener" data-rondo-cta data-rondo-label="top-contact-line">足りないところを、LINEで一つ送る</a>
   </div>
 </section>
 </main>
