@@ -1,0 +1,13 @@
+{
+  // ei-site を Cloudflare Workers の静的アセット配信で置く設定（Cloudflareの教科書=置き場を1社に集約）
+  // デプロイ（公開）は えい承認後に `npm run deploy`。ローカル確認は `npm run dev`。
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ei-site",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  },
+  "observability": { "enabled": true }
+}

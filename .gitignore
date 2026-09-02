@@ -2,3 +2,7 @@ index_backup_*.html
 backups/
 redesign-mock/
 qc/
+node_modules/
+.wrangler/
+.fal_key
+assets/fal-2026-09/raw/

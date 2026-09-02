@@ -1,0 +1,16 @@
+node_modules
+.git
+.wrangler
+backups
+qc
+patches
+tests
+redesign-mock
+index_backup_*.html
+assets/request73-v4/original
+assets/request73-v4/selected
+assets/fal-2026-09/raw
+*.md
+package.json
+package-lock.json
+wrangler.jsonc

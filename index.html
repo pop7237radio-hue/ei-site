@@ -4,20 +4,30 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>あなたのGemをSkills化しませんか？｜AIミニアプリ工房 えい</title>
-<meta name="description" content="たくさんあるGemを、AIに投げるだけでスキル化してくれるスキルを作っています。小さな困りごとを、小さなアプリで。" />
+<meta name="description" content="Geminiのアプリに「Gemは10月20日で終了」の告知が出ました。作ったGemの中身をAIに渡すだけでSkillsへ引っ越せるスキル「Gem Port Skills」をBrainで発売中（980円）。無料30秒の「Gemの健康診断」もどうぞ。元教員22年のAIミニアプリ工房。" />
 <link rel="icon" type="image/png" href="assets/request73-v4/web/brand-atelier-mark-128.png" />
 <!-- OGP（シェア時の見え方・2026-07-09 v3で追加） -->
 <meta property="og:title" content="あなたのGemをSkills化しませんか？｜AIミニアプリ工房 えい" />
-<meta property="og:description" content="Gemを、AIに投げるだけでスキル化。小さな困りごとは、小さなアプリへ。" />
+<meta property="og:description" content="Gemの中身をAIに渡すだけでSkillsへ引っ越し。Brainで発売中（980円）。無料30秒の健康診断もあります。" />
+<meta property="og:url" content="https://pop7237radio-hue.github.io/ei-site/" />
+<meta property="og:image" content="https://pop7237radio-hue.github.io/ei-site/assets/fal-2026-09/web/ogp-1200x630.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="ja_JP" />
-<meta name="twitter:card" content="summary" />
+<meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="あなたのGemをSkills化しませんか？" />
-<meta name="twitter:description" content="Gem / Skillsと、AIミニアプリ工房。元教員22年のえい。" />
+<meta name="twitter:description" content="Gemの中身をAIに渡すだけでSkillsへ引っ越し。Brainで発売中（980円）。無料30秒の健康診断も。" />
+<meta name="twitter:image" content="https://pop7237radio-hue.github.io/ei-site/assets/fal-2026-09/web/ogp-1200x630.jpg" />
 <script>document.documentElement.classList.add('js');</script>
 <script src="https://rondo.pop7237radio.workers.dev/heat.js" data-page="ei-top" defer></script>
 <!--
-  ============ 制作メモ（依頼書73 / 2026-08-15） ============
+  ============ 制作メモ v5（2026-09-02 / えい発注「教科書3冊でei-site改修・デザインはfal」） ============
+  参考構成: omochi.page/claude-code（フック→思い込み→道具→教科書→費用）。いきなり離脱されない第一画面を最優先。
+  画像: fal（openai/gpt-image-2/edit）で既存ブランドマークを画風の親にして生成。台帳=assets/fal-2026-09/00_生成台帳.md
+  事実の線: Gem終了は「アプリ内に10/20終了の告知が表示され始めた」まで。GPS=980円・Brain発売中。教科書リンクは直リンク（紹介リンクへの差し替えはえい）。
+  置き場: wrangler.jsonc（Cloudflare Workers static assets）を同梱。deployはえい承認後。
+  ============ 旧制作メモ（依頼書73 / 2026-08-15） ============
   第1柱: Gem / Skillsの発信と事前登録（gem-skill/mail/index.htmlへ接続）
   第2柱: AIミニアプリ工房（既存の料金・実績・LINE相談を維持）
   Rondo: heat.js data-page=ei-top。data-secはtop-*で既設3LPと分離。
@@ -1019,6 +1029,41 @@
     .contact-art { width: min(190px, 66%); }
   }
 </style>
+
+<style>
+  /* ===== v5 (2026-09-02) 追加スタイル ===== */
+  .hero .eyebrow.v5-alert { color: #9a3412; letter-spacing: .02em; }
+  .v5-alert { color: #9a3412; background: #fff1e6; border: 1px solid #f5c9a8; border-radius: 999px; display: inline-block; padding: 6px 14px; letter-spacing: .02em; font-size: 12.5px; font-weight: 800; }
+  .v5-stats { list-style: none; margin: 22px 0 6px; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 520px; }
+  .v5-stats li { background: rgba(255,255,255,.82); border: 1px solid rgba(37,99,235,.16); border-radius: 14px; padding: 12px 8px; text-align: center; }
+  .v5-stats strong { display: block; font-size: 22px; line-height: 1.1; color: var(--gem-deep); letter-spacing: -.01em; }
+  .v5-stats span { display: block; font-size: 11.5px; color: var(--sub); margin-top: 4px; }
+  .v5-cards { display: grid; grid-template-columns: 1fr; gap: 14px; max-width: 720px; margin: 0 auto; }
+  .v5-card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 20px 20px 18px; }
+  .v5-card .v5-q { display: block; font-weight: 900; font-size: 16px; color: var(--ink); margin-bottom: 6px; }
+  .v5-card b { display: block; color: var(--gem-deep); font-size: 13px; letter-spacing: .08em; margin-bottom: 6px; }
+  .v5-card p { margin: 0; font-size: 14px; color: var(--sub); line-height: 1.85; }
+  .v5-entrances-art { display: block; width: min(560px, 100%); height: auto; margin: 0 auto 26px; border-radius: 22px; box-shadow: 0 16px 40px rgba(23,63,138,.12); }
+  .v5-fact { text-decoration: none; color: inherit; transition: transform .2s ease, box-shadow .2s ease; }
+  .v5-fact:hover, .v5-fact:focus-visible { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(37,99,235,.14); }
+  .v5-sub-label { margin-top: 48px; }
+  .v5-h3 { text-align: center; font-size: 20px; margin: 10px 0 30px; }
+  .v5-books { display: grid; grid-template-columns: 1fr; gap: 12px; max-width: 720px; margin: 0 auto; }
+  .v5-book { position: relative; display: grid; grid-template-columns: 40px 1fr auto; grid-template-rows: auto auto; column-gap: 12px; align-items: center; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; text-decoration: none; color: var(--ink); transition: transform .2s ease, border-color .2s ease; }
+  .v5-book:hover, .v5-book:focus-visible { transform: translateY(-3px); border-color: var(--gem); }
+  .v5-book-no { grid-row: 1 / span 2; width: 40px; height: 40px; border-radius: 50%; background: var(--gem-light); color: var(--gem-deep); font-weight: 900; display: grid; place-items: center; }
+  .v5-book strong { font-size: 15.5px; }
+  .v5-book > span:not(.v5-book-no) { grid-column: 2; font-size: 12.5px; color: var(--sub); }
+  .v5-book em { grid-column: 3; grid-row: 1 / span 2; font-style: normal; font-weight: 900; color: var(--gem-deep); white-space: nowrap; }
+  @media (min-width: 720px) {
+    .v5-cards { grid-template-columns: repeat(3, 1fr); }
+    .v5-tools-grid { max-width: 900px; }
+  }
+  @media (max-width: 480px) {
+    .v5-stats strong { font-size: 19px; }
+    .v5-alert { font-size: 11.5px; padding: 5px 11px; }
+  }
+</style>
 </head>
 <body>
 
@@ -1028,7 +1073,7 @@
     <a href="#mini-app" data-rondo-label="top-nav-app">ミニアプリ</a>
     <a class="nav-optional" href="#works" data-rondo-label="top-nav-works">WORKS</a>
     <a class="nav-optional" href="#profile" data-rondo-label="top-nav-profile">PROFILE</a>
-    <a class="nav-cta" href="gem-skill/mail/index.html" data-rondo-cta data-rondo-label="top-nav-register">500円クーポン</a>
+    <a class="nav-cta" href="shindan/" data-rondo-cta data-rondo-label="top-nav-shindan">Gemの健康診断（無料）</a>
   </nav>
 
   <main id="main-content" tabindex="-1">
@@ -1036,35 +1081,51 @@
     <div class="hero-shell">
       <div class="hero-copy">
         <div class="roles">えい｜倒れないための自動化</div>
-        <p class="eyebrow">GEM / SKILLS</p>
+        <p class="eyebrow v5-alert">Geminiのアプリに「Gemは10月20日で終了」の告知が出ました</p>
         <h1><span class="hero-title-line">あなたのGemを</span><span class="hero-title-line">Skills化しませんか？</span></h1>
-        <p class="sub">たくさんあるGemを、AIに投げるだけでスキル化してくれるスキルを作っています。</p>
-        <p class="hero-price">値段は980円。事前登録で500円クーポンをお渡しします（980円 → 480円）。</p>
+        <p class="sub">作ったGemは、1つずつ作り直しになります。Gemの中身をAIに渡すだけでSkillsへ引っ越せるスキル「Gem Port Skills」を作りました。Brainで発売中です。</p>
+        <ul class="v5-stats" aria-label="この工房の数字">
+          <li><strong>30秒</strong><span>無料の健康診断</span></li>
+          <li><strong>980円</strong><span>Gem Port Skills</span></li>
+          <li><strong>22年</strong><span>元教員が制作</span></li>
+        </ul>
         <div class="hero-actions">
-          <a class="btn gem-btn" href="gem-skill/mail/index.html" data-rondo-cta data-rondo-label="top-hero-gem">500円クーポンを受け取る<span class="note">事前登録／980円 → 480円</span></a>
-          <a class="hero-secondary" href="#mini-app" data-rondo-label="top-hero-app">ミニアプリ工房を見る ↓</a>
+          <a class="btn gem-btn" href="shindan/" data-rondo-cta data-rondo-label="top-hero-shindan">まず、Gemの健康診断（無料）<span class="note">7問・約30秒。今のGemの「守られ度」がわかります</span></a>
+          <a class="hero-secondary" href="https://brain-market.com/u/siroradio51/a/bycTMyYjMgoTZsNWa0JXY" target="_blank" rel="noopener" data-rondo-cta data-rondo-label="top-hero-brain">Gem Port Skillsの発売ページを見る ↗</a>
         </div>
-        <p class="cta-proof">発売までのメールは2通だけ。売り込みのメールは送りません。</p>
+        <p class="cta-proof">無料部分に仕組みをほぼ全部書いてあります。まずはそこだけでもどうぞ。</p>
       </div>
-      <div class="gem-map" aria-label="GemからSkillsへつなぐイメージ">
-        <img class="hero-art" src="assets/request73-v4/web/gem-to-skills-768x576.webp" width="768" height="576" alt="散らばったGemを、AI Skillsとして再利用できる道具へ整理する工房の場面" loading="eager" fetchpriority="high" decoding="async" />
-        <div class="gem-map-note">事前登録受付中</div>
+      <div class="gem-map" aria-label="GemからSkillsへ引っ越すイメージ">
+        <img class="hero-art" src="assets/fal-2026-09/web/hero-gem-to-skills-768x576.webp" srcset="assets/fal-2026-09/web/hero-gem-to-skills-768x576.webp 768w, assets/fal-2026-09/web/hero-gem-to-skills-1536x1152.webp 1536w" sizes="(min-width: 900px) 40vw, 92vw" width="768" height="576" alt="ひびの入った瓶からこぼれるGemを、工房の案内役がカードに整えて丈夫な道具箱に納めている場面" loading="eager" fetchpriority="high" decoding="async" />
+        <div class="gem-map-note">Brainで発売中</div>
       </div>
     </div>
   </header>
 
-  <section class="gem-detail" data-sec="top-gem">
+  <section class="alt v5-before" id="before" data-sec="top-before">
     <div class="inner">
-      <div class="label">PRE-REGISTRATION</div>
-      <h2>事前登録で、発売時に500円クーポン</h2>
-      <p class="lead">発売日が決まったら、このメールで最初にお知らせします。発売までのあいだ、制作の裏側の話が2通だけ届きます。売り込みのメールは送りません。</p>
-      <div class="gem-facts">
-        <div class="gem-fact"><strong>980円 → 480円</strong><span>事前登録で500円クーポン</span></div>
-        <div class="gem-fact"><strong>2通だけ</strong><span>発売までの制作の裏側</span></div>
-        <div class="gem-fact"><strong>メールで最初に</strong><span>発売日をお知らせ</span></div>
+      <div class="label">BEFORE</div>
+      <h2>「Gemが終わる」と聞いて、思ったこと</h2>
+      <p class="lead">僕も最初は、この3つで手が止まりました。</p>
+      <div class="v5-cards">
+        <div class="v5-card"><span class="v5-q">全部、作り直し？</span><p>中身（指示文と知識）が残っていれば、AIに渡して組み直せます。ゼロからではありません。</p></div>
+        <div class="v5-card"><span class="v5-q">引っ越し先が分からない</span><p>移行先はSkillsです。今のところ有料プラン（Google AI Pro / Ultra）内の機能なので、その前提も本文に書いてあります。</p></div>
+        <div class="v5-card"><span class="v5-q">まだ困っていない</span><p>それなら急がなくて大丈夫。診断だけ受けて、今のGemの「守られ度」を見て帰ってください。</p></div>
       </div>
-      <div class="cta-center">
-        <a class="btn gem-btn" href="gem-skill/mail/index.html" data-rondo-cta data-rondo-label="top-gem-mail">500円クーポン付きで事前登録<span class="note">メール／LINE、どちらも選べます</span></a>
+      <p class="price-note">※「Gems are retiring October 20」は、Geminiのアプリ内に表示され始めた告知です。Googleの正式な発表文は、2026年9月2日時点で確認できていません。</p>
+    </div>
+  </section>
+
+  <section class="gem-detail" id="entrances" data-sec="top-gem">
+    <div class="inner">
+      <div class="label">ENTRANCES</div>
+      <h2>入口は3つ。どれからでも</h2>
+      <p class="lead">売り込みはしません。いま必要な扉だけ開けてください。</p>
+      <img class="v5-entrances-art" src="assets/fal-2026-09/web/three-entrances-768x576.webp" width="768" height="576" alt="工房の案内役が、診断・スキル・お知らせの3つの扉を手で示している場面" loading="lazy" decoding="async" />
+      <div class="gem-facts">
+        <a class="gem-fact v5-fact" href="shindan/" data-rondo-cta data-rondo-label="top-gem-shindan"><strong>① 健康診断</strong><span>無料・7問・約30秒。守られ度がわかる</span></a>
+        <a class="gem-fact v5-fact" href="https://brain-market.com/u/siroradio51/a/bycTMyYjMgoTZsNWa0JXY" target="_blank" rel="noopener" data-rondo-cta data-rondo-label="top-gem-brain"><strong>② Gem Port Skills</strong><span>980円・Gemの中身を渡すだけで引っ越し</span></a>
+        <a class="gem-fact v5-fact" href="gem-skill/mail/index.html" data-rondo-cta data-rondo-label="top-gem-mail"><strong>③ 新作のお知らせ</strong><span>メール／LINE。売り込みのメールは送りません</span></a>
       </div>
     </div>
   </section>
@@ -1113,6 +1174,19 @@
       <h2>工房の道具棚</h2>
       <p class="lead">運用中・公開中・準備中。ぜんぶ、実際の困りごとから生まれています。</p>
       <div class="works">
+        <!-- v5: GPSと診断を先頭へ -->
+        <a class="work" href="https://brain-market.com/u/siroradio51/a/bycTMyYjMgoTZsNWa0JXY" target="_blank" rel="noopener" data-rondo-label="top-work-brain-gps">
+          <img class="work-visual" style="aspect-ratio: auto;" src="assets/fal-2026-09/web/gps-card-720x377.webp" width="720" height="377" alt="Gem Port Skills：Gemをカードにしてスキルの道具箱へ納めるイメージ" loading="lazy" decoding="async" />
+          <h3>Gem Port Skills</h3>
+          <p>GeminiのGemの中身をAIに渡すだけで、Claude CodeやCodexで動くSkillsへ引っ越すスキル。10月20日のGem終了に間に合わせるために作りました。</p>
+          <span class="tag">Brainで販売中・980円</span>
+        </a>
+        <a class="work" href="shindan/" data-rondo-label="top-work-shindan">
+          <img class="work-icon" src="assets/request73-v4/web/diagnostic-tool-640x480.webp" width="640" height="480" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+          <h3>Gemの健康診断</h3>
+          <p>7つの質問・約30秒で、今のGemの「守られ度」が5段階でわかります。買わなくて大丈夫な人には、そう出ます。</p>
+          <span class="tag">公開中・無料</span>
+        </a>
         <!-- 納品系2件は直リンクを外して事例表記に（えい指摘 7/7: サイト経由の依頼者は有料。無料と誤解させない） -->
         <div class="work">
           <img class="work-icon" src="assets/request73-v4/web/salon-booking-640x427.webp" width="640" height="427" alt="" aria-hidden="true" loading="lazy" decoding="async" />
@@ -1171,13 +1245,29 @@
           <p>自分が毎日使うために作った、透析の記録と在庫管理の補助ツール。医療判断はしない設計です。実際に使っている様子を動画でご覧いただけます。</p>
           <span class="tag">▶ 実演動画</span>
         </a>
-        <div class="work">
-          <img class="work-icon" src="assets/request73-v4/web/diagnostic-tool-640x480.webp" width="640" height="480" alt="" aria-hidden="true" loading="lazy" decoding="async" />
-          <h3>診断・シミュレーターツール</h3>
-          <p>質問に答えるだけで結果が出る診断型ツール。キャンペーンや集客の入口に。</p>
-          <span class="tag soon">公開準備中</span>
-        </div>
       </div>
+    </div>
+  </section>
+
+  <section class="alt v5-tools" id="tools" data-sec="top-tools">
+    <div class="inner">
+      <div class="label">TOOLS</div>
+      <h2>この工房で使っているのは、この3つ</h2>
+      <p class="lead">コードは書いていません。日本語で頼んで、できたものを確かめるだけです。このページの絵も、falで描いてもらいました。</p>
+      <div class="v5-cards v5-tools-grid">
+        <div class="v5-card"><span class="v5-q">Claude Code</span><b>作ってくれる</b><p>「こんなページを作って」と頼むと、AIがコードを書きます。Gem Port Skillsも、この工房のアプリも、ここで作っています。</p></div>
+        <div class="v5-card"><span class="v5-q">fal</span><b>描いてくれる</b><p>画像・動画・音声の生成をまとめて注文できる自動販売機。このページの案内役の絵は、既存の1枚を親にして3枚描いてもらいました。</p></div>
+        <div class="v5-card"><span class="v5-q">Cloudflare</span><b>公開してくれる</b><p>できたページを世界中から見られる場所に置いてくれます。この工房の計測やメール登録も、ここで動いています。</p></div>
+      </div>
+      <div class="label v5-sub-label">TEXTBOOKS</div>
+      <h3 class="v5-h3">3つとも、イケハヤさんの教科書があります</h3>
+      <p class="lead">順番に読むなら、この順です。どれもコードを書かず、AIへの頼み方だけで進みます。</p>
+      <div class="v5-books">
+        <a class="v5-book" href="https://brain-market.com/u/ikehaya/a/b2kzM5UjMgoTZsNWa0JXY" target="_blank" rel="noopener" data-rondo-label="top-book-claudecode"><span class="v5-book-no">1</span><strong>Claude Codeの教科書</strong><span>AI秘書から始める。作る力の1冊目</span><em>980円</em></a>
+        <a class="v5-book" href="https://brain-market.com/u/ikehaya/a/b3UjMxYjMgoTZsNWa0JXY" target="_blank" rel="noopener" data-rondo-label="top-book-fal"><span class="v5-book-no">2</span><strong>falの教科書</strong><span>「こんな画像がほしい」で描いてもらう</span><em>480円</em></a>
+        <a class="v5-book" href="https://brain-market.com/u/ikehaya/a/b1IjNxYjMgoTZsNWa0JXY" target="_blank" rel="noopener" data-rondo-label="top-book-cloudflare"><span class="v5-book-no">3</span><strong>Cloudflareの教科書</strong><span>作ったものを、世界に出す力の1冊</span><em>480円</em></a>
+      </div>
+      <p class="price-note">※リンク先はイケハヤさんのBrain販売ページです。価格は2026年9月2日時点。教材の内容や成果を保証するものではありません。</p>
     </div>
   </section>
 
@@ -1205,12 +1295,12 @@
         <div class="tl-item">
           <div class="year">2026.4</div>
           <div class="what">退職、AI実務へ</div>
-          <div class="memo">複数のAIと役割分担するチーム体制を自宅に構築</div>
+          <div class="memo">複数のAIと役割分担するチーム体制を自宅に構築（いまは24人のAI社員）</div>
         </div>
         <div class="tl-item">
           <div class="year">2026</div>
           <div class="what">AIミニアプリ工房として活動開始</div>
-          <div class="memo">美容室の予約アプリ導入・学習アプリ「そらりん」開発・Robloxゲーム開発・AI活用教材リリース</div>
+          <div class="memo">美容室の予約アプリ導入・学習アプリ「そらりん」開発・Robloxゲーム開発・Brain教材3本リリース・8月「Gem Port Skills」と「Gemの健康診断」を公開</div>
         </div>
       </div>
     </div>
