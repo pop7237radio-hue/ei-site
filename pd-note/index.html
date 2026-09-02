@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0f6e63">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="PDノート">
+<title>PDノート | 腹膜透析の毎日の記録（完全版・試作）</title>
+<style>
+:root{
+  --ink:#1f2933;      /* 本文の墨 */
+  --sub:#52606d;      /* 補足の灰 */
+  --paper:#ffffff;    /* 紙 */
+  --ground:#f4f1ea;   /* 生成りの地 */
+  --line:#d9d2c5;     /* 罫線 */
+  --teal:#0f6e63;     /* 主色: 深い青緑 */
+  --teal-soft:#e3f1ee;/* 青緑の淡 */
+  --sun:#b45309;      /* 昼: 琥珀 */
+  --sun-soft:#fbf3e4; /* 昼の淡 */
+  --moon:#3b4a8a;     /* 夜: 藍 */
+  --moon-soft:#e9ecf7;/* 夜の淡 */
+  --pulse:#9b2c2c;    /* 数値マイナス・注意 */
+  --ok:#1f6f3f;       /* 保存成功 */
+  --r-s:8px; --r-m:16px; --r-pill:999px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{font-size:20px}
+body{margin:0;font-family:"Hiragino Sans","Noto Sans JP","Yu Gothic",system-ui,sans-serif;background:var(--ground);color:var(--ink);line-height:1.65;padding-bottom:calc(40px + env(safe-area-inset-bottom))}
+.wrap{max-width:640px;margin:0 auto;padding:calc(14px + env(safe-area-inset-top)) 12px 0}
+h1{font-size:28px;line-height:1.3;margin:0}
+h2{font-size:20px;margin:0 0 12px}
+h3{font-size:16px;margin:0 0 8px}
+p{margin:0 0 8px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-m);padding:16px;margin-bottom:14px}
+.muted{color:var(--sub);font-size:14px}
+.small{font-size:14px}
+.row{display:flex;gap:10px;align-items:center}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+label{display:block;font-size:14px;color:var(--sub);margin-bottom:4px}
+input[type=text],input[type=number],input[type=date],select{width:100%;min-height:52px;font-size:20px;padding:8px 12px;border:2px solid var(--line);border-radius:var(--r-s);background:var(--paper);color:var(--ink);font-family:inherit}
+input:focus,select:focus{outline:3px solid var(--teal);outline-offset:1px;border-color:var(--teal)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:10px 16px;border-radius:var(--r-s);border:2px solid var(--teal);background:var(--teal);color:#fff;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;width:100%}
+.btn.sub{background:var(--paper);color:var(--teal)}
+.btn.ghost{background:transparent;border-color:var(--line);color:var(--ink)}
+.btn.sun{background:var(--sun);border-color:var(--sun)}
+.btn:disabled{opacity:.5}
+.chip{display:inline-flex;align-items:center;min-height:44px;padding:6px 14px;border-radius:var(--r-pill);border:2px solid var(--line);background:var(--paper);color:var(--ink);font-size:16px;font-family:inherit;cursor:pointer}
+.chip.on{border-color:var(--teal);background:var(--teal-soft);color:var(--teal);font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.band{border-radius:var(--r-m);padding:14px;margin-bottom:12px;border:1px solid var(--line)}
+.band.sun{background:var(--sun-soft)}
+.band.moon{background:var(--moon-soft)}
+.band.teal{background:var(--teal-soft)}
+.band h3{display:flex;align-items:center;gap:8px}
+.exch{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-s);padding:10px;margin-bottom:8px}
+.exch .title{font-size:14px;color:var(--sub);margin-bottom:6px;display:flex;justify-content:space-between}
+.net{font-size:20px;font-weight:700;color:var(--teal)}
+.net.minus{color:var(--pulse)}
+.total{display:flex;justify-content:space-between;align-items:center;font-size:16px;padding:6px 0;border-top:1px solid var(--line)}
+.total.big{font-size:20px;font-weight:700}
+.total .v{font-size:28px;font-weight:700;color:var(--teal)}
+.total .v.minus{color:var(--pulse)}
+.notice{border-radius:var(--r-s);padding:10px 12px;font-size:14px;margin-bottom:12px;border:1px solid var(--line);background:var(--paper)}
+.notice.ok{border-color:var(--ok);color:var(--ok)}
+.notice.warn{border-color:var(--pulse);color:var(--pulse)}
+.hidden{display:none !important}
+.mascot{width:64px;height:64px;border-radius:var(--r-m);overflow:hidden;background:var(--teal-soft);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:28px}
+.mascot img{width:100%;height:100%;object-fit:cover}
+.bubble{flex:1;background:var(--teal-soft);border-radius:var(--r-m);padding:10px 12px;font-size:16px;color:var(--ink)}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+.link{background:none;border:none;color:var(--teal);font-size:16px;font-weight:700;text-decoration:underline;font-family:inherit;cursor:pointer;padding:8px 4px;min-height:44px}
+details summary{cursor:pointer;font-size:16px;font-weight:700;min-height:44px;display:flex;align-items:center}
+.help p{font-size:16px}
+.help ol{padding-left:22px;margin:0}
+.help li{margin-bottom:8px;font-size:16px}
+.cal-head{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-size:14px;color:var(--sub);margin-bottom:4px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal button{min-height:48px;border-radius:var(--r-s);border:1px solid var(--line);background:var(--paper);font-size:16px;font-family:inherit;color:var(--ink);cursor:pointer}
+.cal button.has{background:var(--teal-soft);border-color:var(--teal);font-weight:700}
+.cal button.sel{outline:3px solid var(--teal)}
+.cal button.empty{visibility:hidden}
+.cal-detail{margin-top:10px;white-space:pre-wrap;font-size:16px;background:var(--ground);border-radius:var(--r-s);padding:10px 12px}
+.hist{border:1px solid var(--line);border-radius:var(--r-s);padding:10px 12px;margin-bottom:8px;display:flex;justify-content:space-between;gap:8px;align-items:center}
+.hist .d{font-weight:700;font-size:16px}
+.hist .s{font-size:14px;color:var(--sub)}
+.hist .b{display:flex;gap:6px}
+.icon-btn{min-width:44px;min-height:44px;border-radius:var(--r-s);border:2px solid var(--line);background:var(--paper);font-size:14px;font-family:inherit;color:var(--teal);font-weight:700;cursor:pointer;padding:4px 10px}
+canvas{width:100%;height:200px;display:block}
+.voice-box{border:2px dashed var(--teal);border-radius:var(--r-m);padding:12px;margin-top:10px}
+.voice-live{font-size:20px;min-height:52px;background:var(--ground);border-radius:var(--r-s);padding:8px 12px}
+.parsed{width:100%;border-collapse:collapse;font-size:16px;margin-top:8px}
+.parsed td{padding:6px 4px;border-bottom:1px solid var(--line)}
+.parsed td:last-child{text-align:right;font-weight:700}
+.modal{position:fixed;inset:0;background:rgba(31,41,51,.55);display:flex;align-items:flex-end;justify-content:center;z-index:50;padding:0}
+.modal .sheet{background:var(--paper);width:100%;max-width:640px;max-height:92vh;overflow:auto;border-radius:var(--r-m) var(--r-m) 0 0;padding:16px 16px calc(24px + env(safe-area-inset-bottom))}
+footer{text-align:center;font-size:14px;color:var(--sub);margin-top:24px;padding:0 8px}
+footer p{margin:0 0 6px}
+@media (max-width:420px){.grid3{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <h1>PDノート</h1>
+    <button type="button" class="link" id="open-settings">設定</button>
+  </div>
+
+  <div class="card row">
+    <div class="mascot"><img src="assets/sorarin_mascot.png" alt="" onerror="this.parentElement.textContent='☆'"></div>
+    <div class="bubble" id="bubble">今日も無理せず、コツコツいこ。</div>
+  </div>
+
+  <div id="notice" class="notice hidden" role="status" aria-live="polite"></div>
+
+  <details class="card help">
+    <summary>はじめての方へ（登録と使い方）</summary>
+    <ol>
+      <li><strong>ホーム画面に置く。</strong> iPhoneはSafariの共有ボタンから「ホーム画面に追加」。Androidは右上のメニューから「ホーム画面に追加」。</li>
+      <li><strong>最初に「設定」を開く。</strong> 使っている装置と透析液、昼の交換回数を選びます。一度きりです。</li>
+      <li><strong>毎日の記録。</strong> 注液と排液の量を入れると除水は自動で出ます。声で入れる場合は「声で入力」を押してください。</li>
+      <li><strong>看護師さんや家族へ。</strong> 履歴の「コピー」を押すと、その日の記録がLINEに貼れる文章になります。</li>
+      <li><strong>ひかえを取る。</strong> 記録はこのスマホの中だけに保存されます。週に一度「ひかえを書き出す」を押して、LINEの自分宛てなどに残してください。</li>
+    </ol>
+  </details>
+
+  <section class="card">
+    <h2>今日の記録</h2>
+    <div>
+      <label for="record-date">記録日</label>
+      <input type="date" id="record-date">
+    </div>
+
+    <div class="row" style="margin:12px 0 4px">
+      <button type="button" class="btn sub" id="voice-btn">🎤 声で入力</button>
+    </div>
+    <p class="muted" id="voice-hint">「排液 2100、注液 2000、血圧 130 の 80、体重 62.4」のように、一息で言えます。数字は画面で確かめてから保存します。</p>
+    <div id="voice-box" class="voice-box hidden">
+      <div class="voice-live" id="voice-live">聞いています…</div>
+      <table class="parsed" id="voice-parsed"></table>
+      <div class="grid2" style="margin-top:10px">
+        <button type="button" class="btn ghost" id="voice-cancel">やめる</button>
+        <button type="button" class="btn" id="voice-apply">入力欄に入れる</button>
+      </div>
+    </div>
+
+    <div class="band sun" id="day-band" style="margin-top:14px">
+      <h3>☀️ 昼の交換 <span class="muted" id="day-count-label"></span></h3>
+      <div id="exchanges"></div>
+      <div class="total"><span>昼の除水</span><span class="net" id="day-net">+0 ml</span></div>
+    </div>
+
+    <div class="band moon" id="night-band">
+      <h3>🌙 <span id="night-title">夜の装置</span> の結果</h3>
+      <div>
+        <label for="night-total">装置に出た総除水量 (ml)</label>
+        <div class="row">
+          <input type="text" id="night-total" inputmode="numeric" placeholder="1600">
+          <button type="button" class="icon-btn" data-sign="night-total" aria-label="プラスとマイナスを切り替える">±</button>
+        </div>
+      </div>
+      <p class="muted" style="margin-top:6px">マイナスの時は ± を押してください。装置の内訳（昼の分・夜の分）が分かれば下に入れられます。</p>
+      <details>
+        <summary class="small">内訳を入れる</summary>
+        <div class="grid2" style="margin-top:8px">
+          <div><label for="night-day">昼の分 (ml)</label><div class="row"><input type="text" id="night-day" inputmode="numeric"><button type="button" class="icon-btn" data-sign="night-day">±</button></div></div>
+          <div><label for="night-night">夜の分 (ml)</label><div class="row"><input type="text" id="night-night" inputmode="numeric"><button type="button" class="icon-btn" data-sign="night-night">±</button></div></div>
+        </div>
+      </details>
+    </div>
+
+    <div class="band teal">
+      <h3>💓 体の記録</h3>
+      <div class="grid2">
+        <div><label for="bp-systolic">血圧 上 (mmHg)</label><input type="number" id="bp-systolic" inputmode="numeric" placeholder="130"></div>
+        <div><label for="bp-diastolic">血圧 下 (mmHg)</label><input type="number" id="bp-diastolic" inputmode="numeric" placeholder="80"></div>
+      </div>
+      <div class="grid3" style="margin-top:8px">
+        <div><label for="body-weight">体重 (kg)</label><input type="text" id="body-weight" inputmode="decimal" placeholder="62.4"></div>
+        <div><label for="pulse-rate">脈拍 (回/分)</label><input type="number" id="pulse-rate" inputmode="numeric" placeholder="72"></div>
+        <div><label for="body-temperature">体温 (℃)</label><input type="text" id="body-temperature" inputmode="decimal" placeholder="36.5"></div>
+      </div>
+      <div style="margin-top:8px"><label for="spo2">血中酸素 SpO2 (%)</label><input type="number" id="spo2" inputmode="numeric" placeholder="97"></div>
+      <div style="margin-top:8px"><label for="memo">ひとことメモ（任意）</label><input type="text" id="memo" placeholder="例: 排液がにごっていた／お腹が張る"></div>
+    </div>
+
+    <div class="card" style="margin-bottom:12px;background:var(--ground)">
+      <div class="total"><span>昼の除水</span><span id="calc-day">+0 ml</span></div>
+      <div class="total"><span id="calc-night-label">夜の装置の除水</span><span id="calc-night">+0 ml</span></div>
+      <div class="total big"><span>一日の総除水</span><span class="v" id="calc-total">+0 ml</span></div>
+    </div>
+
+    <button type="button" class="btn" id="save-btn">この日の記録を保存する</button>
+  </section>
+
+  <section class="card">
+    <h2>この7日間</h2>
+    <p class="muted">棒が除水、線が血圧の上です。</p>
+    <canvas id="chart" width="600" height="200" aria-label="7日間の除水と血圧のグラフ"></canvas>
+  </section>
+
+  <section class="card">
+    <h2>カレンダー</h2>
+    <div class="row" style="justify-content:space-between;margin-bottom:8px">
+      <button type="button" class="icon-btn" id="cal-prev" aria-label="前の月">←</button>
+      <strong id="cal-title"></strong>
+      <button type="button" class="icon-btn" id="cal-next" aria-label="次の月">→</button>
+    </div>
+    <div class="cal-head"><span>日</span><span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span>土</span></div>
+    <div class="cal" id="cal"></div>
+    <div class="cal-detail" id="cal-detail">日付を押すと、その日の記録が出ます。</div>
+  </section>
+
+  <section class="card">
+    <h2>最近の記録</h2>
+    <div id="history"></div>
+  </section>
+
+  <section class="card">
+    <h2>ひかえ（バックアップ）</h2>
+    <p class="muted">記録はこのスマホの中だけにあります。機種変更や消去に備えて、週に一度ひかえを取ってください。</p>
+    <div class="grid2">
+      <button type="button" class="btn sub" id="export-json">ひかえを書き出す</button>
+      <button type="button" class="btn sub" id="import-json">ひかえを読み込む</button>
+      <button type="button" class="btn ghost" id="export-text">文章でコピー</button>
+      <button type="button" class="btn ghost" id="import-text">文章から戻す</button>
+    </div>
+    <input id="file-input" type="file" accept="application/json,.json" class="hidden">
+  </section>
+
+  <footer>
+    <p>このアプリは記録の補助だけを行います。数値の意味づけや治療の判断は、主治医・看護師・薬剤師にご相談ください。</p>
+    <p>声で入力した音声は、お使いのスマホの音声認識（AppleやGoogleの仕組み）を通ります。気になる方は手で入力してください。</p>
+    <p>透析液の一覧は、日本で販売中の腹膜透析液（ヴァンティブ・テルモ・JMS）を薬価基準と添付文書で確認して載せています（2026年9月）。終売品（ステイセーフバランス）は「自分で書く」から入れられます。</p>
+    <p>PDノート 完全版 0.2 ／ 作った人: えい（腹膜透析歴のある元教員）</p>
+  </footer>
+</div>
+
+<!-- 設定シート -->
+<div id="settings" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+  <div class="sheet">
+    <h2 id="settings-title">最初の設定（一度だけ）</h2>
+    <p class="muted">あとから「設定」でいつでも変えられます。</p>
+
+    <h3 style="margin-top:14px">夜に使う装置</h3>
+    <div class="chips" id="device-chips">
+      <button type="button" class="chip" data-device="かぐや">かぐや</button>
+      <button type="button" class="chip" data-device="ホームAPDシステム">ホームAPDシステム</button>
+      <button type="button" class="chip" data-device="__other">その他（名前を入れる）</button>
+      <button type="button" class="chip" data-device="">夜の装置は使わない</button>
+    </div>
+    <div id="device-other-wrap" class="hidden" style="margin-top:8px"><label for="device-other">装置の名前</label><input type="text" id="device-other" placeholder="例: 〇〇サイクラー"></div>
+
+    <h3 style="margin-top:14px">昼の交換の回数</h3>
+    <div class="chips" id="count-chips">
+      <button type="button" class="chip" data-count="0">0回</button>
+      <button type="button" class="chip" data-count="1">1回</button>
+      <button type="button" class="chip" data-count="2">2回</button>
+      <button type="button" class="chip" data-count="3">3回</button>
+      <button type="button" class="chip" data-count="4">4回</button>
+    </div>
+
+    <h3 style="margin-top:14px">使っている透析液（6つまで）</h3>
+    <p class="muted">袋に書いてある名前を押してください。日本で販売中の腹膜透析液を全部並べています（2026年9月時点・添付文書で確認）。</p>
+    <div id="catalog"></div>
+    <details style="margin-top:8px"><summary class="small">一覧にない液を自分で書く</summary>
+      <div id="fluids" style="margin-top:8px"></div>
+      <button type="button" class="btn ghost" id="add-fluid" style="margin-top:6px">＋ 自分で書いて追加</button>
+    </details>
+    <p class="muted" id="fluid-selected" style="margin-top:8px"></p>
+
+    <h3 style="margin-top:14px">記録の呼び名（任意）</h3>
+    <label for="nickname">LINEに貼る文章の先頭に入ります</label>
+    <input type="text" id="nickname" placeholder="例: 山田 太郎">
+
+    <div class="grid2" style="margin-top:16px">
+      <button type="button" class="btn ghost" id="settings-cancel">閉じる</button>
+      <button type="button" class="btn" id="settings-save">この設定で使う</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+const KEY_SETTINGS='pdplus_settings_v1', KEY_RECORDS='pdplus_records_v1', KEY_DRAFT='pdplus_draft_v1', KEY_RECOVERY='pdplus_recovery_v1';
+const $=id=>document.getElementById(id);
+
+/* ---------- 保存まわり ---------- */
+function readJSON(key, fallback){
+  try{ const raw=localStorage.getItem(key); if(raw===null) return fallback; const v=JSON.parse(raw); return v; }
+  catch(e){ try{ const raw=localStorage.getItem(key); if(raw){ localStorage.setItem(KEY_RECOVERY+'_'+key+'_'+Date.now(), raw); localStorage.removeItem(key); showNotice('保存データが読めなかったので、壊れた分を別に退避しました。新しく記録を続けられます。','warn'); } }catch(_){}
+    return fallback; }
+}
+function writeJSON(key, v){ try{ localStorage.setItem(key, JSON.stringify(v)); return true; }catch(e){ return false; } }
+const isObj=v=>v&&typeof v==='object'&&!Array.isArray(v);
+const validDate=s=>/^\d{4}-\d{2}-\d{2}$/.test(s);
+
+const DEFAULT_SETTINGS={deviceName:'', useDevice:false, dayExchanges:1, fluids:[], nickname:''};
+let settings=Object.assign({}, DEFAULT_SETTINGS, readJSON(KEY_SETTINGS, null)||{});
+let records=readJSON(KEY_RECORDS, {}); if(!isObj(records)) records={};
+function saveRecords(){ return writeJSON(KEY_RECORDS, records); }
+
+/* ---------- 表示ユーティリティ ---------- */
+function showNotice(msg, kind){ const n=$('notice'); n.textContent=msg; n.className='notice '+(kind||''); n.classList.remove('hidden'); clearTimeout(showNotice.t); showNotice.t=setTimeout(()=>n.classList.add('hidden'), 6000); }
+function pad(n){ return String(n).padStart(2,'0'); }
+function toDateStr(d){ return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
+function parseDate(s){ const [y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d); }
+function signed(n){ return (n>=0?'+':'')+n+' ml'; }
+function toHalf(s){ return String(s||'').replace(/[０-９．－]/g, ch=>String.fromCharCode(ch.charCodeAt(0)-0xFEE0)).replace(/[−ー―]/g,'-'); }
+function intOf(v){ const n=parseInt(toHalf(v).replace(/[^\d-]/g,''),10); return Number.isFinite(n)?n:0; }
+function intOrNull(v){ const s=toHalf(v).trim(); if(!s) return null; const n=parseInt(s.replace(/[^\d-]/g,''),10); return Number.isFinite(n)?n:null; }
+function decOrNull(v){ const s=toHalf(v).replace(',','.').trim(); if(!s) return null; const n=parseFloat(s); return Number.isFinite(n)?n:null; }
+function fmt(n,unit){ return n===null||n===undefined?'未記録':n+' '+unit; }
+const deviceLabel=()=>settings.useDevice?(settings.deviceName||'夜の装置'):'';
+
+/* ---------- 昼の交換の行 ---------- */
+function renderExchanges(){
+  const box=$('exchanges'); box.innerHTML='';
+  const n=settings.dayExchanges;
+  $('day-count-label').textContent=n?`（${n}回）`:'（なし）';
+  $('day-band').classList.toggle('hidden', n===0);
+  for(let i=0;i<n;i++){
+    const w=document.createElement('div'); w.className='exch';
+    const fluidChips=settings.fluids.length? `<div class="chips" style="margin-bottom:8px">${settings.fluids.map((f,j)=>`<button type="button" class="chip" data-ex="${i}" data-fluid="${j}">${esc(f.name)}</button>`).join('')}</div>`:'';
+    w.innerHTML=`<div class="title"><span>${i+1}回目</span><span class="net" id="ex-net-${i}">+0 ml</span></div>${fluidChips}
+      <div class="grid2"><div><label for="ex-fill-${i}">注液量 (ml)</label><input type="number" id="ex-fill-${i}" inputmode="numeric" placeholder="2000"></div>
+      <div><label for="ex-drain-${i}">排液量 (ml)</label><input type="number" id="ex-drain-${i}" inputmode="numeric" placeholder="2100"></div></div>`;
+    box.appendChild(w);
+  }
+  box.querySelectorAll('[data-fluid]').forEach(b=>b.addEventListener('click',()=>{ const ex=b.dataset.ex; box.querySelectorAll(`[data-ex="${ex}"]`).forEach(x=>x.classList.remove('on')); b.classList.add('on'); }));
+  box.querySelectorAll('input').forEach(i=>['input','change','blur'].forEach(ev=>i.addEventListener(ev, calc)));
+}
+function esc(s){ return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function selectedFluid(i){ const on=document.querySelector(`[data-ex="${i}"].on`); if(!on) return ''; const f=settings.fluids[+on.dataset.fluid]; return f?f.name:''; }
+function setFluid(i,label){ document.querySelectorAll(`[data-ex="${i}"]`).forEach(b=>b.classList.toggle('on', b.textContent===label)); }
+
+/* ---------- 計算 ---------- */
+function exchangeValues(){ const out=[]; for(let i=0;i<settings.dayExchanges;i++){ const fill=intOf($('ex-fill-'+i).value), drain=intOf($('ex-drain-'+i).value); out.push({fluid:selectedFluid(i), fill, drain, net:drain-fill}); } return out; }
+function nightNet(){ const t=$('night-total').value; if(String(t).trim()!=='') return intOf(t); return intOf($('night-day').value)+intOf($('night-night').value); }
+function calc(){
+  const ex=exchangeValues(); let day=0;
+  ex.forEach((e,i)=>{ day+=e.net; const el=$('ex-net-'+i); el.textContent=signed(e.net); el.classList.toggle('minus', e.net<0); });
+  const night=settings.useDevice?nightNet():0; const total=day+night;
+  $('day-net').textContent=signed(day); $('day-net').classList.toggle('minus',day<0);
+  $('calc-day').textContent=signed(day); $('calc-night').textContent=signed(night);
+  $('calc-total').textContent=signed(total); $('calc-total').classList.toggle('minus',total<0);
+}
+
+/* ---------- 記録の保存・読み出し ---------- */
+function collectRecord(){
+  const ex=exchangeValues(); const day=ex.reduce((a,e)=>a+e.net,0); const night=settings.useDevice?nightNet():0;
+  return { net:day+night, day_net:day, exchanges:ex,
+    night: settings.useDevice?{device:deviceLabel(), total:intOrNull($('night-total').value), day:intOrNull($('night-day').value), night:intOrNull($('night-night').value), net:night}:null,
+    bp_systolic:intOrNull($('bp-systolic').value), bp_diastolic:intOrNull($('bp-diastolic').value), pulse:intOrNull($('pulse-rate').value),
+    weight:decOrNull($('body-weight').value), temperature:decOrNull($('body-temperature').value), spo2:intOrNull($('spo2').value), memo:$('memo').value.trim() };
+}
+function fillForm(r){
+  for(let i=0;i<settings.dayExchanges;i++){ const e=r&&r.exchanges&&r.exchanges[i]; $('ex-fill-'+i).value=e&&e.fill?e.fill:''; $('ex-drain-'+i).value=e&&e.drain?e.drain:''; setFluid(i, e?e.fluid:''); }
+  const n=r&&r.night; $('night-total').value=n&&n.total!==null&&n.total!==undefined?n.total:''; $('night-day').value=n&&n.day!==null&&n.day!==undefined?n.day:''; $('night-night').value=n&&n.night!==null&&n.night!==undefined?n.night:'';
+  $('bp-systolic').value=r&&r.bp_systolic!==null&&r.bp_systolic!==undefined?r.bp_systolic:''; $('bp-diastolic').value=r&&r.bp_diastolic!==null&&r.bp_diastolic!==undefined?r.bp_diastolic:'';
+  $('pulse-rate').value=r&&r.pulse!==null&&r.pulse!==undefined?r.pulse:''; $('body-weight').value=r&&r.weight!==null&&r.weight!==undefined?r.weight:''; $('body-temperature').value=r&&r.temperature!==null&&r.temperature!==undefined?r.temperature:''; $('spo2').value=r&&r.spo2!==null&&r.spo2!==undefined?r.spo2:''; $('memo').value=r&&r.memo?r.memo:'';
+  calc();
+}
+function saveCurrent(){
+  const date=$('record-date').value; if(!validDate(date)){ showNotice('記録日を選んでください。','warn'); return; }
+  records[date]=collectRecord();
+  const ok=saveRecords();
+  if(ok){ try{ localStorage.removeItem(KEY_DRAFT);}catch(_){} showNotice(`${date} の記録を、このスマホに保存しました。`,'ok'); rotateBubble(); }
+  else showNotice('画面には出ましたが、スマホに保存できませんでした。「ひかえを書き出す」で残してください。','warn');
+  renderAll();
+}
+function summaryText(date, r){
+  if(!r) return `${date} の記録はまだありません。`;
+  const lines=[]; if(settings.nickname) lines.push(settings.nickname+' さんの記録');
+  lines.push(`【${date}】`);
+  lines.push(`一日の総除水: ${signed(r.net||0)}`);
+  if(r.exchanges&&r.exchanges.length){ lines.push('■ 昼の交換'); r.exchanges.forEach((e,i)=>lines.push(`${i+1}回目 ${e.fluid?e.fluid+' ':''}注液${e.fill} / 排液${e.drain} → ${signed(e.net)}`)); lines.push(`昼の除水: ${signed(r.day_net||0)}`); }
+  if(r.night){ lines.push(`■ ${r.night.device||'夜の装置'}`); lines.push(`総除水: ${signed(r.night.net||0)}`); if(r.night.day!==null&&r.night.day!==undefined) lines.push(`昼の分: ${signed(r.night.day)}`); if(r.night.night!==null&&r.night.night!==undefined) lines.push(`夜の分: ${signed(r.night.night)}`); }
+  lines.push('■ 体の記録');
+  lines.push(`血圧: ${(r.bp_systolic&&r.bp_diastolic)?r.bp_systolic+'/'+r.bp_diastolic:'未記録'}　脈拍: ${fmt(r.pulse,'回/分')}`);
+  lines.push(`体重: ${fmt(r.weight,'kg')}　体温: ${fmt(r.temperature,'℃')}　SpO2: ${fmt(r.spo2,'%')}`);
+  if(r.memo) lines.push(`メモ: ${r.memo}`);
+  return lines.join('\n');
+}
+function shortLine(r){ const bp=(r.bp_systolic&&r.bp_diastolic)?` 血圧${r.bp_systolic}/${r.bp_diastolic}`:''; const w=r.weight!==null&&r.weight!==undefined?` 体重${r.weight}kg`:''; return `除水 ${signed(r.net||0)}${bp}${w}`; }
+async function copyText(t){ try{ await navigator.clipboard.writeText(t); return true; }catch(e){ try{ const ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); return true; }catch(_){ return false; } } }
+
+/* ---------- 履歴・カレンダー・グラフ ---------- */
+function renderHistory(){
+  const box=$('history'); const dates=Object.keys(records).filter(validDate).sort().reverse().slice(0,14);
+  if(!dates.length){ box.innerHTML='<p class="muted">まだ記録がありません。</p>'; return; }
+  box.innerHTML=dates.map(d=>`<div class="hist"><div><div class="d">${d}</div><div class="s">${esc(shortLine(records[d]))}</div></div><div class="b"><button type="button" class="icon-btn" data-copy="${d}">コピー</button><button type="button" class="icon-btn" data-open="${d}">開く</button></div></div>`).join('');
+  box.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click', async()=>{ const ok=await copyText(summaryText(b.dataset.copy, records[b.dataset.copy])); showNotice(ok?`${b.dataset.copy} の記録をコピーしました。LINEにそのまま貼れます。`:'コピーできませんでした。', ok?'ok':'warn'); }));
+  box.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',()=>{ $('record-date').value=b.dataset.open; fillForm(records[b.dataset.open]); window.scrollTo({top:0,behavior:'smooth'}); }));
+}
+let calCursor=new Date(); calCursor.setDate(1); let calSel=null;
+function renderCalendar(){
+  const y=calCursor.getFullYear(), m=calCursor.getMonth(); $('cal-title').textContent=`${y}年${m+1}月`;
+  const first=new Date(y,m,1).getDay(), days=new Date(y,m+1,0).getDate(); const g=$('cal'); g.innerHTML='';
+  for(let i=0;i<first;i++){ const b=document.createElement('button'); b.className='empty'; b.tabIndex=-1; g.appendChild(b); }
+  for(let d=1;d<=days;d++){ const ds=`${y}-${pad(m+1)}-${pad(d)}`; const b=document.createElement('button'); b.type='button'; b.textContent=d; if(records[ds]) b.classList.add('has'); if(ds===calSel) b.classList.add('sel'); b.addEventListener('click',()=>{ calSel=ds; $('cal-detail').textContent=summaryText(ds, records[ds]); renderCalendar(); }); g.appendChild(b); }
+}
+function renderChart(){
+  const c=$('chart'); const ctx=c.getContext('2d'); const W=c.width, H=c.height; ctx.clearRect(0,0,W,H);
+  const days=[]; for(let i=6;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); const ds=toDateStr(d); const r=records[ds]; days.push({label:(d.getMonth()+1)+'/'+d.getDate(), net:r&&Number.isFinite(+r.net)?+r.net:null, bp:r&&Number.isFinite(+r.bp_systolic)?+r.bp_systolic:null}); }
+  const padL=40,padR=40,padT=16,padB=28; const iw=W-padL-padR, ih=H-padT-padB;
+  const nets=days.map(d=>d.net).filter(v=>v!==null); const maxN=Math.max(500, ...nets.map(Math.abs));
+  const zeroY=padT+ih/2;
+  ctx.strokeStyle='#d9d2c5'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(padL,zeroY); ctx.lineTo(W-padR,zeroY); ctx.stroke();
+  ctx.font='14px sans-serif'; ctx.fillStyle='#52606d'; ctx.textAlign='right'; ctx.fillText('+'+maxN, padL-4, padT+10); ctx.fillText('0', padL-4, zeroY+5); ctx.fillText('-'+maxN, padL-4, padT+ih);
+  const bw=iw/7;
+  days.forEach((d,i)=>{ const x=padL+bw*i+bw*0.2; ctx.textAlign='center'; ctx.fillStyle='#52606d'; ctx.fillText(d.label, padL+bw*i+bw/2, H-8);
+    if(d.net!==null){ const h=(d.net/maxN)*(ih/2); ctx.fillStyle=d.net>=0?'#0f6e63':'#9b2c2c'; ctx.fillRect(x, d.net>=0?zeroY-h:zeroY, bw*0.6, Math.abs(h)); } });
+  const bps=days.map(d=>d.bp).filter(v=>v!==null);
+  if(bps.length){ const lo=Math.min(80,...bps)-10, hi=Math.max(160,...bps)+10; ctx.strokeStyle='#3b4a8a'; ctx.lineWidth=3; ctx.beginPath(); let started=false;
+    days.forEach((d,i)=>{ if(d.bp===null) return; const x=padL+bw*i+bw/2, y=padT+ih-((d.bp-lo)/(hi-lo))*ih; if(!started){ctx.moveTo(x,y);started=true;} else ctx.lineTo(x,y); }); ctx.stroke();
+    ctx.fillStyle='#3b4a8a'; days.forEach((d,i)=>{ if(d.bp===null) return; const x=padL+bw*i+bw/2, y=padT+ih-((d.bp-lo)/(hi-lo))*ih; ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fill(); });
+    ctx.textAlign='left'; ctx.fillText(hi, W-padR+4, padT+10); ctx.fillText(lo, W-padR+4, padT+ih); }
+}
+function renderAll(){ renderHistory(); renderCalendar(); renderChart(); }
+
+/* ---------- ひかえ ---------- */
+function download(name, text){ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([text],{type:'application/json'})); a.download=name; document.body.appendChild(a); a.click(); a.remove(); }
+function importObject(obj){
+  if(!isObj(obj)) throw new Error('形式が違います');
+  const src=isObj(obj.records)?obj.records:obj; let n=0;
+  Object.keys(src).forEach(d=>{ if(validDate(d)&&isObj(src[d])){ records[d]=src[d]; n++; } });
+  if(isObj(obj.settings)){ settings=Object.assign({},DEFAULT_SETTINGS,obj.settings); writeJSON(KEY_SETTINGS,settings); applySettingsToUI(); }
+  saveRecords(); renderAll(); return n;
+}
+$('export-json').addEventListener('click',()=>{ const payload={app:'pd-note',version:1,exported:new Date().toISOString(),settings,records}; download(`PDノート_ひかえ_${toDateStr(new Date())}.json`, JSON.stringify(payload,null,2)); showNotice('ひかえのファイルを書き出しました。LINEの自分宛てなどに送って残してください。','ok'); });
+$('import-json').addEventListener('click',()=>$('file-input').click());
+$('file-input').addEventListener('change', e=>{ const f=e.target.files[0]; if(!f) return; const fr=new FileReader(); fr.onload=()=>{ try{ const n=importObject(JSON.parse(fr.result)); showNotice(`${n}日分の記録を読み込みました。`,'ok'); }catch(err){ showNotice('読み込めませんでした。PDノートのひかえファイルか確かめてください。','warn'); } }; fr.readAsText(f); e.target.value=''; });
+$('export-text').addEventListener('click', async()=>{ const ok=await copyText(JSON.stringify({app:'pd-note',version:1,settings,records})); showNotice(ok?'記録を文章としてコピーしました。LINEのメモなどに貼って残せます。':'コピーできませんでした。', ok?'ok':'warn'); });
+$('import-text').addEventListener('click',()=>{ const t=prompt('「文章でコピー」した文章を貼り付けてください。'); if(!t) return; try{ const n=importObject(JSON.parse(t)); showNotice(`${n}日分の記録を戻しました。`,'ok'); }catch(e){ showNotice('戻せませんでした。コピーした文章をそのまま貼ってください。','warn'); } });
+
+/* ---------- 透析液カタログ（日本で販売中・2026-09 くすりすと同効薬比較＋添付文書で確認） ---------- */
+const FLUID_CATALOG=[
+  {maker:'ヴァンティブ（旧バクスター）', items:[
+    {name:'ダイアニール-N PD-2 1.5', conc:'ブドウ糖 1.5%'},{name:'ダイアニール-N PD-2 2.5', conc:'ブドウ糖 2.5%'},{name:'ダイアニール PD-2 4.25', conc:'ブドウ糖 4.25%'},
+    {name:'ダイアニール-N PD-4 1.5', conc:'ブドウ糖 1.5%'},{name:'ダイアニール-N PD-4 2.5', conc:'ブドウ糖 2.5%'},{name:'ダイアニール PD-4 4.25', conc:'ブドウ糖 4.25%'},
+    {name:'レギュニール HCa 1.5', conc:'ブドウ糖 1.5%'},{name:'レギュニール HCa 2.5', conc:'ブドウ糖 2.5%'},{name:'レギュニール HCa 4.25', conc:'ブドウ糖 4.25%'},
+    {name:'レギュニール LCa 1.5', conc:'ブドウ糖 1.5%'},{name:'レギュニール LCa 2.5', conc:'ブドウ糖 2.5%'},{name:'レギュニール LCa 4.25', conc:'ブドウ糖 4.25%'},
+    {name:'エクストラニール', conc:'イコデキストリン 7.5%'}]},
+  {maker:'テルモ', items:[
+    {name:'ミッドペリック 135', conc:'ブドウ糖 1.35%'},{name:'ミッドペリック 250', conc:'ブドウ糖 2.5%'},{name:'ミッドペリック 400', conc:'ブドウ糖 4.0%'},
+    {name:'ミッドペリック L135', conc:'ブドウ糖 1.35%'},{name:'ミッドペリック L250', conc:'ブドウ糖 2.5%'},{name:'ミッドペリック L400', conc:'ブドウ糖 4.0%'},
+    {name:'ニコペリック', conc:'イコデキストリン 7.5%'}]},
+  {maker:'JMS（ジェイ・エム・エス）', items:[
+    {name:'ペリセート 360N', conc:'ブドウ糖 1.55%'},{name:'ペリセート 400N', conc:'ブドウ糖 2.27%'},
+    {name:'ペリセート 360NL', conc:'ブドウ糖 1.60%'},{name:'ペリセート 400NL', conc:'ブドウ糖 2.32%'}]}
+];
+const FLUID_MAX=6;
+function renderCatalog(){
+  const s=draftSettings; const box=$('catalog'); if(!box) return;
+  const chosen=new Set(s.fluids.map(f=>f.name));
+  box.innerHTML=FLUID_CATALOG.map(g=>`<p class="small" style="margin:10px 0 4px;font-weight:700">${esc(g.maker)}</p><div class="chips">${g.items.map(it=>`<button type="button" class="chip${chosen.has(it.name)?' on':''}" data-cat="${esc(it.name)}" title="${esc(it.conc)}">${esc(it.name)}</button>`).join('')}</div>`).join('');
+  box.querySelectorAll('[data-cat]').forEach(b=>b.addEventListener('click',()=>{
+    readFluidInputs(); const name=b.dataset.cat; const idx=s.fluids.findIndex(f=>f.name===name);
+    if(idx>=0){ s.fluids.splice(idx,1); }
+    else { if(s.fluids.length>=FLUID_MAX){ showNotice(`透析液は${FLUID_MAX}つまでです。使わないものを外してください。`,'warn'); return; } const it=FLUID_CATALOG.flatMap(g=>g.items).find(i=>i.name===name); s.fluids.push({name:it.name, conc:it.conc, catalog:true}); }
+    renderSettings();
+  }));
+  const sel=$('fluid-selected'); if(sel) sel.textContent=s.fluids.length?('選んだ液: '+s.fluids.map(f=>f.name+(f.conc?'（'+f.conc+'）':'')).join(' ／ ')):'まだ選んでいません。';
+}
+
+/* ---------- 設定シート ---------- */
+let draftSettings=null;
+function fluidRow(f,i){ return `<div class="grid2" style="margin-bottom:8px;align-items:end"><div><label for="fl-name-${i}">液の名前</label><input type="text" id="fl-name-${i}" value="${esc(f.name||'')}" placeholder="例: ブドウ糖液"></div><div class="row"><div style="flex:1"><label for="fl-conc-${i}">濃度</label><input type="text" id="fl-conc-${i}" value="${esc(f.conc||'')}" placeholder="例: 1.5%"></div><button type="button" class="icon-btn" data-del="${i}" aria-label="この液を削除">×</button></div></div>`; }
+function renderSettings(){
+  const s=draftSettings;
+  document.querySelectorAll('#device-chips .chip').forEach(b=>{ const v=b.dataset.device; const isOther=v==='__other'; const on = !s.useDevice? v==='' : (isOther? !['かぐや','ホームAPDシステム'].includes(s.deviceName) : v===s.deviceName); b.classList.toggle('on',on); });
+  const other=s.useDevice&&!['かぐや','ホームAPDシステム'].includes(s.deviceName); $('device-other-wrap').classList.toggle('hidden',!other); if(other) $('device-other').value=s.deviceName;
+  document.querySelectorAll('#count-chips .chip').forEach(b=>b.classList.toggle('on', +b.dataset.count===s.dayExchanges));
+  $('fluids').innerHTML=s.fluids.map((f,i)=>f.catalog?'':fluidRow(f,i)).join('')||'<p class="muted">一覧にない液は、ここに袋の名前をそのまま書けます。</p>';
+  $('fluids').querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',()=>{ readFluidInputs(); s.fluids.splice(+b.dataset.del,1); renderSettings(); }));
+  $('add-fluid').disabled=s.fluids.length>=FLUID_MAX; $('nickname').value=s.nickname||'';
+  renderCatalog();
+}
+function readFluidInputs(){ draftSettings.fluids=draftSettings.fluids.map((f,i)=>f.catalog?f:({name:($('fl-name-'+i)||{}).value||f.name||'', conc:($('fl-conc-'+i)||{}).value||f.conc||''})); }
+function openSettings(){ draftSettings=JSON.parse(JSON.stringify(settings)); renderSettings(); $('settings').classList.remove('hidden'); }
+$('open-settings').addEventListener('click',openSettings);
+$('settings-cancel').addEventListener('click',()=>$('settings').classList.add('hidden'));
+document.querySelectorAll('#device-chips .chip').forEach(b=>b.addEventListener('click',()=>{ readFluidInputs(); const v=b.dataset.device; if(v===''){ draftSettings.useDevice=false; draftSettings.deviceName=''; } else if(v==='__other'){ draftSettings.useDevice=true; draftSettings.deviceName=$('device-other').value.trim()||'そのほか'; } else { draftSettings.useDevice=true; draftSettings.deviceName=v; } renderSettings(); if(v==='__other') $('device-other').focus(); }));
+$('device-other').addEventListener('input',()=>{ draftSettings.deviceName=$('device-other').value.trim()||'そのほか'; });
+document.querySelectorAll('#count-chips .chip').forEach(b=>b.addEventListener('click',()=>{ readFluidInputs(); draftSettings.dayExchanges=+b.dataset.count; renderSettings(); }));
+$('add-fluid').addEventListener('click',()=>{ readFluidInputs(); if(draftSettings.fluids.length<FLUID_MAX) draftSettings.fluids.push({name:'',conc:''}); renderSettings(); const last=$('fl-name-'+(draftSettings.fluids.length-1)); if(last) last.focus(); });
+$('settings-save').addEventListener('click',()=>{ readFluidInputs(); draftSettings.fluids=draftSettings.fluids.filter(f=>f.name.trim()).map(f=>({name:f.name.trim(),conc:(f.conc||'').trim(),catalog:!!f.catalog})); draftSettings.nickname=$('nickname').value.trim(); if(draftSettings.useDevice&&!draftSettings.deviceName) draftSettings.deviceName='夜の装置'; settings=draftSettings; writeJSON(KEY_SETTINGS,settings); $('settings').classList.add('hidden'); applySettingsToUI(); showNotice('設定を保存しました。','ok'); });
+function applySettingsToUI(){ renderExchanges(); $('night-band').classList.toggle('hidden',!settings.useDevice); $('night-title').textContent=deviceLabel()||'夜の装置'; $('calc-night-label').textContent=(deviceLabel()||'夜の装置')+'の除水'; const r=records[$('record-date').value]; fillForm(r||null); }
+
+/* ---------- 声で入力 ---------- */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition; let rec=null, heard='', parsed=null;
+function jpNum(s){ return toHalf(s).replace(/てん|点/g,'.').replace(/[,、\s]/g,''); }
+function parseSpeech(text){
+  let t=toHalf(text).replace(/\s+/g,' ').replace(/てん/g,'.').replace(/エスピーオーツー|エスピーオー2|サチュレーション|酸素飽和度|酸素/g,'spo2').replace(/ミリリットル|ミリ|cc|ml/gi,'').replace(/キロ(グラム)?|kg/gi,'').replace(/度|℃/g,'');
+  const out={exchanges:{}, night:null, vitals:{}}; let exIdx=0;
+  const N='(-?\\d+(?:\\.\\d+)?)(?!\\d*回)'; const re=new RegExp('(\\d+)\\s*回目|(注液|入れた|入れ|注入)\\s*'+N+'|(排液|出た|出し|排出)\\s*'+N+'|(総除水|除水|装置|夜)\\s*(マイナス)?\\s*'+N+'|血圧\\s*(\\d+)\\s*(?:の|と|\\/|、)?\\s*(\\d+)?|上\\s*(\\d+)|下\\s*(\\d+)|体重\\s*(\\d+(?:\\.\\d+)?)|(脈拍|脈)\\s*(\\d+)|(体温|熱)\\s*(\\d+(?:\\.\\d+)?)|spo2\\s*(\\d+)|(マイナス)\\s*(\\d+)','g');
+  let m; while((m=re.exec(t))){
+    if(m[1]){ exIdx=Math.max(0,Math.min(settings.dayExchanges-1,+m[1]-1)); continue; }
+    if(m[2]){ (out.exchanges[exIdx]=out.exchanges[exIdx]||{}).fill=Math.round(+m[3]); continue; }
+    if(m[4]){ (out.exchanges[exIdx]=out.exchanges[exIdx]||{}).drain=Math.round(+m[5]); continue; }
+    if(m[6]){ out.night=Math.round(+m[8])*(m[7]?-1:1); continue; }
+    if(m[9]){ out.vitals.bp_systolic=+m[9]; if(m[10]) out.vitals.bp_diastolic=+m[10]; continue; }
+    if(m[11]){ out.vitals.bp_systolic=+m[11]; continue; }
+    if(m[12]){ out.vitals.bp_diastolic=+m[12]; continue; }
+    if(m[13]){ out.vitals.weight=+m[13]; continue; }
+    if(m[14]){ out.vitals.pulse=+m[15]; continue; }
+    if(m[16]){ let v=+m[17]; if(v>100) v=v/10; out.vitals.temperature=v; continue; }
+    if(m[18]){ out.vitals.spo2=+m[18]; continue; }
+  }
+  return out;
+}
+function renderParsed(p){
+  const rows=[];
+  Object.keys(p.exchanges).forEach(i=>{ const e=p.exchanges[i]; if(e.fill!==undefined) rows.push([`${+i+1}回目 注液`, e.fill+' ml']); if(e.drain!==undefined) rows.push([`${+i+1}回目 排液`, e.drain+' ml']); });
+  if(p.night!==null) rows.push([(deviceLabel()||'夜の装置')+' 総除水', signed(p.night)]);
+  const v=p.vitals; if(v.bp_systolic) rows.push(['血圧 上', v.bp_systolic]); if(v.bp_diastolic) rows.push(['血圧 下', v.bp_diastolic]); if(v.weight) rows.push(['体重', v.weight+' kg']); if(v.pulse) rows.push(['脈拍', v.pulse]); if(v.temperature) rows.push(['体温', v.temperature+' ℃']); if(v.spo2) rows.push(['SpO2', v.spo2+' %']);
+  $('voice-parsed').innerHTML=rows.length?rows.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(String(r[1]))}</td></tr>`).join(''):'<tr><td colspan="2" class="muted">数字を聞き取れませんでした。もう一度「声で入力」を押して話してください。</td></tr>';
+  $('voice-apply').disabled=!rows.length;
+}
+function applyParsed(p){
+  Object.keys(p.exchanges).forEach(i=>{ const e=p.exchanges[i]; if(!$('ex-fill-'+i)) return; if(e.fill!==undefined) $('ex-fill-'+i).value=e.fill; if(e.drain!==undefined) $('ex-drain-'+i).value=e.drain; });
+  if(p.night!==null&&settings.useDevice) $('night-total').value=p.night;
+  const v=p.vitals; if(v.bp_systolic) $('bp-systolic').value=v.bp_systolic; if(v.bp_diastolic) $('bp-diastolic').value=v.bp_diastolic; if(v.weight) $('body-weight').value=v.weight; if(v.pulse) $('pulse-rate').value=v.pulse; if(v.temperature) $('body-temperature').value=v.temperature; if(v.spo2) $('spo2').value=v.spo2;
+  calc();
+}
+function stopRec(){ if(rec){ try{rec.stop();}catch(_){} rec=null; } }
+$('voice-btn').addEventListener('click',()=>{
+  if(!SR){ showNotice('このブラウザは声の聞き取りに対応していません。入力欄を押して、キーボードのマイクで話すこともできます。','warn'); return; }
+  heard=''; parsed=null; $('voice-box').classList.remove('hidden'); $('voice-live').textContent='聞いています… 話し終わると数字が出ます。'; $('voice-parsed').innerHTML=''; $('voice-apply').disabled=true;
+  rec=new SR(); rec.lang='ja-JP'; rec.interimResults=true; rec.continuous=false; rec.maxAlternatives=1;
+  rec.onresult=e=>{ let s=''; for(let i=0;i<e.results.length;i++) s+=e.results[i][0].transcript; heard=s; $('voice-live').textContent=s; parsed=parseSpeech(s); renderParsed(parsed); };
+  rec.onerror=e=>{ $('voice-live').textContent='聞き取れませんでした（'+(e.error||'エラー')+'）。マイクの許可を確かめて、もう一度押してください。'; };
+  rec.onend=()=>{ rec=null; if(heard){ parsed=parseSpeech(heard); renderParsed(parsed); } else if($('voice-live').textContent.startsWith('聞いています')) $('voice-live').textContent='声が入りませんでした。もう一度「声で入力」を押して話してください。'; };
+  try{ rec.start(); }catch(e){ $('voice-live').textContent='マイクを開けませんでした。'; }
+});
+$('voice-cancel').addEventListener('click',()=>{ stopRec(); $('voice-box').classList.add('hidden'); });
+$('voice-apply').addEventListener('click',()=>{ if(parsed) applyParsed(parsed); $('voice-box').classList.add('hidden'); showNotice('入力欄に入れました。数字を確かめてから「保存する」を押してください。','ok'); });
+
+/* ---------- そのほか ---------- */
+const bubbles=['今日も無理せず、コツコツいこ。','記録できたね。えらい。','数字はあとで見返せる形に残しておこうね。','気になったことはメモに一言だけでも。','ひかえは週に一度。忘れたら今日。'];
+function rotateBubble(){ $('bubble').textContent=bubbles[Math.floor(Math.random()*bubbles.length)]; }
+document.querySelectorAll('[data-sign]').forEach(b=>b.addEventListener('click',()=>{ const i=$(b.dataset.sign); const v=toHalf(i.value).trim(); if(!v) { i.value='-'; } else i.value=v.startsWith('-')?v.slice(1):'-'+v; calc(); }));
+['night-total','night-day','night-night','bp-systolic','bp-diastolic','pulse-rate','body-weight','body-temperature','spo2','memo'].forEach(id=>['input','change','blur'].forEach(ev=>$(id).addEventListener(ev,calc)));
+$('record-date').addEventListener('change',()=>{ fillForm(records[$('record-date').value]||null); });
+$('save-btn').addEventListener('click',saveCurrent);
+$('cal-prev').addEventListener('click',()=>{ calCursor.setMonth(calCursor.getMonth()-1); renderCalendar(); });
+$('cal-next').addEventListener('click',()=>{ calCursor.setMonth(calCursor.getMonth()+1); renderCalendar(); });
+
+/* ---------- 起動 ---------- */
+$('record-date').value=toDateStr(new Date());
+applySettingsToUI(); renderAll();
+if(!localStorage.getItem(KEY_SETTINGS)) openSettings();
+window.__pdnote={parseSpeech, summaryText, get settings(){return settings;}, get records(){return records;}};
+})();
+</script>
+</body>
+</html>
