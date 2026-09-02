@@ -3,1357 +3,451 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>あなたのGemをSkills化しませんか？｜AIミニアプリ工房 えい</title>
-<meta name="description" content="Geminiのアプリに「Gemは10月20日で終了」の告知が出ました。作ったGemの中身をAIに渡すだけでSkillsへ引っ越せるスキル「Gem Port Skills」をBrainで発売中（980円）。無料30秒の「Gemの健康診断」もどうぞ。元教員22年のAIミニアプリ工房。" />
+<title>AIミニアプリ工房 えい｜「ちょっと足りない」を、その日のうちに動く道具に</title>
+<meta name="description" content="元教員22年のえいが、24人のAI社員と運営する小さな工房。美容室の予約メモから、Gemの引っ越しスキル「Gem Port Skills」まで。コードは書かず、日本語で頼んで、確かめて、渡します。相談は無料。" />
 <link rel="icon" type="image/png" href="assets/request73-v4/web/brand-atelier-mark-128.png" />
-<!-- OGP（シェア時の見え方・2026-07-09 v3で追加） -->
-<meta property="og:title" content="あなたのGemをSkills化しませんか？｜AIミニアプリ工房 えい" />
-<meta property="og:description" content="Gemの中身をAIに渡すだけでSkillsへ引っ越し。Brainで発売中（980円）。無料30秒の健康診断もあります。" />
-<meta property="og:url" content="https://pop7237radio-hue.github.io/ei-site/" />
-<meta property="og:image" content="https://pop7237radio-hue.github.io/ei-site/assets/fal-2026-09/web/ogp-1200x630.jpg" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
+<meta property="og:title" content="AIミニアプリ工房 えい｜「ちょっと足りない」を、その日のうちに動く道具に" />
+<meta property="og:description" content="元教員22年のえいが、24人のAI社員と運営する小さな工房。予約メモ・記録ツール・Gemの引っ越しまで。相談は無料。" />
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="ja_JP" />
+<meta property="og:url" content="https://pop7237radio-hue.github.io/ei-site/" />
+<meta property="og:image" content="https://pop7237radio-hue.github.io/ei-site/assets/fal-2026-09/web/ogp-v6-1200x630.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="あなたのGemをSkills化しませんか？" />
-<meta name="twitter:description" content="Gemの中身をAIに渡すだけでSkillsへ引っ越し。Brainで発売中（980円）。無料30秒の健康診断も。" />
-<meta name="twitter:image" content="https://pop7237radio-hue.github.io/ei-site/assets/fal-2026-09/web/ogp-1200x630.jpg" />
+<meta name="twitter:title" content="AIミニアプリ工房 えい" />
+<meta name="twitter:description" content="「ちょっと足りない」を、その日のうちに動く道具に。元教員22年 × 24人のAI社員。相談は無料。" />
+<meta name="twitter:image" content="https://pop7237radio-hue.github.io/ei-site/assets/fal-2026-09/web/ogp-v6-1200x630.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet" />
 <script>document.documentElement.classList.add('js');</script>
 <script src="https://rondo.pop7237radio.workers.dev/heat.js" data-page="ei-top" defer></script>
 <!--
-  ============ 制作メモ v5（2026-09-02 / えい発注「教科書3冊でei-site改修・デザインはfal」） ============
-  参考構成: omochi.page/claude-code（フック→思い込み→道具→教科書→費用）。いきなり離脱されない第一画面を最優先。
-  画像: fal（openai/gpt-image-2/edit）で既存ブランドマークを画風の親にして生成。台帳=assets/fal-2026-09/00_生成台帳.md
-  事実の線: Gem終了は「アプリ内に10/20終了の告知が表示され始めた」まで。GPS=980円・Brain発売中。教科書リンクは直リンク（紹介リンクへの差し替えはえい）。
-  置き場: wrangler.jsonc（Cloudflare Workers static assets）を同梱。deployはえい承認後。
-  ============ 旧制作メモ（依頼書73 / 2026-08-15） ============
-  第1柱: Gem / Skillsの発信と事前登録（gem-skill/mail/index.htmlへ接続）
-  第2柱: AIミニアプリ工房（既存の料金・実績・LINE相談を維持）
-  Rondo: heat.js data-page=ei-top。data-secはtop-*で既設3LPと分離。
-  公開境界: ローカル実装・検品・コミットまで。pushはえい承認後。
+  ============ 制作メモ v6（2026-09-02 11:15〜 / えい発注「全面改修。明日美容室で案内したい。ワクワクするサイトに。PC/スマホ両方」） ============
+  9/3記事1本目「Fable5.1登場〜自社サイトのフル改修〜」の実物。制作ログ=00_幹部room/09_文章_CCくん/2026-09-03_Fable5.1登場_自社サイトフル改修_制作ログ.md
+  使った教科書: Claude Codeの教科書（第5章 発注と検収／第12章 公開）・falの教科書（特徴ロック・様式アンカー・文字焼き込み）・Cloudflareの教科書（罠帖A/D/G/J/K）
+  画像: fal openai/gpt-image-2/edit。参照=ブランドマーク（画風の親）＋ぽてうさ・なまお・クロノの正典。台帳=assets/fal-2026-09/00_生成台帳.md
+  キャラ使用許可: 決定台帳#267（なまお・ぽてうさ・なおさん・クロノ）
+  事実の線: Gem終了は「アプリ内に10/20終了の告知」まで。美容室は店名を出さない。IG/YTのIDは実測後にリンク。D-01: 透析はプロフィールの事実としてのみ
+  公開境界: ローカル実装・検品・コミットまで。push/deployはえい
+  旧版: index_backup_v6pre_2026-09-02_v5.html（v5）／index_backup_v5pre_2026-09-02.html（v4）
   ================================================================
-  旧制作メモ（Fable5 v3 + Codex v3.1 / 2026-07-10）
-  v3: えいちゃん指定の参考サイト（ikedahayato.com）に構成を寄せた全面改稿。
-      1カラム縦長／大余白／英字セクションラベル／年表プロフィール／フッターSNS一括。
-      v1は index_backup_v1_2026-07-07.html に保存。
-  ▼差し替えポイント（検索: SWAP）
-  SWAP-4 Brain教材: 2026-07-10 20:00 差し込み済み（サイト公開GO=7/11えいちゃん指示・最終GOは起床後）
-  確定済み: 公式LINE／年表／教員表記「高校と特別支援学校で教員22年」／事例は匿名表記
-  v3.1: コントラスト、スマホ料金表・ナビ、キーボード導線、入場アニメの安全化（Codex）
-  D-01厳守: 透析は正本の「自宅・毎日」だけを使う。フックにせず、体力設計の根拠として扱う
-  ==========================================================
 -->
 <style>
-  :root {
-    --ink: #1a2434;
-    --sub: #626f7f;
-    --accent: #b84e28;
-    --paper: #ffffff;
-    --soft: #f4f6f9;
-    --line: #e3e8ef;
+  :root{
+    --ink:#1f2a3a; --sub:#5f6b7a; --paper:#fbf7f0; --card:#ffffff; --line:#e6dfd3;
+    --navy:#173f8a; --gem:#2563eb; --gem-light:#e8f0ff; --teal:#1fa38a; --teal-light:#e3f5f0;
+    --coral:#f26b5b; --coral-light:#fde9e5; --sun:#f5b942; --sun-light:#fff4d9; --line-green:#0f7048;
+    --r-lg:28px; --r-md:18px; --shadow:0 18px 44px rgba(31,42,58,.10);
   }
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    margin: 0;
-    font-family: "Hiragino Kaku Gothic ProN", "BIZ UDGothic", "Yu Gothic", sans-serif;
-    background: var(--paper);
-    color: var(--ink);
-    line-height: 2.0;
-  }
-  .inner { max-width: 720px; margin: 0 auto; padding: 0 24px; }
-  a { color: var(--accent); text-decoration: none; }
-  a:focus-visible {
-    outline: 3px solid var(--accent);
-    outline-offset: 4px;
-    border-radius: 4px;
-  }
-  .skip-link {
-    position: fixed; top: 10px; left: 12px; z-index: 100;
-    transform: translateY(-180%); background: #fff; color: var(--ink);
-    padding: 9px 14px; border: 2px solid var(--ink); border-radius: 4px;
-    font-size: 14px; font-weight: 800;
-  }
-  .skip-link:focus { transform: none; }
-  .sr-only {
-    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
-  }
-
-  /* ===== hero（深紺グラデ・白抜き・大余白） ===== */
-  .hero {
-    background:
-      radial-gradient(ellipse 80% 60% at 70% 10%, rgba(255,215,106,.10), transparent 60%),
-      linear-gradient(160deg, #16233a 0%, #24406b 60%, #35588f 100%);
-    color: #fff;
-    text-align: center;
-    padding: 110px 20px 100px;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero::after {
-    content: ""; position: absolute; inset: 0; pointer-events: none;
-    background-image: radial-gradient(rgba(255,255,255,.18) 1px, transparent 1.6px);
-    background-size: 46px 46px;
-    mask-image: linear-gradient(to bottom, rgba(0,0,0,.5), transparent 70%);
-    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,.5), transparent 70%);
-  }
-  .hero > * { position: relative; z-index: 1; }
-  .hero .roles { font-size: 12px; letter-spacing: .34em; opacity: .82; font-weight: 700; }
-  .hero h1 { font-size: clamp(30px, 7vw, 52px); line-height: 1.6; margin: 26px 0 20px; font-weight: 900; letter-spacing: .04em; }
-  .hero .sub { font-size: clamp(14px, 3vw, 17px); opacity: .9; line-height: 2.1; }
-  .hero .gou { margin-top: 44px; font-size: 13px; letter-spacing: .22em; opacity: .75; font-weight: 700; }
-
-  /* ===== sections ===== */
-  section { padding: 88px 0; }
-  section.alt { background: var(--soft); }
-  .label { text-align: center; font-size: 12px; letter-spacing: .4em; color: var(--accent); font-weight: 800; }
-  h2 { text-align: center; font-size: clamp(22px, 4.6vw, 30px); margin: 10px 0 40px; letter-spacing: .06em; }
-  .lead { text-align: center; color: var(--sub); font-size: 15px; max-width: 560px; margin: -18px auto 40px; }
-
-  /* profile */
-  .prof-text { font-size: 15.5px; max-width: 600px; margin: 0 auto 46px; }
-  .prof-text p { margin: 14px 0; }
-  .timeline { max-width: 600px; margin: 0 auto; border-left: 3px solid var(--line); padding-left: 28px; }
-  .tl-item { position: relative; padding: 10px 0 18px; }
-  .tl-item::before {
-    content: ""; position: absolute; left: -35px; top: 22px;
-    width: 11px; height: 11px; border-radius: 50%; background: var(--accent);
-  }
-  .tl-item .year { font-size: 13px; font-weight: 900; color: var(--accent); letter-spacing: .1em; }
-  .tl-item .what { font-size: 15.5px; font-weight: 700; }
-  .tl-item .memo { font-size: 13px; color: var(--sub); }
-
-  /* service */
-  table.price { width: 100%; max-width: 620px; margin: 0 auto; border-collapse: collapse; background: #fff; }
-  table.price th, table.price td { border: 1px solid var(--line); padding: 15px 16px; font-size: 14.5px; text-align: left; }
-  table.price th { background: #fff; width: 58%; font-weight: 700; }
-  table.price td { font-weight: 900; white-space: nowrap; }
-  .price-note { text-align: center; font-size: 13px; color: var(--sub); margin-top: 16px; }
-
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Hiragino Sans","Yu Gothic",sans-serif;line-height:1.9;font-size:15.5px;-webkit-font-smoothing:antialiased}
+  img{max-width:100%;height:auto;display:block}
+  a{color:var(--gem)}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .inner{max-width:1080px;margin:0 auto;padding:0 20px}
+  section{padding:72px 0}
+  .label{display:inline-block;font-size:12px;letter-spacing:.32em;font-weight:900;color:var(--teal);background:var(--teal-light);padding:5px 14px 5px 16px;border-radius:999px}
+  h1,h2,h3{line-height:1.4;letter-spacing:-.01em;margin:0}
+  h2{font-size:clamp(24px,3.4vw,34px);font-weight:900;margin:14px 0 12px}
+  .lead{color:var(--sub);max-width:640px;margin:0 0 30px}
+  .center{text-align:center}.center .lead{margin-left:auto;margin-right:auto}
+  .btn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:56px;padding:12px 26px;border-radius:999px;font-weight:900;text-decoration:none;color:#fff;background:var(--navy);box-shadow:0 12px 26px rgba(23,63,138,.28);transition:transform .2s,box-shadow .2s}
+  .btn:hover,.btn:focus-visible{transform:translateY(-2px);box-shadow:0 16px 32px rgba(23,63,138,.34)}
+  .btn .note{font-size:11px;font-weight:700;color:#fff;opacity:.92}
+  .btn.line{background:var(--line-green);box-shadow:0 12px 26px rgba(15,112,72,.28)}
+  .btn.gem{background:var(--gem)}
+  .btn.ghost{background:#fff;color:var(--navy);border:2px solid var(--navy);box-shadow:none}
+  /* nav */
+  .topnav{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:6px;justify-content:center;flex-wrap:wrap;padding:8px 14px;background:rgba(251,247,240,.86);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+  .topnav a{color:var(--ink);text-decoration:none;font-weight:700;font-size:13px;padding:8px 10px;border-radius:999px}
+  .topnav a:hover{background:#fff}
+  .topnav .brand{display:flex;align-items:center;gap:8px;margin-right:auto;font-weight:900;letter-spacing:.04em}
+  .topnav .brand img{width:34px;height:34px;border-radius:50%}
+  .topnav .cta{background:var(--line-green);color:#fff;padding:9px 16px}
+  .topnav .opt{display:none}
+  @media(min-width:760px){.topnav .opt{display:inline-block}}
+  /* hero */
+  .hero{position:relative;overflow:hidden;padding:56px 0 64px;background:
+    radial-gradient(circle at 88% 12%,rgba(37,99,235,.14) 0 10rem,transparent 10.1rem),
+    radial-gradient(circle at 6% 92%,rgba(31,163,138,.16) 0 9rem,transparent 9.1rem),
+    linear-gradient(135deg,#eef4ff 0%,#fff8ee 55%,#e9f6f1 100%);border-radius:0 0 56px 56px}
+  .hero::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(37,99,235,.16) 1px,transparent 1.6px);background-size:26px 26px;opacity:.35;pointer-events:none}
+  .hero .inner{position:relative;z-index:2;display:grid;grid-template-columns:1fr;gap:32px;align-items:center}
+  @media(min-width:900px){.hero .inner{grid-template-columns:1.15fr .95fr;gap:48px}.hero{padding:76px 0 84px}}
+  .who{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(23,63,138,.18);border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:900;color:var(--navy);letter-spacing:.06em}
+  .who i{width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px var(--teal-light)}
+  .hero h1{font-size:clamp(26px,5.2vw,52px);font-weight:900;margin:18px 0 14px;line-height:1.3}
+  @media(max-width:520px){.hero h1 br{display:none}}
+  .hero h1 em{font-style:normal;background:linear-gradient(transparent 62%,var(--sun-light) 62%)}
+  .hero .sub{font-size:16.5px;color:var(--sub);max-width:560px}
+  .stats{list-style:none;padding:0;margin:22px 0 8px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-width:560px}
+  @media(min-width:520px){.stats{grid-template-columns:repeat(4,1fr)}}
+  .stats li{background:rgba(255,255,255,.85);border:1px solid rgba(23,63,138,.14);border-radius:16px;padding:12px 8px;text-align:center}
+  .stats strong{display:block;font-size:24px;line-height:1.1;color:var(--navy)}
+  .stats span{display:block;font-size:11.5px;color:var(--sub);margin-top:4px}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:18px}
+  .hero-art{position:relative}
+  .hero-art img{border-radius:var(--r-lg);box-shadow:var(--shadow);background:#fff}
+  .hero-art .tag{position:absolute;left:16px;bottom:-14px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 14px;font-size:12px;font-weight:900;color:var(--navy);box-shadow:0 8px 18px rgba(31,42,58,.12)}
+  /* now strip */
+  .now{padding:0;margin-top:-26px;position:relative;z-index:3}
+  .now .strip{background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:16px 18px;display:grid;grid-template-columns:1fr;gap:10px}
+  @media(min-width:860px){.now .strip{grid-template-columns:auto 1fr 1fr 1fr;align-items:center;gap:14px;padding:16px 22px}}
+  .now .head{font-weight:900;color:var(--coral);font-size:13px;letter-spacing:.12em}
+  .now a.chip{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:10px 12px;transition:transform .2s,border-color .2s}
+  .now a.chip:hover{transform:translateY(-2px);border-color:var(--gem)}
+  .now .chip b{display:block;font-size:14px}.now .chip span{display:block;font-size:12px;color:var(--sub)}
+  .now .chip .n{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:900;color:#fff;background:var(--gem)}
+  .now .chip .n.t{background:var(--teal)}.now .chip .n.c{background:var(--coral)}
+  /* cards */
+  .grid3{display:grid;grid-template-columns:1fr;gap:16px}
+  @media(min-width:760px){.grid3{grid-template-columns:repeat(3,1fr)}}
+  .card{text-align:left;background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:24px 22px;box-shadow:0 8px 24px rgba(31,42,58,.05)}
+  .card .ic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:26px;margin-bottom:12px}
+  .ic.b{background:var(--gem-light)}.ic.t{background:var(--teal-light)}.ic.s{background:var(--sun-light)}
+  .card h3{font-size:18px;font-weight:900;margin-bottom:6px}
+  .card p{margin:0;color:var(--sub);font-size:14px}
+  .card ul{margin:10px 0 0;padding-left:18px;color:var(--sub);font-size:13.5px}
+  /* story */
+  .story{background:linear-gradient(180deg,#fff 0%,var(--sun-light) 100%);border-radius:var(--r-lg);border:1px solid var(--line);overflow:hidden;display:grid;grid-template-columns:1fr}
+  @media(min-width:860px){.story{grid-template-columns:1fr 1fr}}
+  .story img{width:100%;height:100%;object-fit:cover}
+  .story .txt{padding:30px 26px}
+  .story .txt h3{font-size:22px;font-weight:900;margin-bottom:10px}
+  .story .q{font-weight:900;color:var(--navy);background:#fff;border-left:4px solid var(--sun);padding:8px 12px;border-radius:0 12px 12px 0;margin:12px 0}
+  .story ul{padding-left:18px;color:var(--sub);font-size:14px;margin:8px 0 0}
   /* works */
-  .works { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; max-width: 640px; margin: 0 auto; }
-  .work { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 24px; color: var(--ink); display: block;
-    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
-  a.work:hover, a.work:focus-visible { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 14px 30px rgba(26,36,52,.10); }
-  .work .emoji { font-size: 30px; }
-  .work h3 { font-size: 16px; margin: 10px 0 6px; line-height: 1.6; }
-  .work p { font-size: 13.5px; color: var(--sub); margin: 0; }
-  .work .tag { display: inline-block; margin-top: 12px; font-size: 11px; font-weight: 800; letter-spacing: .08em; color: var(--accent); border: 1px solid var(--accent); border-radius: 3px; padding: 2px 9px; }
-  .work .tag.soon { color: var(--sub); border-color: var(--line); }
-  a.work .tag::after { content: " ↗"; }
-  .work p a { display: inline-flex; align-items: center; min-height: 44px; }
-
-  /* cta */
-  .btn {
-    display: inline-block; background: var(--accent); color: #fff; font-weight: 800;
-    border-radius: 6px; padding: 17px 44px; font-size: 15px; letter-spacing: .06em;
-    box-shadow: 0 8px 20px rgba(184,78,40,.28);
-    transition: transform .2s ease, box-shadow .2s ease;
-  }
-  .btn:hover, .btn:focus-visible { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(184,78,40,.36); }
-
-  /* ふわっと表示（スクロール連動・軽量） */
-  .reveal { opacity: 1; transform: none; }
-  .js .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s ease; }
-  .js .reveal.on { opacity: 1; transform: none; }
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    .js .reveal { opacity: 1; transform: none; transition: none; }
-  }
-  .btn.disabled { background: #c2cad6; pointer-events: none; }
-  .btn .note { display: block; font-size: 11px; font-weight: 700; }
-  .cta-center { text-align: center; }
-
-  /* ===== ページ内ナビ（スマホでも表示） ===== */
-  .topnav {
-    display: flex; align-items: center; justify-content: center; gap: clamp(10px, 4vw, 26px);
-    position: sticky; top: 0; z-index: 10;
-    background: rgba(22, 35, 58, .92); backdrop-filter: blur(6px);
-    padding: 0 12px; text-align: center; overflow-x: auto;
-  }
-  .topnav a { color: #fff; font-size: 11px; font-weight: 700; letter-spacing: .08em; margin: 0; opacity: .88; white-space: nowrap;
-    min-height: 44px; display: inline-flex; align-items: center; }
-  .topnav a:hover { opacity: 1; }
-  @media (max-width: 520px) {
-    table.price, table.price tbody, table.price tr, table.price th, table.price td { display: block; width: 100%; }
-    table.price { border: 0; }
-    table.price tr { border: 1px solid var(--line); border-bottom: 0; }
-    table.price tr:last-child { border-bottom: 1px solid var(--line); }
-    table.price th, table.price td { border: 0; padding: 12px 14px; }
-    table.price th { width: 100%; }
-    table.price td { background: #fff8f4; border-top: 1px solid var(--line); white-space: normal; }
-  }
-  @media (min-width: 900px) {
-    .topnav { gap: 44px; padding: 0 12px; }
-    .topnav a { min-height: 60px; font-size: 13px; letter-spacing: .14em; }
-    .hero { padding: 150px 20px 140px; }
-    .hero h1 { font-size: 60px; }
-    .hero .sub { font-size: 18px; }
-    section { padding: 110px 0; }
-    .inner { max-width: 760px; }
-    .inner.wide { max-width: 1040px; }
-    .works { max-width: 1040px; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-    .work { padding: 30px 26px; }
-    .prof-text { font-size: 16.5px; }
-    table.price { max-width: 720px; }
-    table.price th, table.price td { padding: 18px 22px; font-size: 15.5px; }
-  }
-  @media print {
-    .topnav, .skip-link { display: none; }
-    .js .reveal { opacity: 1 !important; transform: none !important; }
-  }
-
-  /* footer */
-  footer {
-    background: #16233a; color: #fff; padding: 64px 20px 44px; text-align: center;
-  }
-  footer .sns { display: flex; gap: 26px; justify-content: center; flex-wrap: wrap; margin-bottom: 34px; }
-  footer .sns a { color: #fff; font-size: 14px; font-weight: 700; letter-spacing: .06em; opacity: .9;
-    min-height: 44px; display: inline-flex; align-items: center; }
-  footer .sns a:hover { opacity: 1; color: var(--star, #ffd76a); }
-  footer .gou { font-size: 12px; letter-spacing: .2em; opacity: .6; }
-
-  /* ===== 比較用モック調リデザイン（依頼17） =====
-     文言・リンク・セクション・既存JSには触れず、見た目だけを上書きする。 */
-  :root {
-    --rose: #c98a93;
-    --rose-deep: #875561;
-    --rose-light: #f4e3e6;
-    --mint: #8fbfac;
-    --mint-deep: #4f7567;
-    --mint-light: #e3f0ea;
-    --ivory: #faf6ee;
-    --card-bg: #fffdf8;
-    --ink: #473e39;
-    --sub: #71665f;
-    --accent: var(--rose-deep);
-    --paper: var(--ivory);
-    --soft: #f7eee9;
-    --line: #e5d9ca;
-    --radius-lg: 30px;
-    --radius-md: 20px;
-    --shadow: 0 16px 44px rgba(107, 83, 72, .10);
-  }
-
-  body {
-    font-family: "M PLUS Rounded 1c", "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro",
-      "BIZ UDGothic", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
-    background:
-      radial-gradient(circle at 8% 7%, rgba(201, 138, 147, .12), transparent 23rem),
-      radial-gradient(circle at 92% 24%, rgba(143, 191, 172, .13), transparent 24rem),
-      var(--ivory);
-    color: var(--ink);
-    line-height: 1.9;
-    /* hidden→clip（2026-07-11検品修正）: hiddenはbodyを独立スクローラーにし、
-       二重スクロール・空白領域・IntersectionObserver不発の原因になっていた */
-    overflow-x: clip;
-  }
-  a { color: var(--mint-deep); }
-  a:focus-visible {
-    outline: 3px solid var(--rose-deep);
-    outline-offset: 4px;
-    border-radius: 12px;
-  }
-  .skip-link {
-    background: var(--card-bg);
-    color: var(--ink);
-    border-color: var(--rose-deep);
-    border-radius: 999px;
-    box-shadow: var(--shadow);
-  }
-
-  .topnav {
-    gap: clamp(6px, 3vw, 28px);
-    background: rgba(255, 253, 248, .94);
-    border-bottom: 1px solid rgba(229, 217, 202, .9);
-    box-shadow: 0 7px 24px rgba(107, 83, 72, .07);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
-  .topnav a {
-    color: var(--ink);
-    opacity: .78;
-    min-height: 52px;
-    padding: 0 6px;
-    border-bottom: 3px solid transparent;
-  }
-  .topnav a:hover,
-  .topnav a:focus-visible {
-    color: var(--rose-deep);
-    opacity: 1;
-    border-bottom-color: var(--rose);
-  }
-
-  .hero {
-    isolation: isolate;
-    background:
-      radial-gradient(circle at 17% 24%, rgba(255, 253, 248, .82) 0 5rem, transparent 5.1rem),
-      radial-gradient(circle at 86% 16%, rgba(143, 191, 172, .25) 0 8rem, transparent 8.1rem),
-      linear-gradient(145deg, var(--rose-light) 0%, #f9eee9 48%, var(--mint-light) 100%);
-    color: var(--ink);
-    padding: 112px 20px 104px;
-    border-radius: 0 0 52px 52px;
-    box-shadow: 0 18px 50px rgba(107, 83, 72, .09);
-  }
-  .hero::before {
-    content: "";
-    position: absolute;
-    width: 15rem;
-    height: 15rem;
-    left: -7rem;
-    bottom: -8rem;
-    z-index: -1;
-    border: 30px solid rgba(201, 138, 147, .16);
-    border-radius: 48% 52% 58% 42%;
-    transform: rotate(18deg);
-  }
-  .hero::after {
-    background-image: radial-gradient(rgba(135, 85, 97, .18) 1.1px, transparent 1.6px);
-    background-size: 34px 34px;
-    opacity: .62;
-    mask-image: linear-gradient(to bottom, rgba(0,0,0,.55), transparent 82%);
-    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,.55), transparent 82%);
-  }
-  .hero .roles {
-    display: inline-block;
-    color: var(--rose-deep);
-    opacity: 1;
-    letter-spacing: .25em;
-    background: rgba(255, 253, 248, .72);
-    border: 1px solid rgba(201, 138, 147, .30);
-    border-radius: 999px;
-    padding: 8px 18px;
-  }
-  .hero h1 {
-    margin: 30px 0 20px;
-    color: var(--ink);
-    font-weight: 800;
-    letter-spacing: .055em;
-    text-wrap: balance;
-  }
-  .hero .sub { color: #5f554f; opacity: 1; }
-  .hero .gou {
-    display: inline-block;
-    margin-top: 38px;
-    color: var(--mint-deep);
-    opacity: 1;
-    background: rgba(255, 253, 248, .78);
-    border-radius: 999px;
-    padding: 9px 20px;
-  }
-
-  section { padding: 38px 0; }
-  section:first-of-type { padding-top: 74px; }
-  section:last-of-type { padding-bottom: 76px; }
-  section.alt {
-    background: linear-gradient(110deg, rgba(244, 227, 230, .46), rgba(227, 240, 234, .38));
-    border-block: 1px solid rgba(229, 217, 202, .7);
-  }
-  .inner {
-    width: calc(100% - 32px);
-    max-width: 780px;
-    margin: 0 auto;
-    padding: clamp(32px, 7vw, 56px) clamp(22px, 6vw, 50px);
-    background: rgba(255, 253, 248, .94);
-    border: 1px solid rgba(229, 217, 202, .9);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow);
-  }
-  .inner.wide { max-width: 1080px; }
-  .label {
-    width: max-content;
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 5px 14px 5px 18px;
-    color: var(--rose-deep);
-    background: var(--rose-light);
-    border-radius: 999px;
-    letter-spacing: .28em;
-  }
-  h2 {
-    color: var(--ink);
-    margin: 16px 0 42px;
-    font-weight: 800;
-    letter-spacing: .045em;
-    text-wrap: balance;
-  }
-  .lead { color: var(--sub); }
-
-  .prof-text { color: #544a45; }
-  .prof-text b {
-    color: var(--rose-deep);
-    text-decoration: underline;
-    text-decoration-color: rgba(201, 138, 147, .45);
-    text-decoration-thickness: .38em;
-    text-underline-offset: -.24em;
-    text-decoration-skip-ink: none;
-  }
-  .timeline {
-    border-left-color: var(--rose-light);
-    border-left-width: 5px;
-  }
-  .tl-item { padding: 12px 0 21px; }
-  .tl-item::before {
-    left: -38px;
-    width: 13px;
-    height: 13px;
-    background: var(--mint);
-    border: 3px solid var(--card-bg);
-    box-shadow: 0 0 0 2px var(--mint);
-  }
-  .tl-item .year { color: var(--rose-deep); }
-  .tl-item .memo { color: var(--sub); }
-
-  table.price {
-    border-collapse: separate;
-    border-spacing: 0 10px;
-    background: transparent;
-  }
-  table.price th,
-  table.price td {
-    background: var(--card-bg);
-    border-color: var(--line);
-    padding: 16px 18px;
-  }
-  table.price th {
-    border-radius: 16px 0 0 16px;
-    border-right: 0;
-  }
-  table.price td {
-    color: var(--mint-deep);
-    border-radius: 0 16px 16px 0;
-    text-align: right;
-  }
-  .price-note { color: var(--sub); }
-
-  .works { gap: 22px; }
-  .work {
-    position: relative;
-    overflow: hidden;
-    min-width: 0;
-    background: var(--card-bg);
-    border-color: var(--line);
-    border-radius: 24px;
-    padding: 28px 26px;
-    box-shadow: 0 8px 24px rgba(107, 83, 72, .07);
-  }
-  .work::before {
-    content: "";
-    position: absolute;
-    inset: 0 auto 0 0;
-    width: 5px;
-    background: linear-gradient(var(--rose), var(--mint));
-    opacity: .62;
-  }
-  a.work:hover,
-  a.work:focus-visible {
-    border-color: var(--rose);
-    transform: translateY(-4px);
-    box-shadow: 0 16px 34px rgba(107, 83, 72, .13);
-  }
-  .work .emoji {
-    display: inline-grid;
-    place-items: center;
-    width: 48px;
-    height: 48px;
-    background: linear-gradient(145deg, var(--rose-light), var(--mint-light));
-    border-radius: 16px;
-  }
-  .work h3 { color: var(--ink); margin-top: 14px; }
-  .work p { color: var(--sub); }
-  .work .tag {
-    color: var(--rose-deep);
-    border: 0;
-    background: var(--rose-light);
-    border-radius: 999px;
-    padding: 4px 11px;
-  }
-  .work .tag.soon {
-    color: var(--mint-deep);
-    background: var(--mint-light);
-  }
-
-  /* カード内ビジュアル（2026-07-11 えいちゃん指示: ゲーム=アイコン画像・教材=実サムネ） */
-  .work-visual {
-    display: block; width: calc(100% + 48px); margin: -24px -24px 14px;
-    border-radius: 18px 18px 0 0; aspect-ratio: 16 / 10; object-fit: cover;
-  }
-  /* 発売直後の主力であるBrain教材カードだけ、同じ構造のまま視覚的に強調。 */
-  .works > a.work[href^="https://brain-market.com/"] {
-    grid-column: 1 / -1;
-    background:
-      linear-gradient(120deg, rgba(244, 227, 230, .72), rgba(255, 253, 248, .98) 52%, rgba(227, 240, 234, .78));
-    border: 2px solid rgba(201, 138, 147, .75);
-    box-shadow: 0 18px 42px rgba(135, 85, 97, .16);
-  }
-  .works > a.work[href^="https://brain-market.com/"]::before { width: 9px; opacity: 1; }
-  .works > a.work[href^="https://brain-market.com/"] .emoji {
-    width: 58px;
-    height: 58px;
-    font-size: 34px;
-    background: var(--card-bg);
-    box-shadow: 0 8px 18px rgba(135, 85, 97, .12);
-  }
-  .works > a.work[href^="https://brain-market.com/"] h3 {
-    font-size: clamp(18px, 2.4vw, 22px);
-    color: var(--rose-deep);
-  }
-  .works > a.work[href^="https://brain-market.com/"] .tag {
-    color: #fff;
-    background: var(--rose-deep);
-  }
-
-  .btn {
-    background: var(--mint-deep);
-    border-radius: 999px;
-    padding: 17px 38px;
-    box-shadow: 0 10px 24px rgba(79, 117, 103, .22);
-  }
-  .btn:hover,
-  .btn:focus-visible {
-    box-shadow: 0 14px 30px rgba(79, 117, 103, .30);
-  }
-
-  footer {
-    background: #514743;
-    border-radius: 52px 52px 0 0;
-    color: #fffdf8;
-    padding-top: 72px;
-  }
-  footer .sns a { color: #fffdf8; }
-  footer .sns a:hover { color: #d7eee4; }
-
-  @media (max-width: 520px) {
-    .topnav { justify-content: flex-start; padding: 0 8px; }
-    .topnav a { font-size: 10px; letter-spacing: .055em; padding: 0 5px; }
-    .hero { padding: 78px 18px 72px; border-radius: 0 0 34px 34px; }
-    .hero .roles {
-      display: block;
-      width: fit-content;
-      max-width: 100%;
-      margin-inline: auto;
-      font-size: 9px;
-      line-height: 1.55;
-      letter-spacing: .10em;
-      overflow-wrap: anywhere;
-      padding: 7px 11px;
-    }
-    .hero h1 {
-      max-width: 100%;
-      font-size: 30px;
-      line-height: 1.55;
-      overflow-wrap: anywhere;
-    }
-    .hero .sub { max-width: 100%; font-size: 14px; overflow-wrap: anywhere; }
-    section { padding: 26px 0; }
-    section:first-of-type { padding-top: 46px; }
-    section:last-of-type { padding-bottom: 52px; }
-    .inner { width: calc(100% - 24px); padding: 32px 20px; border-radius: 24px; }
-    h2 { margin-bottom: 34px; }
-    .timeline { padding-left: 24px; }
-    .tl-item::before { left: -34px; }
-    table.price { border-spacing: 0 12px; }
-    table.price tr {
-      overflow: hidden;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: var(--card-bg);
-    }
-    table.price th,
-    table.price td { border: 0; border-radius: 0; }
-    table.price td {
-      background: var(--mint-light);
-      border-top: 1px solid var(--line);
-      text-align: left;
-    }
-    .works { grid-template-columns: 1fr; }
-    .work { padding: 25px 22px; }
-    .works > a.work[href^="https://brain-market.com/"] { padding: 29px 24px; }
-    .btn { width: 100%; padding-inline: 18px; }
-    footer { border-radius: 34px 34px 0 0; }
-  }
-
-  @media (min-width: 900px) {
-    .hero { padding: 148px 20px 136px; }
-    .inner { max-width: 820px; }
-    .inner.wide { max-width: 1120px; }
-    .works { max-width: 1040px; }
-    .works > a.work[href^="https://brain-market.com/"] { padding: 36px 34px; }
-  }
-
-  /* ===== 依頼書73: Gem / Skills × ミニアプリの二本柱 ===== */
-  :root {
-    --gem: #2563eb;
-    --gem-deep: #173f8a;
-    --gem-light: #eaf1ff;
-    --line-green: #0f7048;
-  }
-  section[id], header[id] { scroll-margin-top: 76px; }
-  .topnav { justify-content: center; }
-  .topnav .nav-cta {
-    min-height: 44px;
-    margin-block: 8px;
-    padding: 0 15px;
-    color: #fff;
-    background: var(--gem);
-    border: 0;
-    border-radius: 999px;
-    opacity: 1;
-    box-shadow: 0 5px 14px rgba(37, 99, 235, .22);
-  }
-  .topnav .nav-cta:hover,
-  .topnav .nav-cta:focus-visible {
-    color: #fff;
-    border-bottom-color: transparent;
-    background: var(--gem-deep);
-  }
-
-  .hero {
-    padding: 88px 20px 82px;
-    text-align: left;
-    background:
-      radial-gradient(circle at 82% 15%, rgba(37, 99, 235, .17) 0 11rem, transparent 11.1rem),
-      radial-gradient(circle at 8% 84%, rgba(143, 191, 172, .24) 0 9rem, transparent 9.1rem),
-      linear-gradient(135deg, #edf4ff 0%, #fff8ef 54%, #e8f4ef 100%);
-    border-radius: 0 0 62px 62px;
-  }
-  .hero::before {
-    width: 17rem;
-    height: 17rem;
-    left: auto;
-    right: -10rem;
-    bottom: -11rem;
-    border-color: rgba(37, 99, 235, .10);
-  }
-  .hero::after {
-    opacity: .36;
-    background-image: radial-gradient(rgba(37, 99, 235, .22) 1px, transparent 1.7px);
-  }
-  .hero-shell {
-    position: relative;
-    z-index: 2;
-    display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(320px, .8fr);
-    align-items: center;
-    gap: clamp(40px, 7vw, 86px);
-    width: min(1120px, 100%);
-    margin: 0 auto;
-  }
-  .hero .roles {
-    color: var(--gem-deep);
-    background: rgba(255, 255, 255, .78);
-    border-color: rgba(37, 99, 235, .20);
-    letter-spacing: .12em;
-  }
-  .hero .eyebrow {
-    margin: 22px 0 0;
-    color: var(--gem);
-    font-size: 12px;
-    font-weight: 900;
-    letter-spacing: .24em;
-  }
-  .hero h1 {
-    max-width: 720px;
-    margin: 18px 0 20px;
-    font-size: clamp(38px, 4.5vw, 58px);
-    line-height: 1.35;
-    letter-spacing: .025em;
-  }
-  .hero-title-line { display: block; white-space: nowrap; }
-  .hero .sub {
-    max-width: 650px;
-    margin: 0;
-    color: #4e5d70;
-    font-size: clamp(15px, 1.6vw, 18px);
-    line-height: 1.9;
-  }
-  .hero-price {
-    margin: 18px 0 0;
-    color: var(--ink);
-    font-size: 14px;
-    font-weight: 800;
-  }
-  .hero-actions {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    flex-wrap: wrap;
-    margin-top: 28px;
-  }
-  .btn.gem-btn {
-    background: var(--gem);
-    box-shadow: 0 12px 28px rgba(37, 99, 235, .28);
-  }
-  .btn.gem-btn:hover,
-  .btn.gem-btn:focus-visible {
-    background: var(--gem-deep);
-    box-shadow: 0 15px 32px rgba(37, 99, 235, .34);
-  }
-  .hero-secondary,
-  .section-link {
-    display: inline-flex;
-    align-items: center;
-    min-height: 44px;
-    color: var(--gem-deep);
-    font-weight: 800;
-    text-decoration: underline;
-    text-underline-offset: 5px;
-  }
-
-  .gem-map {
-    position: relative;
-    min-height: 390px;
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    gap: 14px;
-    padding: 38px 28px 64px;
-    border: 1px solid rgba(37, 99, 235, .18);
-    border-radius: 34px;
-    background: rgba(255, 255, 255, .76);
-    box-shadow: 0 24px 60px rgba(55, 78, 114, .14);
-    overflow: hidden;
-  }
-  .gem-map::before,
-  .gem-map::after {
-    content: "";
-    position: absolute;
-    border-radius: 50%;
-    pointer-events: none;
-  }
-  .gem-map::before {
-    width: 220px;
-    height: 220px;
-    left: -80px;
-    top: -90px;
-    background: rgba(143, 191, 172, .16);
-  }
-  .gem-map::after {
-    width: 180px;
-    height: 180px;
-    right: -70px;
-    bottom: -70px;
-    background: rgba(37, 99, 235, .10);
-  }
-  .gem-doc {
-    position: relative;
-    z-index: 1;
-    min-height: 205px;
-    padding: 24px 18px;
-    border: 2px solid rgba(37, 99, 235, .20);
-    border-radius: 22px;
-    background: #fff;
-    box-shadow: 0 12px 28px rgba(56, 78, 111, .10);
-  }
-  .gem-doc.skills {
-    color: #fff;
-    border-color: transparent;
-    background: linear-gradient(145deg, var(--gem), var(--gem-deep));
-  }
-  .gem-doc strong {
-    display: block;
-    margin-bottom: 24px;
-    font-size: 20px;
-    letter-spacing: .04em;
-  }
-  .gem-doc i {
-    display: block;
-    width: 100%;
-    height: 9px;
-    margin: 12px 0;
-    border-radius: 999px;
-    background: var(--gem-light);
-  }
-  .gem-doc i:nth-child(3) { width: 78%; }
-  .gem-doc i:nth-child(4) { width: 58%; }
-  .gem-doc.skills i { background: rgba(255, 255, 255, .34); }
-  .gem-arrow {
-    position: relative;
-    z-index: 1;
-    color: var(--gem);
-    font-size: 34px;
-    font-weight: 900;
-  }
-  .gem-map-note {
-    position: absolute;
-    z-index: 2;
-    left: 50%;
-    bottom: 20px;
-    transform: translateX(-50%);
-    width: max-content;
-    max-width: calc(100% - 40px);
-    padding: 7px 15px;
-    color: var(--gem-deep);
-    background: var(--gem-light);
-    border-radius: 999px;
-    font-size: 12px;
-    font-weight: 900;
-    letter-spacing: .08em;
-  }
-
-  .gem-detail .inner {
-    max-width: 1040px;
-    border-color: rgba(37, 99, 235, .18);
-    background:
-      linear-gradient(120deg, rgba(234, 241, 255, .74), rgba(255, 253, 248, .98) 44%, rgba(227, 240, 234, .62));
-  }
-  .gem-detail .label { color: var(--gem-deep); background: var(--gem-light); }
-  .gem-facts {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    max-width: 860px;
-    margin: 0 auto 30px;
-  }
-  .gem-fact {
-    padding: 24px 18px;
-    text-align: center;
-    border: 1px solid rgba(37, 99, 235, .13);
-    border-radius: 20px;
-    background: rgba(255, 255, 255, .82);
-  }
-  .gem-fact strong {
-    display: block;
-    color: var(--gem-deep);
-    font-size: 19px;
-    line-height: 1.5;
-  }
-  .gem-fact span { display: block; margin-top: 7px; color: var(--sub); font-size: 13px; }
-
-  .miniapp-intro .inner {
-    position: relative;
-    max-width: 1040px;
-    overflow: hidden;
-  }
-  .miniapp-intro .inner::after {
-    content: "🛠️";
-    position: absolute;
-    right: clamp(20px, 7vw, 76px);
-    top: 50%;
-    transform: translateY(-50%) rotate(-7deg);
-    display: grid;
-    place-items: center;
-    width: clamp(112px, 16vw, 170px);
-    aspect-ratio: 1;
-    border-radius: 38px;
-    background: linear-gradient(145deg, var(--rose-light), var(--mint-light));
-    box-shadow: 0 16px 34px rgba(107, 83, 72, .10);
-    font-size: clamp(54px, 8vw, 86px);
-  }
-  .miniapp-copy { max-width: 650px; padding-right: clamp(140px, 20vw, 230px); }
-  .miniapp-copy h2 { text-align: left; margin-bottom: 20px; }
-  .miniapp-copy .label { margin: 0; }
-  .miniapp-copy .lead { text-align: left; margin: 0; }
-  .section-actions {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    flex-wrap: wrap;
-    margin-top: 28px;
-  }
-  .btn.line-btn { background: var(--line-green); box-shadow: 0 10px 24px rgba(22, 138, 91, .23); }
-  .btn.line-btn:hover,
-  .btn.line-btn:focus-visible { background: #0b5738; box-shadow: 0 14px 30px rgba(15, 112, 72, .30); }
-  .inline-consult { margin-top: 28px; text-align: center; }
-
-  /* 旧キャンペーンの全幅強調を解除し、作品を同じ物差しへ戻す。 */
-  .works > a.work[href^="https://brain-market.com/"] {
-    grid-column: auto;
-    padding: 28px 26px;
-    background: var(--card-bg);
-    border: 1px solid var(--line);
-    box-shadow: 0 8px 24px rgba(107, 83, 72, .07);
-  }
-  .works > a.work[href^="https://brain-market.com/"]::before { width: 5px; opacity: .62; }
-  .works > a.work[href^="https://brain-market.com/"] .emoji {
-    width: 48px;
-    height: 48px;
-    font-size: 30px;
-    background: linear-gradient(145deg, var(--rose-light), var(--mint-light));
-    box-shadow: none;
-  }
-  .works > a.work[href^="https://brain-market.com/"] h3 { font-size: 16px; color: var(--ink); }
-  .works > a.work[href^="https://brain-market.com/"] .tag { color: var(--rose-deep); background: var(--rose-light); }
-
-  @media (max-width: 760px) {
-    .topnav { justify-content: space-between; gap: 4px; overflow: visible; }
-    .topnav a { padding-inline: 7px; }
-    .topnav .nav-optional { display: none; }
-    .topnav .nav-cta { min-height: 44px; margin-left: auto; padding-inline: 12px; }
-    .hero { padding: 54px 16px 58px; border-radius: 0 0 38px 38px; }
-    .hero-shell { grid-template-columns: 1fr; gap: 34px; }
-    .hero h1 { font-size: clamp(30px, 8.5vw, 36px); }
-    .hero-actions { align-items: stretch; flex-direction: column; gap: 10px; }
-    .hero-actions .btn { width: 100%; text-align: center; }
-    .hero-secondary { justify-content: center; }
-    .gem-map { min-height: 315px; padding: 28px 18px 56px; gap: 9px; border-radius: 26px; }
-    .gem-doc { min-height: 170px; padding: 20px 13px; border-radius: 18px; }
-    .gem-doc strong { font-size: 16px; }
-    .gem-arrow { font-size: 26px; }
-    .gem-facts { grid-template-columns: 1fr; }
-    .miniapp-intro .inner::after {
-      position: relative;
-      right: auto;
-      top: auto;
-      transform: rotate(-5deg);
-      width: 112px;
-      margin: 30px auto 0;
-      font-size: 58px;
-    }
-    .miniapp-copy { max-width: none; padding-right: 0; }
-    .miniapp-copy h2, .miniapp-copy .lead { text-align: center; }
-    .miniapp-copy .label { margin-inline: auto; }
-    .section-actions { flex-direction: column; align-items: stretch; }
-    .section-actions .btn { width: 100%; text-align: center; }
-    .section-link { justify-content: center; }
-  }
-
-  @media (min-width: 900px) {
-    .hero { padding: 102px 24px 94px; }
-  }
-
-  /* ===== 依頼書73 v4: えいの正本キャラで「小さなAI工房」を視覚化 ===== */
-  .nav-brand { gap: 8px; }
-  .nav-mark {
-    width: 34px;
-    height: 34px;
-    object-fit: contain;
-    flex: 0 0 auto;
-  }
-
-  .gem-map {
-    display: block;
-    min-height: 0;
-    width: min(100%, 440px);
-    margin-inline: auto;
-    padding: 14px 14px 54px;
-  }
-  .hero-art {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 4 / 3;
-    object-fit: contain;
-    filter: drop-shadow(0 18px 22px rgba(31, 56, 101, .16));
-    animation: atelier-float 6s ease-in-out infinite;
-  }
-  .cta-proof {
-    max-width: 610px;
-    margin: 14px 0 0;
-    color: #5f6c7e;
-    font-size: 12px;
-    font-weight: 700;
-  }
-
-  .miniapp-intro .inner::after { content: none; display: none; }
-  .miniapp-layout {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
-    align-items: center;
-    gap: clamp(26px, 5vw, 64px);
-  }
-  .miniapp-copy { max-width: 650px; padding-right: 0; }
-  .miniapp-art {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 4 / 3;
-    object-fit: contain;
-    filter: drop-shadow(0 16px 20px rgba(75, 89, 107, .13));
-  }
-
-  .service-name {
-    display: grid;
-    grid-template-columns: 112px minmax(0, 1fr);
-    align-items: center;
-    gap: 16px;
-  }
-  .service-icon {
-    display: block;
-    width: 112px;
-    height: 88px;
-    padding: 0;
-    object-fit: contain;
-    background: linear-gradient(145deg, rgba(234, 241, 255, .86), rgba(227, 240, 234, .72));
-    border-radius: 18px;
-  }
-
-  .work-icon {
-    display: block;
-    width: 100%;
-    height: 190px;
-    margin: -4px 0 12px;
-    padding: 0;
-    object-fit: contain;
-    background: linear-gradient(145deg, rgba(234, 241, 255, .72), rgba(255, 248, 239, .78));
-    border-radius: 24px;
-    filter: drop-shadow(0 9px 12px rgba(75, 89, 107, .12));
-    transition: transform .25s ease;
-  }
-  a.work:hover .work-icon,
-  a.work:focus-visible .work-icon { transform: translateY(-3px) rotate(-1deg); }
-  .work-visual { height: auto; }
-
-  .contact-art {
-    display: block;
-    width: min(210px, 64%);
-    height: auto;
-    margin: -12px auto 12px;
-    aspect-ratio: 4 / 3;
-    object-fit: contain;
-    filter: drop-shadow(0 13px 17px rgba(75, 89, 107, .12));
-  }
-
-  @keyframes atelier-float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-7px); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero-art { animation: none; }
-    .work-icon { transition: none; }
-  }
-
-  @media (max-width: 760px) {
-    .nav-brand-text { display: none; }
-    .nav-mark { width: 36px; height: 36px; }
-    .gem-map { width: min(100%, 350px); padding: 10px 10px 52px; }
-    .cta-proof { text-align: center; margin-inline: auto; }
-    .miniapp-layout { grid-template-columns: 1fr; gap: 22px; }
-    .miniapp-art { width: min(230px, 72%); margin-inline: auto; }
-    .service-name { grid-template-columns: 84px minmax(0, 1fr); gap: 12px; }
-    .service-icon { width: 84px; height: 72px; }
-    .work-icon { width: 100%; height: 168px; }
-    .contact-art { width: min(190px, 66%); }
-  }
-</style>
-
-<style>
-  /* ===== v5 (2026-09-02) 追加スタイル ===== */
-  .hero .eyebrow.v5-alert { color: #9a3412; letter-spacing: .02em; }
-  .v5-alert { color: #9a3412; background: #fff1e6; border: 1px solid #f5c9a8; border-radius: 999px; display: inline-block; padding: 6px 14px; letter-spacing: .02em; font-size: 12.5px; font-weight: 800; }
-  .v5-stats { list-style: none; margin: 22px 0 6px; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 520px; }
-  .v5-stats li { background: rgba(255,255,255,.82); border: 1px solid rgba(37,99,235,.16); border-radius: 14px; padding: 12px 8px; text-align: center; }
-  .v5-stats strong { display: block; font-size: 22px; line-height: 1.1; color: var(--gem-deep); letter-spacing: -.01em; }
-  .v5-stats span { display: block; font-size: 11.5px; color: var(--sub); margin-top: 4px; }
-  .v5-cards { display: grid; grid-template-columns: 1fr; gap: 14px; max-width: 720px; margin: 0 auto; }
-  .v5-card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 20px 20px 18px; }
-  .v5-card .v5-q { display: block; font-weight: 900; font-size: 16px; color: var(--ink); margin-bottom: 6px; }
-  .v5-card b { display: block; color: var(--gem-deep); font-size: 13px; letter-spacing: .08em; margin-bottom: 6px; }
-  .v5-card p { margin: 0; font-size: 14px; color: var(--sub); line-height: 1.85; }
-  .v5-entrances-art { display: block; width: min(560px, 100%); height: auto; margin: 0 auto 26px; border-radius: 22px; box-shadow: 0 16px 40px rgba(23,63,138,.12); }
-  .v5-fact { text-decoration: none; color: inherit; transition: transform .2s ease, box-shadow .2s ease; }
-  .v5-fact:hover, .v5-fact:focus-visible { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(37,99,235,.14); }
-  .v5-sub-label { margin-top: 48px; }
-  .v5-h3 { text-align: center; font-size: 20px; margin: 10px 0 30px; }
-  .v5-books { display: grid; grid-template-columns: 1fr; gap: 12px; max-width: 720px; margin: 0 auto; }
-  .v5-book { position: relative; display: grid; grid-template-columns: 40px 1fr auto; grid-template-rows: auto auto; column-gap: 12px; align-items: center; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; text-decoration: none; color: var(--ink); transition: transform .2s ease, border-color .2s ease; }
-  .v5-book:hover, .v5-book:focus-visible { transform: translateY(-3px); border-color: var(--gem); }
-  .v5-book-no { grid-row: 1 / span 2; width: 40px; height: 40px; border-radius: 50%; background: var(--gem-light); color: var(--gem-deep); font-weight: 900; display: grid; place-items: center; }
-  .v5-book strong { font-size: 15.5px; }
-  .v5-book > span:not(.v5-book-no) { grid-column: 2; font-size: 12.5px; color: var(--sub); }
-  .v5-book em { grid-column: 3; grid-row: 1 / span 2; font-style: normal; font-weight: 900; color: var(--gem-deep); white-space: nowrap; }
-  @media (min-width: 720px) {
-    .v5-cards { grid-template-columns: repeat(3, 1fr); }
-    .v5-tools-grid { max-width: 900px; }
-  }
-  @media (max-width: 480px) {
-    .v5-stats strong { font-size: 19px; }
-    .v5-alert { font-size: 11.5px; padding: 5px 11px; }
-  }
+  .works{display:grid;grid-template-columns:1fr;gap:16px}
+  @media(min-width:640px){.works{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:960px){.works{grid-template-columns:repeat(3,1fr);gap:20px}}
+  .work{position:relative;background:#fff;border:1px solid var(--line);border-radius:var(--r-md);padding:22px 20px;color:var(--ink);text-decoration:none;display:block;transition:transform .2s,box-shadow .2s,border-color .2s;overflow:hidden}
+  .work::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(180deg,var(--teal),var(--gem))}
+  a.work:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--gem)}
+  .work img{border-radius:12px;margin-bottom:12px;aspect-ratio:4/3;object-fit:cover;width:100%}
+  .work img.wide{aspect-ratio:auto}
+  .work h3{font-size:16.5px;font-weight:900;margin-bottom:6px}
+  .work p{font-size:13.5px;color:var(--sub);margin:0}
+  .work .tag{display:inline-block;margin-top:12px;font-size:11px;font-weight:900;letter-spacing:.08em;color:var(--navy);background:var(--gem-light);border-radius:999px;padding:4px 10px}
+  .work .tag.live{color:var(--line-green);background:#e6f4ec}.work .tag.soon{color:var(--sub);background:#f1efe9}
+  a.work .tag::after{content:" ↗"}
+  /* characters */
+  .chars{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  @media(min-width:860px){.chars{grid-template-columns:repeat(5,1fr)}}
+  .chara{background:#fff;border:1px solid var(--line);border-radius:22px;padding:16px 12px 18px;text-align:center;transition:transform .2s}
+  .chara:hover{transform:translateY(-4px) rotate(-1deg)}
+  .chara .face{width:120px;height:120px;border-radius:50%;margin:0 auto 10px;overflow:hidden;background:var(--paper);border:4px solid #fff;box-shadow:0 8px 18px rgba(31,42,58,.12)}
+  .chara .face img{width:100%;height:100%;object-fit:cover}
+  .chara .face.emoji{display:grid;place-items:center;font-size:54px;line-height:1}
+  .chara b{display:block;font-size:16px}.chara small{display:block;color:var(--teal);font-weight:900;font-size:11.5px;letter-spacing:.08em;margin:2px 0 6px}
+  .chara p{margin:0;font-size:12.5px;color:var(--sub);line-height:1.7}
+  /* price */
+  table.price{width:100%;border-collapse:separate;border-spacing:0 10px}
+  table.price th,table.price td{background:#fff;padding:14px 16px;font-size:14.5px;text-align:left;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  table.price th{border-left:1px solid var(--line);border-radius:14px 0 0 14px;font-weight:700;width:64%}
+  table.price td{border-right:1px solid var(--line);border-radius:0 14px 14px 0;font-weight:900;color:var(--navy);white-space:nowrap}
+  table.price th small{display:block;font-weight:500;color:var(--sub);font-size:12px}
+  .note{font-size:13px;color:var(--sub);text-align:center;margin:12px auto 0;max-width:640px}
+  /* build */
+  .build{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:30px 24px;box-shadow:var(--shadow)}
+  .build .row{display:grid;grid-template-columns:1fr;gap:22px;align-items:center}
+  @media(min-width:860px){.build .row{grid-template-columns:1fr 1fr}}
+  .build img{border-radius:var(--r-md)}
+  .tools{display:grid;grid-template-columns:1fr;gap:10px;margin:14px 0}
+  @media(min-width:640px){.tools{grid-template-columns:repeat(3,1fr)}}
+  .tool{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+  .tool b{display:block;font-size:15px}.tool small{display:block;color:var(--teal);font-weight:900;font-size:11.5px;letter-spacing:.08em}
+  .tool p{margin:6px 0 0;font-size:12.5px;color:var(--sub);line-height:1.7}
+  .timeline{list-style:none;padding:0;margin:14px 0 0;border-left:3px solid var(--teal-light)}
+  .timeline li{position:relative;padding:4px 0 10px 18px;font-size:13.5px;color:var(--sub)}
+  .timeline li::before{content:"";position:absolute;left:-8px;top:12px;width:12px;height:12px;border-radius:50%;background:var(--teal);border:3px solid #fff}
+  .timeline b{color:var(--ink)}
+  .books{display:grid;grid-template-columns:1fr;gap:10px;margin-top:14px}
+  .book{display:grid;grid-template-columns:38px 1fr auto;gap:10px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:12px 14px;text-decoration:none;color:var(--ink);transition:transform .2s,border-color .2s}
+  .book:hover{transform:translateY(-2px);border-color:var(--gem)}
+  .book .no{width:38px;height:38px;border-radius:50%;background:var(--gem-light);color:var(--navy);font-weight:900;display:grid;place-items:center}
+  .book b{display:block;font-size:14.5px}.book span{display:block;font-size:12px;color:var(--sub)}
+  .book em{font-style:normal;font-weight:900;color:var(--navy);white-space:nowrap}
+  /* profile */
+  .prof{display:grid;grid-template-columns:1fr;gap:26px;align-items:start}
+  @media(min-width:860px){.prof{grid-template-columns:1fr 1.2fr}}
+  .prof .me{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;text-align:center}
+  .prof .me img{width:180px;margin:0 auto 8px}
+  .prof .me b{font-size:18px}
+  .prof .me p{color:var(--sub);font-size:14px;margin:6px 0 0}
+  .tl{list-style:none;padding:0;margin:0}
+  .tl li{display:grid;grid-template-columns:78px 1fr;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line)}
+  .tl .y{font-weight:900;color:var(--teal)}
+  .tl .w{font-weight:900}.tl .m{font-size:13px;color:var(--sub)}
+  /* contact */
+  .contact{background:linear-gradient(135deg,#e9f6f1,#eef4ff);border-radius:var(--r-lg);padding:44px 24px;text-align:center}
+  .contact img{width:min(420px,100%);margin:0 auto 14px;border-radius:var(--r-md)}
+  footer{padding:40px 20px 56px;text-align:center;color:var(--sub);font-size:13px}
+  footer .sns{display:flex;justify-content:center;gap:18px;margin-bottom:10px}
+  footer a{color:var(--ink);font-weight:900;text-decoration:none}
+  /* reveal */
+  .js .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+  .js .reveal.on{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.js .reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
+<a class="sr-only" href="#main">本文へ</a>
+<nav class="topnav" aria-label="ページ内メニュー" data-rondo-click-sec="top-nav">
+  <a class="brand" href="#top" data-rondo-label="top-nav-brand"><img src="assets/request73-v4/web/brand-atelier-mark-128.png" width="34" height="34" alt="" aria-hidden="true" />AIミニアプリ工房 えい</a>
+  <a class="opt" href="#can" data-rondo-label="top-nav-can">できること</a>
+  <a class="opt" href="#works" data-rondo-label="top-nav-works">道具棚</a>
+  <a class="opt" href="#chars" data-rondo-label="top-nav-chars">仲間</a>
+  <a class="opt" href="#price" data-rondo-label="top-nav-price">料金</a>
+  <a class="opt" href="#build" data-rondo-label="top-nav-build">作り方</a>
+  <a class="cta" href="https://lin.ee/P5qMYBk" target="_blank" rel="noopener" data-rondo-cta data-rondo-label="top-nav-line">LINEで相談（無料）</a>
+</nav>
 
-  <a class="skip-link" href="#main-content">本文へ移動</a>
-  <nav class="topnav" aria-label="ページ内メニュー" data-rondo-click-sec="top-nav">
-    <a class="nav-brand" href="#gem" data-rondo-label="top-nav-gem"><img class="nav-mark" src="assets/request73-v4/web/brand-atelier-mark-128.png" width="128" height="128" alt="" aria-hidden="true" /><span class="nav-brand-text">GEM / SKILLS</span></a>
-    <a href="#mini-app" data-rondo-label="top-nav-app">ミニアプリ</a>
-    <a class="nav-optional" href="#works" data-rondo-label="top-nav-works">WORKS</a>
-    <a class="nav-optional" href="#profile" data-rondo-label="top-nav-profile">PROFILE</a>
-    <a class="nav-cta" href="shindan/" data-rondo-cta data-rondo-label="top-nav-shindan">Gemの健康診断（無料）</a>
-  </nav>
+<main id="main" tabindex="-1">
+<header class="hero" id="top" data-sec="top-hero">
+  <div class="inner">
+    <div class="copy">
+      <span class="who"><i></i>元教員22年 × 24人のAI社員で運営</span>
+      <h1>「ちょっと足りない」を、<br /><em>その日のうちに</em>動く道具に。</h1>
+      <p class="sub">美容室の予約メモから、Gemの引っ越しスキルまで。コードは書きません。日本語で頼んで、確かめて、渡す。小さな困りごとを、小さな道具でほどく工房です。</p>
+      <ul class="stats" aria-label="この工房の数字">
+        <li><strong>22年</strong><span>教壇に立った年数</span></li>
+        <li><strong>24人</strong><span>いっしょに働くAI社員</span></li>
+        <li><strong>4本</strong><span>Brainで販売中の商品</span></li>
+        <li><strong>当日</strong><span>デモが届くまでの時間</span></li>
+      </ul>
+      <div class="hero-actions">
+        <a class="btn line" href="https://lin.ee/P5qMYBk" target="_blank" rel="noopener" data-rondo-cta data-rondo-label="top-hero-line">LINEで「できる？」を聞く<span class="note">無料・一言でOK</span></a>
+        <a class="btn ghost" href="#works" data-rondo-label="top-hero-works">工房の道具棚を見る ↓</a>
+      </div>
+    </div>
+    <div class="hero-art reveal">
+      <img src="assets/fal-2026-09/web/hero-v6-768x576.webp" srcset="assets/fal-2026-09/web/hero-v6-768x576.webp 768w, assets/fal-2026-09/web/hero-v6-1536x1152.webp 1536w" sizes="(min-width: 900px) 44vw, 92vw" width="768" height="576" alt="工房の案内役が小さなアプリを見せ、なまお・ぽてうさ・クロノ・ロボットが手伝っている場面" loading="eager" fetchpriority="high" decoding="async" />
+      <span class="tag">工房の仲間たち（全員、うちのキャラです）</span>
+    </div>
+  </div>
+</header>
 
-  <main id="main-content" tabindex="-1">
-  <header class="hero" id="gem" data-sec="top-hero">
-    <div class="hero-shell">
-      <div class="hero-copy">
-        <div class="roles">えい｜倒れないための自動化</div>
-        <p class="eyebrow v5-alert">Geminiのアプリに「Gemは10月20日で終了」の告知が出ました</p>
-        <h1><span class="hero-title-line">あなたのGemを</span><span class="hero-title-line">Skills化しませんか？</span></h1>
-        <p class="sub">作ったGemは、1つずつ作り直しになります。Gemの中身をAIに渡すだけでSkillsへ引っ越せるスキル「Gem Port Skills」を作りました。Brainで発売中です。</p>
-        <ul class="v5-stats" aria-label="この工房の数字">
-          <li><strong>30秒</strong><span>無料の健康診断</span></li>
-          <li><strong>980円</strong><span>Gem Port Skills</span></li>
-          <li><strong>22年</strong><span>元教員が制作</span></li>
+<section class="now" data-sec="top-now">
+  <div class="inner">
+    <div class="strip reveal">
+      <div class="head">NOW ／ いま起きていること</div>
+      <a class="chip" href="shindan/" data-rondo-cta data-rondo-label="top-now-shindan"><span class="n t">1</span><span><b>Gemの健康診断（無料・30秒）</b><span>Geminiのアプリに「Gemは10月20日で終了」の告知が出ています。まず守られ度を</span></span></a>
+      <a class="chip" href="https://brain-market.com/u/siroradio51/a/bycTMyYjMgoTZsNWa0JXY" target="_blank" rel="noopener" data-rondo-cta data-rondo-label="top-now-gps"><span class="n">2</span><span><b>Gem Port Skills（980円）</b><span>Gemの中身をAIに渡すだけで、Skillsへ引っ越し。Brainで発売中</span></span></a>
+      <a class="chip" href="gem-skill/mail/index.html" data-rondo-cta data-rondo-label="top-now-mail"><span class="n c">3</span><span><b>新作・実録のお知らせ</b><span>メール／LINE。売り込みのメールは送りません</span></span></a>
+    </div>
+  </div>
+</section>
+
+<section id="can" data-sec="top-can">
+  <div class="inner center">
+    <span class="label">WHAT WE DO</span>
+    <h2>この工房で、できること</h2>
+    <p class="lead">大きなシステムは作りません。「あと5分あれば」を奪っている小さな詰まりを、いちばん小さな道具でほどきます。</p>
+    <div class="grid3">
+      <div class="card reveal"><div class="ic t">📱</div><h3>小さなアプリを作る</h3><p>紙のノートや頭の中のメモを、スマホで開く道具に。LINEから開いて、大きな字で、その日から使えます。</p><ul><li>美容室の予約メモ</li><li>家族の行事と持ち物チェック</li><li>毎日の記録ツール</li></ul></div>
+      <div class="card reveal"><div class="ic b">🧳</div><h3>AIの引っ越し・整備</h3><p>終了するGemをSkillsへ。膨らんだCodexのログを消さずに空ける。AIまわりの「困った」を道具にして渡します。</p><ul><li>Gem Port Skills</li><li>消さずに空ける</li><li>事実の箱（fact-box-writer）</li></ul></div>
+      <div class="card reveal"><div class="ic s">📚</div><h3>実録で教える</h3><p>できたことより、つまずいた場所と抜け方を残します。教材も記事も、うちの現場で本当に起きたことだけ。</p><ul><li>Robloxゲーム制作の実録</li><li>Rondo実録（X連載）</li><li>元教員の相談部屋</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section id="story" data-sec="top-story" style="padding-top:0">
+  <div class="inner">
+    <div class="story reveal">
+      <img src="assets/request73-v4/web/salon-booking-640x427.webp" width="640" height="427" alt="美容師さんが声で予約を伝え、案内役がカレンダーに整理している場面" loading="lazy" decoding="async" />
+      <div class="txt">
+        <span class="label">CASE</span>
+        <h3>ある美容室の「予約メモ」ができるまで</h3>
+        <p class="q">「紙の予約ノート、スマホで見られたらいいのに」</p>
+        <p style="color:var(--sub);font-size:14.5px;margin:0">店内の小さな困りごとを聞いた、その日のうちにデモを作ってLINEでお渡ししました。使うのは60歳前後の店主さん。だから設計はこうです。</p>
+        <ul>
+          <li>文字は大きめ。複雑な操作は置かない</li>
+          <li>LINEから開いて、そのまま触れる</li>
+          <li>今日から3か月先までのカレンダー、5分刻みの予約</li>
+          <li>データは端末の中に。お客さまへの送信はアプリからはしない</li>
         </ul>
-        <div class="hero-actions">
-          <a class="btn gem-btn" href="shindan/" data-rondo-cta data-rondo-label="top-hero-shindan">まず、Gemの健康診断（無料）<span class="note">7問・約30秒。今のGemの「守られ度」がわかります</span></a>
-          <a class="hero-secondary" href="https://brain-market.com/u/siroradio51/a/bycTMyYjMgoTZsNWa0JXY" target="_blank" rel="noopener" data-rondo-cta data-rondo-label="top-hero-brain">Gem Port Skillsの発売ページを見る ↗</a>
-        </div>
-        <p class="cta-proof">無料部分に仕組みをほぼ全部書いてあります。まずはそこだけでもどうぞ。</p>
-      </div>
-      <div class="gem-map" aria-label="GemからSkillsへ引っ越すイメージ">
-        <img class="hero-art" src="assets/fal-2026-09/web/hero-gem-to-skills-768x576.webp" srcset="assets/fal-2026-09/web/hero-gem-to-skills-768x576.webp 768w, assets/fal-2026-09/web/hero-gem-to-skills-1536x1152.webp 1536w" sizes="(min-width: 900px) 40vw, 92vw" width="768" height="576" alt="ひびの入った瓶からこぼれるGemを、工房の案内役がカードに整えて丈夫な道具箱に納めている場面" loading="eager" fetchpriority="high" decoding="async" />
-        <div class="gem-map-note">Brainで発売中</div>
+        <p style="margin:12px 0 0;font-weight:900;color:var(--navy)">いまも、そのお店で動いています。</p>
       </div>
     </div>
-  </header>
+  </div>
+</section>
 
-  <section class="alt v5-before" id="before" data-sec="top-before">
-    <div class="inner">
-      <div class="label">BEFORE</div>
-      <h2>「Gemが終わる」と聞いて、思ったこと</h2>
-      <p class="lead">僕も最初は、この3つで手が止まりました。</p>
-      <div class="v5-cards">
-        <div class="v5-card"><span class="v5-q">全部、作り直し？</span><p>中身（指示文と知識）が残っていれば、AIに渡して組み直せます。ゼロからではありません。</p></div>
-        <div class="v5-card"><span class="v5-q">引っ越し先が分からない</span><p>移行先はSkillsです。今のところ有料プラン（Google AI Pro / Ultra）内の機能なので、その前提も本文に書いてあります。</p></div>
-        <div class="v5-card"><span class="v5-q">まだ困っていない</span><p>それなら急がなくて大丈夫。診断だけ受けて、今のGemの「守られ度」を見て帰ってください。</p></div>
+<section id="works" data-sec="top-works" style="background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="inner center">
+    <span class="label">WORKS</span>
+    <h2>工房の道具棚</h2>
+    <p class="lead">運用中・公開中・準備中。ぜんぶ、実際の困りごとから生まれています。</p>
+    <div class="works" style="text-align:left">
+      <a class="work reveal" href="https://brain-market.com/u/siroradio51/a/bycTMyYjMgoTZsNWa0JXY" target="_blank" rel="noopener" data-rondo-label="top-work-gps">
+        <img class="wide" src="assets/fal-2026-09/web/gps-card-720x377.webp" width="720" height="377" alt="Gem Port Skills：Gemをカードにしてスキルの道具箱へ納めるイメージ" loading="lazy" decoding="async" />
+        <h3>Gem Port Skills</h3><p>GeminiのGemの中身をAIに渡すだけで、Claude CodeやCodexで動くSkillsへ引っ越すスキル。10月20日のGem終了に間に合わせるために作りました。</p><span class="tag">Brainで販売中・980円</span>
+      </a>
+      <a class="work reveal" href="shindan/" data-rondo-label="top-work-shindan">
+        <img src="assets/request73-v4/web/diagnostic-tool-640x480.webp" width="640" height="480" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+        <h3>Gemの健康診断</h3><p>7つの質問・約30秒で、今のGemの「守られ度」が5段階でわかります。買わなくて大丈夫な人には、そう出ます。</p><span class="tag live">公開中・無料</span>
+      </a>
+      <div class="work reveal">
+        <img src="assets/request73-v4/web/salon-booking-640x427.webp" width="640" height="427" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+        <h3>美容室の予約メモ</h3><p>紙の予約ノートをそのままアプリに。大きな字、5分刻み、LINEから開く。上の「CASE」の実物です。</p><span class="tag live">導入店で運用中</span>
       </div>
-      <p class="price-note">※「Gems are retiring October 20」は、Geminiのアプリ内に表示され始めた告知です。Googleの正式な発表文は、2026年9月2日時点で確認できていません。</p>
-    </div>
-  </section>
-
-  <section class="gem-detail" id="entrances" data-sec="top-gem">
-    <div class="inner">
-      <div class="label">ENTRANCES</div>
-      <h2>入口は3つ。どれからでも</h2>
-      <p class="lead">売り込みはしません。いま必要な扉だけ開けてください。</p>
-      <img class="v5-entrances-art" src="assets/fal-2026-09/web/three-entrances-768x576.webp" width="768" height="576" alt="工房の案内役が、診断・スキル・お知らせの3つの扉を手で示している場面" loading="lazy" decoding="async" />
-      <div class="gem-facts">
-        <a class="gem-fact v5-fact" href="shindan/" data-rondo-cta data-rondo-label="top-gem-shindan"><strong>① 健康診断</strong><span>無料・7問・約30秒。守られ度がわかる</span></a>
-        <a class="gem-fact v5-fact" href="https://brain-market.com/u/siroradio51/a/bycTMyYjMgoTZsNWa0JXY" target="_blank" rel="noopener" data-rondo-cta data-rondo-label="top-gem-brain"><strong>② Gem Port Skills</strong><span>980円・Gemの中身を渡すだけで引っ越し</span></a>
-        <a class="gem-fact v5-fact" href="gem-skill/mail/index.html" data-rondo-cta data-rondo-label="top-gem-mail"><strong>③ 新作のお知らせ</strong><span>メール／LINE。売り込みのメールは送りません</span></a>
+      <div class="work reveal">
+        <img src="assets/request73-v4/web/family-voice-check-640x427.webp" width="640" height="427" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+        <h3>家族の行事・持ち物チェック</h3><p>園や学校の行事予定を登録して、当日はタップでチェック。忙しいママの「ポチポチ入力」を減らす設計。同様のアプリを制作できます。</p><span class="tag">制作事例</span>
       </div>
+      <a class="work reveal" href="https://www.tiktok.com/@nonbiriya_ch" target="_blank" rel="noopener" data-rondo-label="top-work-nonbiriya">
+        <img src="assets/fal-2026-09/web/chars/namao-480.webp" width="480" height="480" alt="なまお：のんびり屋の店主のナマケモノ" loading="lazy" decoding="async" />
+        <h3>のんびり屋さん（TikTok）</h3><p>ナマケモノの店主「なまお」が営む雑貨店。棚札つきの商品紹介と、無言のキャラ動画で「倒れないための自動化」を実験中の、うちの実験室です。</p><span class="tag live">公開中</span>
+      </a>
+      <div class="work reveal">
+        <img src="assets/request73-v4/web/learning-hint-640x427.webp" width="640" height="427" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+        <h3>そらりん学習アプリ</h3><p>生活で使う算数・国語を、こたえを教えずヒントで学ぶ。3教科14単元・視覚支援・音声つき。体験のご相談はLINEへ。<br /><a href="https://www.youtube.com/channel/UCRsGm4v32tclVX3uyBgyAcg" target="_blank" rel="noopener" data-rondo-label="top-work-youtube">▶ YouTube「そらりんのみじかな算数」</a></p><span class="tag soon">製品化準備中</span>
+      </div>
+      <a class="work reveal" href="https://brain-market.com/u/siroradio51/a/b1QDNwYjMgoTZsNWa0JXY" target="_blank" rel="noopener" data-rondo-label="top-work-brain-kesazu">
+        <img class="wide" src="assets/request73-v4/web/kesazu-brain-720.webp" width="720" height="377" alt="Brain商品『消さずに空ける』の実サムネイル" loading="lazy" decoding="async" />
+        <h3>消さずに空ける</h3><p>Codexの会話は残したまま、ログ内の埋め込み画像データだけを外す。診断・バックアップ・検証・復元まで順番に進められるmacOS向けスキル。</p><span class="tag">Brainで販売中</span>
+      </a>
+      <a class="work reveal" href="https://brain-market.com/u/siroradio51/a/bxATN3UjMgoTZsNWa0JXY" target="_blank" rel="noopener" data-rondo-label="top-work-brain-factbox">
+        <img class="wide" src="assets/request73-v4/web/fact-box-brain-720.webp" width="720" height="377" alt="Brain商品『事実の箱（fact-box-writer）』の実サムネイル" loading="lazy" decoding="async" />
+        <h3>事実の箱（fact-box-writer）</h3><p>使ってよい「事実・実セリフ・境界線」を先に整理し、箱の中だけでX投稿や記事を組み立てるClaude Codeスキル。</p><span class="tag">Brainで販売中</span>
+      </a>
+      <a class="work reveal" href="https://brain-market.com/u/siroradio51/a/b1kTM1UjMgoTZsNWa0JXY" target="_blank" rel="noopener" data-rondo-label="top-work-brain">
+        <img class="wide" src="assets/brain-thumb-720.webp" width="720" height="377" alt="AIで一発と思った元教員の、Robloxつまずき実録＆抜け方（教材表紙）" loading="lazy" decoding="async" />
+        <h3>Robloxゲーム制作 つまずきの実録</h3><p>未経験からゲームを作る途中でつまずいた場所と、抜け方の記録をそのまま教材に。</p><span class="tag">Brainで販売中</span>
+      </a>
+      <a class="work reveal" href="https://www.roblox.com/share?code=24396b6cc729c34498fbf2342b3bcd25&amp;type=ExperienceDetails&amp;stamp=1783506948766" target="_blank" rel="noopener" data-rondo-label="top-work-roblox">
+        <img src="assets/roblox-game-icon-720.webp" width="720" height="720" alt="そらりんと学校脱出しよう（ゲーム画面イラスト）" loading="lazy" decoding="async" />
+        <h3>Robloxゲーム「そらりんと学校脱出しよう」</h3><p>学校あるあるクイズを解きながら脱出する子ども向けゲーム。未経験からAIと一緒に作りました。無料で遊べます。</p><span class="tag live">公開中</span>
+      </a>
+      <a class="work reveal" href="https://pop7237radio-hue.github.io/hogosha-soudan/" target="_blank" rel="noopener" data-rondo-label="top-work-soudan">
+        <img src="assets/request73-v4/web/school-consult-640x480.webp" width="640" height="480" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+        <h3>元教員の相談部屋</h3><p>学校への連絡の仕方・文例を「解決カード」で。元教員だから書ける道案内。無料で使えます。</p><span class="tag live">公開中</span>
+      </a>
+      <a class="work reveal" href="https://youtu.be/3fhoZVUd_FU" target="_blank" rel="noopener" data-rondo-label="top-work-pd-helper">
+        <img src="assets/request73-v4/web/record-care-640x480.webp" width="640" height="480" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+        <h3>腹膜透析の記録ツール pd-helper</h3><p>自分が毎日使うために作った、透析の記録と在庫管理の補助ツール。医療判断はしない設計です。実際に使っている様子を動画で。</p><span class="tag">▶ 実演動画</span>
+      </a>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="alt miniapp-intro" id="mini-app" data-sec="top-app">
-    <div class="inner">
-      <div class="miniapp-layout">
-        <div class="miniapp-copy">
-          <div class="label">MINI APP</div>
-          <h2>あなたの「ちょっと足りない」を、<br />小さなアプリで。</h2>
-          <p class="lead">高校と特別支援学校で教員22年。現場の「あと5分あれば」を、その日のうちに動く道具に変えます。</p>
-          <div class="section-actions">
-            <a class="btn line-btn" href="https://lin.ee/P5qMYBk" target="_blank" rel="noopener" data-rondo-cta data-rondo-label="top-app-line">LINEで「できる？」を無料相談<span class="note">一言でOK</span></a>
-            <a class="section-link" href="#service" data-rondo-label="top-app-service">できること・料金を見る ↓</a>
+<section id="chars" data-sec="top-chars">
+  <div class="inner center">
+    <span class="label">TEAM</span>
+    <h2>工房の仲間たち</h2>
+    <p class="lead">人間は僕ひとり。あとは役割ごとに名前をつけたAIとキャラクターです。最後の判断は、いつも人間がします。</p>
+    <div class="chars">
+      <div class="chara reveal"><div class="face"><img src="assets/fal-2026-09/web/chars/ei-480.webp" width="480" height="480" alt="案内役えい" loading="lazy" decoding="async" /></div><b>えい</b><small>案内役・店主</small><p>元教員22年。頼んで、確かめて、渡す係。このページの案内役の絵は僕の分身です。</p></div>
+      <div class="chara reveal"><div class="face"><img src="assets/fal-2026-09/web/chars/namao-480.webp" width="480" height="480" alt="なまお" loading="lazy" decoding="async" /></div><b>なまお</b><small>のんびり屋・店主</small><p>ナマケモノの雑貨店主。TikTokで棚札つきの商品紹介を担当。急がない、でも止まらない。</p></div>
+      <div class="chara reveal"><div class="face"><img src="assets/fal-2026-09/web/chars/poteusa-480.webp" width="480" height="480" alt="ぽてうさ" loading="lazy" decoding="async" /></div><b>ぽてうさ</b><small>うさぎ・新人</small><p>ピンクのほっぺが目印。おだやかで、ちょっぴり天然。15秒の動画で自己紹介の準備中。</p></div>
+      <div class="chara reveal"><div class="face"><img src="assets/fal-2026-09/web/chars/chrono-480.webp" width="480" height="480" alt="クロノ" loading="lazy" decoding="async" /></div><b>クロノ</b><small>数字の声</small><p>売上や登録の「鈴」を読んで、声で教えてくれる係。夜中に鳴った鈴も、朝にまとめて報告。</p></div>
+      <div class="chara reveal"><div class="face emoji" aria-hidden="true">🦞</div><b>なおさん</b><small>夜も動く自走担当</small><p>OpenClawで24時間側を受け持つAI社員。動画の量産や巡回を、僕が寝ている間に進めます。</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="price" data-sec="top-price" style="background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="inner center">
+    <span class="label">PRICE</span>
+    <h2>できること・料金のめやす</h2>
+    <p class="lead">まずは無料で、「できる？」「いくら？」だけ聞けます。頼むかどうかは、話してから決めてください。</p>
+    <table class="price" style="max-width:720px;margin:0 auto">
+      <caption class="sr-only">制作内容ごとの料金のめやす</caption>
+      <tr><th scope="row">いまあるアプリ・ツールの小修正</th><td>3,000〜5,000円</td></tr>
+      <tr><th scope="row">1枚もののミニアプリ制作<small>予約メモ・チェックリスト・計算ツールなど</small></th><td>5,000〜15,000円</td></tr>
+      <tr><th scope="row">音声入力・カレンダー付きアプリ</th><td>10,000〜30,000円</td></tr>
+      <tr><th scope="row">見守り（不具合対応・小さな改善）</th><td>月3,000〜5,000円</td></tr>
+    </table>
+    <p class="note">内容を伺ってから、着手前に金額を確定します。追加費用が出る場合は必ず先にご相談します。制作会社に頼むと数万〜数十万かかる内容を、AIの活用でこの価格にしています。無料アプリで足りている方は、そのままで大丈夫です。</p>
+    <div style="margin-top:22px"><a class="btn line" href="https://lin.ee/P5qMYBk" target="_blank" rel="noopener" data-rondo-cta data-rondo-label="top-price-line">LINEで「できる？」を無料相談<span class="note">一言でOK</span></a></div>
+  </div>
+</section>
+
+<section id="build" data-sec="top-build">
+  <div class="inner">
+    <div class="center"><span class="label">HOW IT WAS MADE</span><h2>このサイトの作り方</h2><p class="lead">2026年9月2日、Claude Code（Fable 5.1）が出た日に、この工房ごと作り直しました。使った道具は3つ。頼み方は、イケハヤさんの教科書3冊のとおりです。</p></div>
+    <div class="build reveal">
+      <div class="row">
+        <img src="assets/fal-2026-09/web/build-process-v6-768x576.webp" width="768" height="576" alt="案内役がノートPCに話しかけ、ロボットが絵を描き、雲の家にページが届く場面" loading="lazy" decoding="async" />
+        <div>
+          <div class="tools">
+            <div class="tool"><small>作ってくれる</small><b>Claude Code</b><p>「こんなページを作って」と頼むと、AIがコードを書きます。僕は構成を選び、PCとスマホで確かめるだけ。</p></div>
+            <div class="tool"><small>描いてくれる</small><b>fal</b><p>このページの案内役や仲間たちの絵は、既存の1枚を「親」にしてfalで描いてもらいました。1枚あたり数十円。</p></div>
+            <div class="tool"><small>出してくれる</small><b>Cloudflare</b><p>できたページを世界中から見られる場所に置く係。計測やメール登録もここで動いています。</p></div>
           </div>
+          <ul class="timeline">
+            <li><b>9:16</b> Fable 5.1の初日。前日の引き継ぎから始める</li>
+            <li><b>10:0x</b> 「教科書3冊を使って改修を」と発注。まず古い文言を今日の事実に</li>
+            <li><b>10:2x</b> 参考サイトを見て「いきなり離脱されない」構成へ。絵をfalで3枚</li>
+            <li><b>11:15</b> 「全面改修で」。仲間たちの絵を足して、この形に</li>
+          </ul>
         </div>
-        <img class="miniapp-art" src="assets/request73-v4/web/miniapp-order-640x480.webp" width="640" height="480" alt="困りごとのメモを受け取り、使えるミニアプリに変えて手渡す工房の場面" loading="lazy" decoding="async" />
       </div>
+      <div class="books">
+        <a class="book" href="https://brain-market.com/u/ikehaya/a/b2kzM5UjMgoTZsNWa0JXY" target="_blank" rel="noopener" data-rondo-label="top-book-claudecode"><span class="no">1</span><span><b>Claude Codeの教科書</b><span>AI秘書から始める。「計画を出させて、検収する」の型</span></span><em>980円</em></a>
+        <a class="book" href="https://brain-market.com/u/ikehaya/a/b3UjMxYjMgoTZsNWa0JXY" target="_blank" rel="noopener" data-rondo-label="top-book-fal"><span class="no">2</span><span><b>falの教科書</b><span>「同じ顔のまま描く」特徴ロックと、文字ごと焼き込むサムネ</span></span><em>480円</em></a>
+        <a class="book" href="https://brain-market.com/u/ikehaya/a/b1IjNxYjMgoTZsNWa0JXY" target="_blank" rel="noopener" data-rondo-label="top-book-cloudflare"><span class="no">3</span><span><b>Cloudflareの教科書</b><span>作ったものを、自分の番地で世界に出す。罠帖47件つき</span></span><em>480円</em></a>
+      </div>
+      <p class="note" style="margin-top:14px">※リンク先はイケハヤさんのBrain販売ページです。価格は2026年9月2日時点。教材の内容や成果を保証するものではありません。</p>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="alt" id="service" data-sec="top-service">
-    <div class="inner">
-      <div class="label">SERVICE</div>
-      <h2>できること・料金のめやす</h2>
-      <p class="lead">まずは無料で、「できる？」「いくら？」だけ聞けます。頼むかどうかは、話してから決めてください。</p>
-      <table class="price">
-        <caption class="sr-only">制作内容ごとの料金のめやす</caption>
-        <tr><th scope="row"><span class="service-name"><img class="service-icon" src="assets/request73-v4/web/record-care-640x480.webp" width="640" height="480" alt="" aria-hidden="true" loading="lazy" decoding="async" /><span>いまあるアプリ・ツールの小修正</span></span></th><td>3,000〜5,000円</td></tr>
-        <tr><th scope="row"><span class="service-name"><img class="service-icon" src="assets/request73-v4/web/diagnostic-tool-640x480.webp" width="640" height="480" alt="" aria-hidden="true" loading="lazy" decoding="async" /><span>1枚もののミニアプリ制作<br /><span style="font-weight:400; font-size:12.5px;">予約メモ・チェックリスト・計算ツールなど</span></span></span></th><td>5,000〜15,000円</td></tr>
-        <tr><th scope="row"><span class="service-name"><img class="service-icon" src="assets/request73-v4/web/family-voice-check-640x427.webp" width="640" height="427" alt="" aria-hidden="true" loading="lazy" decoding="async" /><span>音声入力・カレンダー付きアプリ</span></span></th><td>10,000〜30,000円</td></tr>
-        <tr><th scope="row"><span class="service-name"><img class="service-icon" src="assets/request73-v4/web/record-care-640x480.webp" width="640" height="480" alt="" aria-hidden="true" loading="lazy" decoding="async" /><span>見守り（不具合対応・小さな改善）</span></span></th><td>月3,000〜5,000円</td></tr>
-      </table>
-      <p class="price-note">内容を伺ってから、着手前に金額を確定します。追加費用が出る場合は必ず先にご相談します。</p>
-      <p class="price-note">制作会社に頼むと数万〜数十万かかる内容を、AIの活用でこの価格にしています。</p>
-      <p class="price-note">無料アプリで足りている方は、そのままで大丈夫です。「無料だとちょっと足りない」と感じたら、相談だけどうぞ（無料です）。</p>
-      <div class="inline-consult">
-        <a class="btn line-btn" href="https://lin.ee/P5qMYBk" target="_blank" rel="noopener" data-rondo-cta data-rondo-label="top-service-line">LINEで「できる？」を無料相談<span class="note">一言でOK</span></a>
+<section id="profile" data-sec="top-profile" style="background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="inner">
+    <div class="center"><span class="label">PROFILE</span><h2>じぶんのこと</h2></div>
+    <div class="prof">
+      <div class="me reveal">
+        <img src="assets/fal-2026-09/web/chars/ei-480.webp" width="480" height="480" alt="えいの分身キャラクター" loading="lazy" decoding="async" />
+        <b>えい｜倒れないための自動化</b>
+        <p>高校と特別支援学校で、教壇に22年。学校現場は「あと5分あれば」の連続で、その5分を奪っていくのは、いつも小さな事務作業でした。</p>
+        <p>いまは自宅で毎日、腹膜透析をしながら仕事をしています。体力に上限があるからこそ、<b>「がんばらなくても回る仕組み」を先に作る</b>。それが僕の設計のクセです。</p>
       </div>
+      <ul class="tl reveal">
+        <li><span class="y">2004</span><span><span class="w">教員になる</span><br /><span class="m">高校・特別支援学校あわせて22年、300人以上を指導</span></span></li>
+        <li><span class="y">2022.12</span><span><span class="w">腹膜透析を開始</span><br /><span class="m">自宅で毎日。働き方を「仕組みで回す」設計に切り替える</span></span></li>
+        <li><span class="y">2026.4</span><span><span class="w">退職、AI実務へ</span><br /><span class="m">複数のAIと役割分担するチーム体制を自宅に構築（いまは24人のAI社員）</span></span></li>
+        <li><span class="y">2026.6</span><span><span class="w">AIミニアプリ工房として活動開始</span><br /><span class="m">美容室の予約メモ導入・家族の行事アプリ・学習アプリ「そらりん」・Robloxゲーム</span></span></li>
+        <li><span class="y">2026.8</span><span><span class="w">Brain商品4本・Gemの健康診断を公開</span><br /><span class="m">消さずに空ける／事実の箱／Roblox実録／Gem Port Skills</span></span></li>
+        <li><span class="y">2026.9.2</span><span><span class="w">このサイトを作り直す</span><br /><span class="m">Fable 5.1の初日に、仲間たちの絵といっしょに</span></span></li>
+      </ul>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="works" data-sec="top-works">
-    <div class="inner wide">
-      <div class="label">WORKS</div>
-      <h2>工房の道具棚</h2>
-      <p class="lead">運用中・公開中・準備中。ぜんぶ、実際の困りごとから生まれています。</p>
-      <div class="works">
-        <!-- v5: GPSと診断を先頭へ -->
-        <a class="work" href="https://brain-market.com/u/siroradio51/a/bycTMyYjMgoTZsNWa0JXY" target="_blank" rel="noopener" data-rondo-label="top-work-brain-gps">
-          <img class="work-visual" style="aspect-ratio: auto;" src="assets/fal-2026-09/web/gps-card-720x377.webp" width="720" height="377" alt="Gem Port Skills：Gemをカードにしてスキルの道具箱へ納めるイメージ" loading="lazy" decoding="async" />
-          <h3>Gem Port Skills</h3>
-          <p>GeminiのGemの中身をAIに渡すだけで、Claude CodeやCodexで動くSkillsへ引っ越すスキル。10月20日のGem終了に間に合わせるために作りました。</p>
-          <span class="tag">Brainで販売中・980円</span>
-        </a>
-        <a class="work" href="shindan/" data-rondo-label="top-work-shindan">
-          <img class="work-icon" src="assets/request73-v4/web/diagnostic-tool-640x480.webp" width="640" height="480" alt="" aria-hidden="true" loading="lazy" decoding="async" />
-          <h3>Gemの健康診断</h3>
-          <p>7つの質問・約30秒で、今のGemの「守られ度」が5段階でわかります。買わなくて大丈夫な人には、そう出ます。</p>
-          <span class="tag">公開中・無料</span>
-        </a>
-        <!-- 納品系2件は直リンクを外して事例表記に（えい指摘 7/7: サイト経由の依頼者は有料。無料と誤解させない） -->
-        <div class="work">
-          <img class="work-icon" src="assets/request73-v4/web/salon-booking-640x427.webp" width="640" height="427" alt="" aria-hidden="true" loading="lazy" decoding="async" />
-          <h3>美容室の予約アプリ</h3>
-          <p>紙の予約ノートをそのままアプリに。施術中でも声でパッと記録できます。</p>
-          <span class="tag">導入店で運用中</span>
-        </div>
-        <div class="work">
-          <img class="work-icon" src="assets/request73-v4/web/family-voice-check-640x427.webp" width="640" height="427" alt="" aria-hidden="true" loading="lazy" decoding="async" />
-          <h3>忙しいママに！声だけ入力行事・持ち物アプリ</h3>
-          <p>子どもの行事と持ち物を声で登録。当日はタップでチェック。同様のアプリを制作できます。</p>
-          <span class="tag">制作事例</span>
-        </div>
-        <!-- そらりんは販売予定の商品（えい確定 7/7）: 無料公開リンクは張らない・紹介のみ -->
-        <div class="work">
-          <img class="work-icon" src="assets/request73-v4/web/learning-hint-640x427.webp" width="640" height="427" alt="" aria-hidden="true" loading="lazy" decoding="async" />
-          <h3>そらりん学習アプリ</h3>
-          <p>生活で使う算数・国語を、こたえを教えずヒントで学ぶ。3教科14単元・視覚支援・音声つき。体験のご相談はLINEへ。<br />
-          <a href="https://www.youtube.com/channel/UCRsGm4v32tclVX3uyBgyAcg" target="_blank" rel="noopener" data-rondo-label="top-work-youtube">▶ YouTube「そらりんのみじかな算数」</a></p>
-          <span class="tag soon">製品化準備中</span>
-        </div>
-        <a class="work" href="https://brain-market.com/u/siroradio51/a/b1QDNwYjMgoTZsNWa0JXY" target="_blank" rel="noopener" data-rondo-label="top-work-brain-kesazu">
-          <img class="work-visual" style="aspect-ratio: auto;" src="assets/request73-v4/web/kesazu-brain-720.webp" width="720" height="377" alt="Brain商品『消さずに空ける』の実サムネイル" loading="lazy" decoding="async" />
-          <h3>消さずに空ける</h3>
-          <p>Codexの会話は残したまま、ログ内の埋め込み画像データだけを外す。診断・バックアップ・検証・復元まで順番に進められるmacOS向けスキルです。</p>
-          <span class="tag">Brainで販売中</span>
-        </a>
-        <a class="work" href="https://brain-market.com/u/siroradio51/a/bxATN3UjMgoTZsNWa0JXY" target="_blank" rel="noopener" data-rondo-label="top-work-brain-factbox">
-          <img class="work-visual" style="aspect-ratio: auto;" src="assets/request73-v4/web/fact-box-brain-720.webp" width="720" height="377" alt="Brain商品『事実の箱（fact-box-writer）』の実サムネイル" loading="lazy" decoding="async" />
-          <h3>事実の箱（fact-box-writer）</h3>
-          <p>使ってよい「事実・実セリフ・境界線」を先に整理し、箱の中だけでX投稿や記事を組み立てるClaude Codeスキルです。</p>
-          <span class="tag">Brainで販売中</span>
-        </a>
-        <a class="work" href="https://brain-market.com/u/siroradio51/a/b1kTM1UjMgoTZsNWa0JXY" target="_blank" rel="noopener" data-rondo-label="top-work-brain">
-          <!-- SWAP-4: 2026-07-10 20:00 差し込み済み（Fable5・ローカルのみ） -->
-          <img class="work-visual" style="aspect-ratio: auto;" src="assets/brain-thumb-720.webp" width="720" height="377" alt="AIで一発と思った元教員の、Robloxつまずき実録＆抜け方（教材表紙）" loading="lazy" decoding="async" />
-          <h3>Robloxゲーム制作 つまずきの実録（Brain教材）</h3>
-          <p>未経験からゲームを作る途中でつまずいた場所と、抜け方の記録をそのまま教材に。</p>
-          <span class="tag">Brainで販売中</span>
-        </a>
-        <a class="work" href="https://www.roblox.com/share?code=24396b6cc729c34498fbf2342b3bcd25&amp;type=ExperienceDetails&amp;stamp=1783506948766" target="_blank" rel="noopener" data-rondo-label="top-work-roblox">
-          <img class="work-visual" style="object-position: center bottom;" src="assets/roblox-game-icon-720.webp" width="720" height="720" alt="そらりんと学校脱出しよう（ゲーム画面イラスト）" loading="lazy" decoding="async" />
-          <h3>Robloxゲーム「そらりんと学校脱出しよう」</h3>
-          <p>学校あるあるクイズを解きながら脱出する子ども向けゲーム。未経験からAIと一緒に作りました。無料で遊べます。</p>
-          <span class="tag">公開中</span>
-        </a>
-        <a class="work" href="https://pop7237radio-hue.github.io/hogosha-soudan/" target="_blank" rel="noopener" data-rondo-label="top-work-soudan">
-          <img class="work-icon" src="assets/request73-v4/web/school-consult-640x480.webp" width="640" height="480" alt="" aria-hidden="true" loading="lazy" decoding="async" />
-          <h3>元教員の相談部屋</h3>
-          <p>学校への連絡の仕方・文例を「解決カード」で。元教員だから書ける道案内。無料で使えます。</p>
-          <span class="tag">公開中</span>
-        </a>
-        <a class="work" href="https://youtu.be/3fhoZVUd_FU" target="_blank" rel="noopener" data-rondo-label="top-work-pd-helper">
-          <img class="work-icon" src="assets/request73-v4/web/record-care-640x480.webp" width="640" height="480" alt="" aria-hidden="true" loading="lazy" decoding="async" />
-          <h3>腹膜透析の記録ツール pd-helper</h3>
-          <p>自分が毎日使うために作った、透析の記録と在庫管理の補助ツール。医療判断はしない設計です。実際に使っている様子を動画でご覧いただけます。</p>
-          <span class="tag">▶ 実演動画</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="alt v5-tools" id="tools" data-sec="top-tools">
-    <div class="inner">
-      <div class="label">TOOLS</div>
-      <h2>この工房で使っているのは、この3つ</h2>
-      <p class="lead">コードは書いていません。日本語で頼んで、できたものを確かめるだけです。このページの絵も、falで描いてもらいました。</p>
-      <div class="v5-cards v5-tools-grid">
-        <div class="v5-card"><span class="v5-q">Claude Code</span><b>作ってくれる</b><p>「こんなページを作って」と頼むと、AIがコードを書きます。Gem Port Skillsも、この工房のアプリも、ここで作っています。</p></div>
-        <div class="v5-card"><span class="v5-q">fal</span><b>描いてくれる</b><p>画像・動画・音声の生成をまとめて注文できる自動販売機。このページの案内役の絵は、既存の1枚を親にして3枚描いてもらいました。</p></div>
-        <div class="v5-card"><span class="v5-q">Cloudflare</span><b>公開してくれる</b><p>できたページを世界中から見られる場所に置いてくれます。この工房の計測やメール登録も、ここで動いています。</p></div>
-      </div>
-      <div class="label v5-sub-label">TEXTBOOKS</div>
-      <h3 class="v5-h3">3つとも、イケハヤさんの教科書があります</h3>
-      <p class="lead">順番に読むなら、この順です。どれもコードを書かず、AIへの頼み方だけで進みます。</p>
-      <div class="v5-books">
-        <a class="v5-book" href="https://brain-market.com/u/ikehaya/a/b2kzM5UjMgoTZsNWa0JXY" target="_blank" rel="noopener" data-rondo-label="top-book-claudecode"><span class="v5-book-no">1</span><strong>Claude Codeの教科書</strong><span>AI秘書から始める。作る力の1冊目</span><em>980円</em></a>
-        <a class="v5-book" href="https://brain-market.com/u/ikehaya/a/b3UjMxYjMgoTZsNWa0JXY" target="_blank" rel="noopener" data-rondo-label="top-book-fal"><span class="v5-book-no">2</span><strong>falの教科書</strong><span>「こんな画像がほしい」で描いてもらう</span><em>480円</em></a>
-        <a class="v5-book" href="https://brain-market.com/u/ikehaya/a/b1IjNxYjMgoTZsNWa0JXY" target="_blank" rel="noopener" data-rondo-label="top-book-cloudflare"><span class="v5-book-no">3</span><strong>Cloudflareの教科書</strong><span>作ったものを、世界に出す力の1冊</span><em>480円</em></a>
-      </div>
-      <p class="price-note">※リンク先はイケハヤさんのBrain販売ページです。価格は2026年9月2日時点。教材の内容や成果を保証するものではありません。</p>
-    </div>
-  </section>
-
-  <section id="profile" data-sec="top-profile">
-    <div class="inner">
-      <div class="label">PROFILE</div>
-      <h2>じぶんのこと</h2>
-      <div class="prof-text">
-        <p>高校と特別支援学校で、教壇に22年立っていました。学校現場は「あと5分あれば」の連続で、その5分を奪っていくのは、いつも小さな事務作業でした。</p>
-        <p>いまは自宅で毎日、腹膜透析をしながら仕事をしています。体力に上限があるからこそ、<b>「がんばらなくても回る仕組み」を先に作る</b>——それが僕の設計のクセです。</p>
-        <p>大きなシステムはいりません。あなたの仕事のいちばん小さな詰まりを、いちばん小さな道具でほどきます。</p>
-      </div>
-      <div class="timeline">
-        <!-- SWAP-5: 年号えい確定（2026-07-07） -->
-        <div class="tl-item">
-          <div class="year">2004</div>
-          <div class="what">教員になる</div>
-          <div class="memo">高校・特別支援学校あわせて22年、300人以上を指導</div>
-        </div>
-        <div class="tl-item">
-          <div class="year">2022.12</div>
-          <div class="what">腹膜透析を開始</div>
-          <div class="memo">自宅で毎日。働き方を「仕組みで回す」設計に切り替える</div>
-        </div>
-        <div class="tl-item">
-          <div class="year">2026.4</div>
-          <div class="what">退職、AI実務へ</div>
-          <div class="memo">複数のAIと役割分担するチーム体制を自宅に構築（いまは24人のAI社員）</div>
-        </div>
-        <div class="tl-item">
-          <div class="year">2026</div>
-          <div class="what">AIミニアプリ工房として活動開始</div>
-          <div class="memo">美容室の予約アプリ導入・学習アプリ「そらりん」開発・Robloxゲーム開発・Brain教材3本リリース・8月「Gem Port Skills」と「Gemの健康診断」を公開</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="alt" id="contact" data-sec="top-contact">
-    <div class="inner cta-center">
-      <img class="contact-art" src="assets/request73-v4/web/school-consult-480x360.webp" width="480" height="360" alt="学校への言葉を一緒に整理し、相手へ伝わる形にする工房の案内役" loading="lazy" decoding="async" />
-      <div class="label">CONTACT</div>
+<section id="contact" data-sec="top-contact">
+  <div class="inner">
+    <div class="contact reveal">
+      <img src="assets/fal-2026-09/web/three-entrances-768x576.webp" width="768" height="576" alt="案内役が3つの扉を示している場面" loading="lazy" decoding="async" />
+      <span class="label">CONTACT</span>
       <h2>まずは、困りごとを一言だけ</h2>
-      <p class="lead">「これ、なんとかなる？」で大丈夫です。<br />できるか・いくらかかるかを、着手前にお答えします。</p>
-      <!-- SWAP-3: えい確定 2026-07-07 -->
-      <a class="btn line-btn" href="https://lin.ee/P5qMYBk" target="_blank" rel="noopener" data-rondo-cta data-rondo-label="top-contact-line">LINEで「できる？」を無料相談<span class="note">一言でOK</span></a>
+      <p class="lead">「これ、なんとかなる？」で大丈夫です。できるか・いくらかかるかを、着手前にお答えします。</p>
+      <a class="btn line" href="https://lin.ee/P5qMYBk" target="_blank" rel="noopener" data-rondo-cta data-rondo-label="top-contact-line">LINEで「できる？」を無料相談<span class="note">一言でOK</span></a>
     </div>
-  </section>
-  </main>
+  </div>
+</section>
+</main>
 
-  <footer data-sec="top-footer">
-    <!-- 掲載方針（えい確定 2026-07-07）: X・Substack・Instagramの3本のみ。
-         Brain/note/Threadsは掲載しない。YouTubeはそらりんカード内の作品リンクとしてのみ -->
-    <div class="sns">
-      <a href="https://x.com/siroradio51" target="_blank" rel="noopener" data-rondo-label="top-social-x">X</a>
-      <a href="https://substack.com/@siro7237radio" target="_blank" rel="noopener" data-rondo-label="top-social-substack">Substack</a>
-      <a href="https://www.instagram.com/siro112radio/" target="_blank" rel="noopener" data-rondo-label="top-social-instagram">Instagram</a>
-    </div>
-    <div class="gou">© 2026 えい｜倒れないための自動化</div>
-  </footer>
+<footer data-sec="top-footer">
+  <!-- 掲載方針（えい確定 2026-07-07）: X・Substack・Instagramの3本のみ -->
+  <div class="sns">
+    <a href="https://x.com/siroradio51" target="_blank" rel="noopener" data-rondo-label="top-social-x">X</a>
+    <a href="https://substack.com/@siro7237radio" target="_blank" rel="noopener" data-rondo-label="top-social-substack">Substack</a>
+    <a href="https://www.instagram.com/siro112radio/" target="_blank" rel="noopener" data-rondo-label="top-social-instagram">Instagram</a>
+  </div>
+  <div>© 2026 えい｜倒れないための自動化</div>
+</footer>
 
-  <script>
-    // ふわっと表示（セクションとカードに軽い入場アニメ）
-    const revealTargets = document.querySelectorAll('section .inner, .work');
-    revealTargets.forEach(el => el.classList.add('reveal'));
-    if ('IntersectionObserver' in window) {
-      const io = new IntersectionObserver(entries => {
-        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
-      }, { threshold: 0.12, rootMargin: '0px 0px -4% 0px' });
-      revealTargets.forEach(el => io.observe(el));
-    } else {
-      revealTargets.forEach(el => el.classList.add('on'));
-    }
-    /* 2026-07-11 公開前検品で「IO不発火→本文が非表示のまま」を確認したための保険。
-       スクロール連動＋2秒での全解放。演出よりコンテンツ表示を優先する。 */
-    const revealAll = () => revealTargets.forEach(el => el.classList.add('on'));
-    const revealInView = () => {
-      const vh = window.innerHeight || document.documentElement.clientHeight;
-      revealTargets.forEach(el => {
-        const r = el.getBoundingClientRect();
-        if (r.top < vh && r.bottom > 0) el.classList.add('on');
-      });
-    };
-    window.addEventListener('scroll', revealInView, { passive: true });
-    document.addEventListener('scroll', revealInView, { passive: true, capture: true });
-    setTimeout(revealAll, 2000);
-  </script>
+<script>
+  const targets = document.querySelectorAll('.reveal');
+  const show = el => el.classList.add('on');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { show(e.target); io.unobserve(e.target); } }), { threshold: .1, rootMargin: '0px 0px -4% 0px' });
+    targets.forEach(el => io.observe(el));
+  } else { targets.forEach(show); }
+  setTimeout(() => targets.forEach(show), 2000); /* 保険: 2秒で全解放（2026-07-11の検品事故の再発防止） */
+</script>
 </body>
 </html>
