@@ -3,11 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#0f6e63">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="PDノート">
-<title>PDノート | 腹膜透析の毎日の記録（完全版・試作）</title>
+<title>PDノート | 腹膜透析の毎日の記録</title>
 <style>
 :root{
   --ink:#1f2933;      /* 本文の墨 */
@@ -21,7 +20,7 @@
   --sun-soft:#fbf3e4; /* 昼の淡 */
   --moon:#3b4a8a;     /* 夜: 藍 */
   --moon-soft:#e9ecf7;/* 夜の淡 */
-  --pulse:#9b2c2c;    /* 数値マイナス・注意 */
+  --pulse:#9b2c2c;    /* 保存失敗などのお知らせだけに使う */
   --ok:#1f6f3f;       /* 保存成功 */
   --r-s:8px; --r-m:16px; --r-pill:999px;
 }
@@ -58,11 +57,11 @@ input:focus,select:focus{outline:3px solid var(--teal);outline-offset:1px;border
 .exch{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-s);padding:10px;margin-bottom:8px}
 .exch .title{font-size:14px;color:var(--sub);margin-bottom:6px;display:flex;justify-content:space-between}
 .net{font-size:20px;font-weight:700;color:var(--teal)}
-.net.minus{color:var(--pulse)}
+.net.minus{color:var(--moon)}
 .total{display:flex;justify-content:space-between;align-items:center;font-size:16px;padding:6px 0;border-top:1px solid var(--line)}
 .total.big{font-size:20px;font-weight:700}
 .total .v{font-size:28px;font-weight:700;color:var(--teal)}
-.total .v.minus{color:var(--pulse)}
+.total .v.minus{color:var(--moon)}
 .notice{border-radius:var(--r-s);padding:10px 12px;font-size:14px;margin-bottom:12px;border:1px solid var(--line);background:var(--paper)}
 .notice.ok{border-color:var(--ok);color:var(--ok)}
 .notice.warn{border-color:var(--pulse);color:var(--pulse)}
@@ -179,7 +178,7 @@ footer p{margin:0 0 6px}
         <div><label for="bp-diastolic">血圧 下 (mmHg)</label><input type="number" id="bp-diastolic" inputmode="numeric" placeholder="80"></div>
       </div>
       <div class="grid3" style="margin-top:8px">
-        <div><label for="body-weight">体重 (kg)</label><input type="text" id="body-weight" inputmode="decimal" placeholder="62.4"></div>
+        <div><label for="body-weight">体重 (kg) <span id="target-weight-hint" class="muted"></span></label><input type="text" id="body-weight" inputmode="decimal" placeholder="62.4"></div>
         <div><label for="pulse-rate">脈拍 (回/分)</label><input type="number" id="pulse-rate" inputmode="numeric" placeholder="72"></div>
         <div><label for="body-temperature">体温 (℃)</label><input type="text" id="body-temperature" inputmode="decimal" placeholder="36.5"></div>
       </div>
@@ -191,6 +190,7 @@ footer p{margin:0 0 6px}
       <div class="total"><span>昼の除水</span><span id="calc-day">+0 ml</span></div>
       <div class="total"><span id="calc-night-label">夜の装置の除水</span><span id="calc-night">+0 ml</span></div>
       <div class="total big"><span>一日の総除水</span><span class="v" id="calc-total">+0 ml</span></div>
+      <div class="total muted hidden" id="target-row"><span>設定に入れた目安</span><span id="target-text"></span></div>
     </div>
 
     <button type="button" class="btn" id="save-btn">この日の記録を保存する</button>
@@ -233,9 +233,9 @@ footer p{margin:0 0 6px}
 
   <footer>
     <p>このアプリは記録の補助だけを行います。数値の意味づけや治療の判断は、主治医・看護師・薬剤師にご相談ください。</p>
-    <p>声で入力した音声は、お使いのスマホの音声認識（AppleやGoogleの仕組み）を通ります。気になる方は手で入力してください。</p>
-    <p>透析液の一覧は、日本で販売中の腹膜透析液（ヴァンティブ・テルモ・JMS）を薬価基準と添付文書で確認して載せています（2026年9月）。終売品（ステイセーフバランス）は「自分で書く」から入れられます。</p>
-    <p>PDノート 完全版 0.2 ／ 作った人: えい（腹膜透析歴のある元教員）</p>
+    <p>声で入力するときは、話した内容が端末の外（AppleやGoogleの音声認識）へ送られることがあります。記録そのものはこのスマホの中だけに残ります。気になる方は手で入力してください。</p>
+    <p>透析液の一覧は、各社の製品情報と添付文書をもとに作りました（2026年9月）。ないものや違うものは「自分で書く」から直せます。</p>
+    <p>PDノート 0.3 ／ 作った人: えい（腹膜透析歴のある元教員）</p>
   </footer>
 </div>
 
@@ -264,13 +264,20 @@ footer p{margin:0 0 6px}
     </div>
 
     <h3 style="margin-top:14px">使っている透析液（6つまで）</h3>
-    <p class="muted">袋に書いてある名前を押してください。日本で販売中の腹膜透析液を全部並べています（2026年9月時点・添付文書で確認）。</p>
+    <p class="muted">袋に書いてある名前を押してください。日本で使われている主な腹膜透析液を並べています。ないものは下の「一覧にない液を自分で書く」から入れられます。</p>
     <div id="catalog"></div>
     <details style="margin-top:8px"><summary class="small">一覧にない液を自分で書く</summary>
       <div id="fluids" style="margin-top:8px"></div>
       <button type="button" class="btn ghost" id="add-fluid" style="margin-top:6px">＋ 自分で書いて追加</button>
     </details>
     <p class="muted" id="fluid-selected" style="margin-top:8px"></p>
+
+    <h3 style="margin-top:14px">主治医から言われている目安（任意）</h3>
+    <p class="muted">数字を並べて見せるだけで、良い悪いの判定はしません。指示が変わったら、ここを自分で書き換えてください。</p>
+    <div class="grid2">
+      <div><label for="target-weight">至適体重（kg）</label><input type="text" id="target-weight" inputmode="decimal" placeholder="例: 70.0"></div>
+      <div><label for="target-uf">1日の目標除水（ml）</label><input type="number" id="target-uf" inputmode="numeric" placeholder="例: 1000"></div>
+    </div>
 
     <h3 style="margin-top:14px">記録の呼び名（任意）</h3>
     <label for="nickname">LINEに貼る文章の先頭に入ります</label>
@@ -299,7 +306,7 @@ function writeJSON(key, v){ try{ localStorage.setItem(key, JSON.stringify(v)); r
 const isObj=v=>v&&typeof v==='object'&&!Array.isArray(v);
 const validDate=s=>/^\d{4}-\d{2}-\d{2}$/.test(s);
 
-const DEFAULT_SETTINGS={deviceName:'', useDevice:false, dayExchanges:1, fluids:[], nickname:''};
+const DEFAULT_SETTINGS={deviceName:'', useDevice:false, dayExchanges:1, fluids:[], nickname:'', targetWeight:null, targetUf:null};
 let settings=Object.assign({}, DEFAULT_SETTINGS, readJSON(KEY_SETTINGS, null)||{});
 let records=readJSON(KEY_RECORDS, {}); if(!isObj(records)) records={};
 function saveRecords(){ return writeJSON(KEY_RECORDS, records); }
@@ -356,7 +363,8 @@ function collectRecord(){
   return { net:day+night, day_net:day, exchanges:ex,
     night: settings.useDevice?{device:deviceLabel(), total:intOrNull($('night-total').value), day:intOrNull($('night-day').value), night:intOrNull($('night-night').value), net:night}:null,
     bp_systolic:intOrNull($('bp-systolic').value), bp_diastolic:intOrNull($('bp-diastolic').value), pulse:intOrNull($('pulse-rate').value),
-    weight:decOrNull($('body-weight').value), temperature:decOrNull($('body-temperature').value), spo2:intOrNull($('spo2').value), memo:$('memo').value.trim() };
+    weight:decOrNull($('body-weight').value), temperature:decOrNull($('body-temperature').value), spo2:intOrNull($('spo2').value), memo:$('memo').value.trim(),
+    target_weight:(settings.targetWeight!==null&&settings.targetWeight!==undefined)?settings.targetWeight:null, target_uf:(settings.targetUf!==null&&settings.targetUf!==undefined)?settings.targetUf:null };
 }
 function fillForm(r){
   for(let i=0;i<settings.dayExchanges;i++){ const e=r&&r.exchanges&&r.exchanges[i]; $('ex-fill-'+i).value=e&&e.fill?e.fill:''; $('ex-drain-'+i).value=e&&e.drain?e.drain:''; setFluid(i, e?e.fluid:''); }
@@ -378,6 +386,7 @@ function summaryText(date, r){
   const lines=[]; if(settings.nickname) lines.push(settings.nickname+' さんの記録');
   lines.push(`【${date}】`);
   lines.push(`一日の総除水: ${signed(r.net||0)}`);
+  { const a=[]; if(r.target_weight!==null&&r.target_weight!==undefined) a.push('体重 '+r.target_weight+' kg'); if(r.target_uf!==null&&r.target_uf!==undefined) a.push('除水 '+r.target_uf+' ml'); if(a.length) lines.push(`設定に入れた目安（記録した日のもの）: ${a.join(' ／ ')}`); }
   if(r.exchanges&&r.exchanges.length){ lines.push('■ 昼の交換'); r.exchanges.forEach((e,i)=>lines.push(`${i+1}回目 ${e.fluid?e.fluid+' ':''}注液${e.fill} / 排液${e.drain} → ${signed(e.net)}`)); lines.push(`昼の除水: ${signed(r.day_net||0)}`); }
   if(r.night){ lines.push(`■ ${r.night.device||'夜の装置'}`); lines.push(`総除水: ${signed(r.night.net||0)}`); if(r.night.day!==null&&r.night.day!==undefined) lines.push(`昼の分: ${signed(r.night.day)}`); if(r.night.night!==null&&r.night.night!==undefined) lines.push(`夜の分: ${signed(r.night.night)}`); }
   lines.push('■ 体の記録');
@@ -408,13 +417,14 @@ function renderChart(){
   const c=$('chart'); const ctx=c.getContext('2d'); const W=c.width, H=c.height; ctx.clearRect(0,0,W,H);
   const days=[]; for(let i=6;i>=0;i--){ const d=new Date(); d.setDate(d.getDate()-i); const ds=toDateStr(d); const r=records[ds]; days.push({label:(d.getMonth()+1)+'/'+d.getDate(), net:r&&Number.isFinite(+r.net)?+r.net:null, bp:r&&Number.isFinite(+r.bp_systolic)?+r.bp_systolic:null}); }
   const padL=40,padR=40,padT=16,padB=28; const iw=W-padL-padR, ih=H-padT-padB;
-  const nets=days.map(d=>d.net).filter(v=>v!==null); const maxN=Math.max(500, ...nets.map(Math.abs));
+  const nets=days.map(d=>d.net).filter(v=>v!==null); const maxN=Math.max(500, ...nets.map(Math.abs), (settings.targetUf!==null&&settings.targetUf!==undefined)?Math.abs(settings.targetUf)*1.1:0);
   const zeroY=padT+ih/2;
   ctx.strokeStyle='#d9d2c5'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(padL,zeroY); ctx.lineTo(W-padR,zeroY); ctx.stroke();
   ctx.font='14px sans-serif'; ctx.fillStyle='#52606d'; ctx.textAlign='right'; ctx.fillText('+'+maxN, padL-4, padT+10); ctx.fillText('0', padL-4, zeroY+5); ctx.fillText('-'+maxN, padL-4, padT+ih);
   const bw=iw/7;
+  if(settings.targetUf!==null&&settings.targetUf!==undefined){ const ty=zeroY-(settings.targetUf/maxN)*(ih/2); if(ty>padT&&ty<padT+ih){ ctx.save(); ctx.setLineDash([6,6]); ctx.strokeStyle='#52606d'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.moveTo(padL,ty); ctx.lineTo(W-padR,ty); ctx.stroke(); ctx.restore(); ctx.fillStyle='#52606d'; ctx.textAlign='left'; ctx.fillText('目安', padL+2, ty-4); } }
   days.forEach((d,i)=>{ const x=padL+bw*i+bw*0.2; ctx.textAlign='center'; ctx.fillStyle='#52606d'; ctx.fillText(d.label, padL+bw*i+bw/2, H-8);
-    if(d.net!==null){ const h=(d.net/maxN)*(ih/2); ctx.fillStyle=d.net>=0?'#0f6e63':'#9b2c2c'; ctx.fillRect(x, d.net>=0?zeroY-h:zeroY, bw*0.6, Math.abs(h)); } });
+    if(d.net!==null){ const h=(d.net/maxN)*(ih/2); ctx.fillStyle=d.net>=0?'#0f6e63':'#3b4a8a'; ctx.fillRect(x, d.net>=0?zeroY-h:zeroY, bw*0.6, Math.abs(h)); } });
   const bps=days.map(d=>d.bp).filter(v=>v!==null);
   if(bps.length){ const lo=Math.min(80,...bps)-10, hi=Math.max(160,...bps)+10; ctx.strokeStyle='#3b4a8a'; ctx.lineWidth=3; ctx.beginPath(); let started=false;
     days.forEach((d,i)=>{ if(d.bp===null) return; const x=padL+bw*i+bw/2, y=padT+ih-((d.bp-lo)/(hi-lo))*ih; if(!started){ctx.moveTo(x,y);started=true;} else ctx.lineTo(x,y); }); ctx.stroke();
@@ -478,7 +488,7 @@ function renderSettings(){
   document.querySelectorAll('#count-chips .chip').forEach(b=>b.classList.toggle('on', +b.dataset.count===s.dayExchanges));
   $('fluids').innerHTML=s.fluids.map((f,i)=>f.catalog?'':fluidRow(f,i)).join('')||'<p class="muted">一覧にない液は、ここに袋の名前をそのまま書けます。</p>';
   $('fluids').querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',()=>{ readFluidInputs(); s.fluids.splice(+b.dataset.del,1); renderSettings(); }));
-  $('add-fluid').disabled=s.fluids.length>=FLUID_MAX; $('nickname').value=s.nickname||'';
+  $('add-fluid').disabled=s.fluids.length>=FLUID_MAX; $('nickname').value=s.nickname||''; $('target-weight').value=(s.targetWeight!==null&&s.targetWeight!==undefined)?s.targetWeight:''; $('target-uf').value=(s.targetUf!==null&&s.targetUf!==undefined)?s.targetUf:'';
   renderCatalog();
 }
 function readFluidInputs(){ draftSettings.fluids=draftSettings.fluids.map((f,i)=>f.catalog?f:({name:($('fl-name-'+i)||{}).value||f.name||'', conc:($('fl-conc-'+i)||{}).value||f.conc||''})); }
@@ -489,8 +499,10 @@ document.querySelectorAll('#device-chips .chip').forEach(b=>b.addEventListener('
 $('device-other').addEventListener('input',()=>{ draftSettings.deviceName=$('device-other').value.trim()||'そのほか'; });
 document.querySelectorAll('#count-chips .chip').forEach(b=>b.addEventListener('click',()=>{ readFluidInputs(); draftSettings.dayExchanges=+b.dataset.count; renderSettings(); }));
 $('add-fluid').addEventListener('click',()=>{ readFluidInputs(); if(draftSettings.fluids.length<FLUID_MAX) draftSettings.fluids.push({name:'',conc:''}); renderSettings(); const last=$('fl-name-'+(draftSettings.fluids.length-1)); if(last) last.focus(); });
-$('settings-save').addEventListener('click',()=>{ readFluidInputs(); draftSettings.fluids=draftSettings.fluids.filter(f=>f.name.trim()).map(f=>({name:f.name.trim(),conc:(f.conc||'').trim(),catalog:!!f.catalog})); draftSettings.nickname=$('nickname').value.trim(); if(draftSettings.useDevice&&!draftSettings.deviceName) draftSettings.deviceName='夜の装置'; settings=draftSettings; writeJSON(KEY_SETTINGS,settings); $('settings').classList.add('hidden'); applySettingsToUI(); showNotice('設定を保存しました。','ok'); });
-function applySettingsToUI(){ renderExchanges(); $('night-band').classList.toggle('hidden',!settings.useDevice); $('night-title').textContent=deviceLabel()||'夜の装置'; $('calc-night-label').textContent=(deviceLabel()||'夜の装置')+'の除水'; const r=records[$('record-date').value]; fillForm(r||null); }
+$('settings-save').addEventListener('click',()=>{ readFluidInputs(); draftSettings.fluids=draftSettings.fluids.filter(f=>f.name.trim()).map(f=>({name:f.name.trim(),conc:(f.conc||'').trim(),catalog:!!f.catalog})); draftSettings.nickname=$('nickname').value.trim(); draftSettings.targetWeight=decOrNull($('target-weight').value); draftSettings.targetUf=intOrNull($('target-uf').value); if(draftSettings.useDevice&&!draftSettings.deviceName) draftSettings.deviceName='夜の装置'; settings=draftSettings; writeJSON(KEY_SETTINGS,settings); $('settings').classList.add('hidden'); applySettingsToUI(); showNotice('設定を保存しました。','ok'); });
+function targetText(){ const a=[]; if(settings.targetWeight!==null&&settings.targetWeight!==undefined) a.push('体重 '+settings.targetWeight+' kg'); if(settings.targetUf!==null&&settings.targetUf!==undefined) a.push('除水 '+settings.targetUf+' ml'); return a.join(' ／ '); }
+function renderTargets(){ const t=targetText(); $('target-row').classList.toggle('hidden',!t); $('target-text').textContent=t; $('target-weight-hint').textContent=(settings.targetWeight!==null&&settings.targetWeight!==undefined)?('（目安 '+settings.targetWeight+' kg）'):''; }
+function applySettingsToUI(){ renderExchanges(); renderTargets(); $('night-band').classList.toggle('hidden',!settings.useDevice); $('night-title').textContent=deviceLabel()||'夜の装置'; $('calc-night-label').textContent=(deviceLabel()||'夜の装置')+'の除水'; const r=records[$('record-date').value]; fillForm(r||null); }
 
 /* ---------- 声で入力 ---------- */
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition; let rec=null, heard='', parsed=null;
