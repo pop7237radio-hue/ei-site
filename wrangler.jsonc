@@ -9,5 +9,12 @@
     "not_found_handling": "404-page",
     "html_handling": "auto-trailing-slash"
   },
+  // 独自ドメイン（台帳#109で取得済み・siroradio51.com・Cloudflare Registrar・DNSもCloudflare）。
+  // deployすると siroradio51.com と www が本サイトに紐づく。罠帖A-2: 紐づけ後は workers.dev の仮URLが自動404（配っていないので影響なし）
+  // 罠帖E-5: ゾーンには news.siroradio51.com（Rondoメール送信・Resend）のレコードがある。触らない・消さない
+  "routes": [
+    { "pattern": "siroradio51.com", "custom_domain": true },
+    { "pattern": "www.siroradio51.com", "custom_domain": true }
+  ],
   "observability": { "enabled": true }
 }
